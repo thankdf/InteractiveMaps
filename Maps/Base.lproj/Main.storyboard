@@ -506,7 +506,7 @@
                                     <outletCollection property="gestureRecognizers" destination="js0-5U-7ll" appends="YES" id="UwE-s3-X3n"/>
                                 </connections>
                             </view>
-                            <scrollView clipsSubviews="YES" contentMode="center" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYQ-Sr-4NP" userLabel="Button View" customClass="ScrollSettings" customModule="Maps" customModuleProvider="target">
+                            <scrollView clipsSubviews="YES" contentMode="center" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYQ-Sr-4NP" userLabel="Button View">
                                 <rect key="frame" x="41" y="1307" width="942" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1a-2X-XBk">
@@ -555,14 +555,6 @@
                                     <constraint firstItem="Rg4-PK-PmN" firstAttribute="top" secondItem="8xj-0u-uRS" secondAttribute="top" id="oEC-UM-aFQ"/>
                                     <constraint firstItem="8xj-0u-uRS" firstAttribute="top" secondItem="FYQ-Sr-4NP" secondAttribute="top" constant="8" id="vV8-MQ-Hca"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" red="0.54775100946426392" green="0.81467825174331665" blue="0.98872238397598267" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.54950308799743652" green="0.81137442588806152" blue="0.98874908685684204" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
