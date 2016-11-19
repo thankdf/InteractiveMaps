@@ -16,11 +16,11 @@ class BoothProperties: UIButton
     var items: Dictionary<String, Double> = Dictionary<String, Double>()
     var photos: [UIImage] = [UIImage]()
     var color: UIColor = UIColor.white
-    var shape: String = ""
+    var shape: UIImage? = nil
     var ownerID: Int = 0
     var aframe: CGRect = CGRect.init()
 
-    func setAttributes(newName: String, newID: Int, newInformation: String, newItems: Dictionary<String, Double>, newPhotos: [UIImage], newColor: UIColor, newShape: String, newOwnerID: Int, newFrame: CGRect)
+    func setAttributes(newName: String, newID: Int, newInformation: String, newItems: Dictionary<String, Double>, newPhotos: [UIImage], newColor: UIColor, newShape: UIImage, newOwnerID: Int, newFrame: CGRect)
     {
         name = newName
         ID = newID
@@ -59,24 +59,8 @@ class BoothProperties: UIButton
         information = newInformation
     }
     
-    func changeBoothShape(newShape: String)
+    func changeBoothShape(newShape: UIImage)
     {
         shape = newShape
     }
-    
-    override func draw(_ rect: CGRect)
-    {
-        switch(shape)
-        {
-        case("Circle"):
-            let path: UIBezierPath = UIBezierPath.init(arcCenter: CGPoint.init(x: aframe.midX, y: aframe.midY), radius: min((CGFloat)(aframe.width/2), (CGFloat)(aframe.height/2)), startAngle: 0, endAngle: 360, clockwise: true)
-            path.stroke()
-        case("Square"):
-            break
-        case("Triangle"):
-            break
-        default: break
-        }
-    }
-    
 }

@@ -14,7 +14,7 @@ class MapViewController: UIViewController {
     var minimumBoothArea: CGFloat = 2500
     var buttonSize: CGSize = CGSize.init(width: 50, height: 50)
     var booths: [BoothProperties] = [BoothProperties]() //booths to be implemented
-    var selectedBoothShape: String = ""
+     var selectedBoothShape: UIImage? = nil
     @IBOutlet weak var boothView: BoothProperties!
     {
         didSet
@@ -46,10 +46,9 @@ class MapViewController: UIViewController {
     */
     @IBAction func selectNewShape(button: UIButton)
     {
-        if let newShape = button.titleLabel?.text
+        if let newShape = button.imageView
         {
-            selectedBoothShape = newShape
-            print(selectedBoothShape)
+            selectedBoothShape = newShape.image
         }
     }
     
@@ -58,21 +57,19 @@ class MapViewController: UIViewController {
     */
     @IBAction func addBooth(gesture: UITapGestureRecognizer) //adds booth
     {
-        if selectedBoothShape != ""
+        if let _ = selectedBoothShape
         {
-            let frame = CGRect.init(origin: CGPoint.init(x: gesture.location(in: boothView).x - buttonSize.width/2, y: gesture.location(in: boothView).y - buttonSize.height/2), size: buttonSize)
+            let frame = CGRect.init(origin: CGPoint.init(x: gesture.location(in: boothView).x - (selectedBoothShape?.size.width)!/2, y: gesture.location(in: boothView).y - (selectedBoothShape?.size)!.height/2), size: (selectedBoothShape?.size)!)
             let button = BoothProperties()
-            button.setAttributes(newName: "", newID: 0, newInformation: "", newItems: Dictionary<String, Double>(), newPhotos: [UIImage](), newColor: UIColor.white, newShape: selectedBoothShape, newOwnerID: 0, newFrame: frame)
+            button.frame = frame
+            button.setBackgroundImage(selectedBoothShape, for: UIControlState.normal)
             for booth in booths
             {
                 booth.isUserInteractionEnabled = false
             }
-            let path: UIBezierPath = UIBezierPath.init(arcCenter: CGPoint.init(x: frame.midX, y: frame.midY), radius: min((CGFloat)(frame.width/2), (CGFloat)(frame.height/2)), startAngle: 0, endAngle: 360, clockwise: true)
-            path.stroke()
-            button.draw(frame)
-            //boothView.addSubview(button)
+            boothView.addSubview(button)
             booths.append(button)
-            selectedBoothShape = "" //resets selected booth shape
+            selectedBoothShape = nil //resets selected booth shape
         }
     }
     

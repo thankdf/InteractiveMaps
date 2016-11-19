@@ -370,11 +370,11 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="ViewSettings" customModule="Maps" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8d-lQ-8EC" customClass="ViewSettings" customModule="Maps" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8d-lQ-8EC" customClass="CustomShapes" customModule="Maps" customModuleProvider="target">
                                 <rect key="frame" x="41" y="28" width="942" height="1279"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" contentMode="center" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dF-TU-gDM" customClass="ScrollSettings" customModule="Maps" customModuleProvider="target">
@@ -385,21 +385,10 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="dsk-Fw-Y1n" secondAttribute="height" multiplier="1:1" id="8CY-vd-FXb"/>
                                                 </constraints>
-                                                <state key="normal" title="Triangle">
+                                                <state key="normal" title="Triangle" image="Triangle">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="background">
-                                                        <color key="value" red="1" green="0.035360227314500725" blue="0.048782086439590477" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <integer key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="border">
-                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="selectNewShapeWithButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rkn-PS-KGV"/>
                                                 </connections>
@@ -411,18 +400,7 @@
                                                     <constraint firstAttribute="width" secondItem="NVF-f3-KLv" secondAttribute="height" multiplier="1:1" id="jXY-fW-PW9"/>
                                                     <constraint firstAttribute="height" constant="40" id="jZ5-0V-1xP"/>
                                                 </constraints>
-                                                <state key="normal" title="Square"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="background">
-                                                        <color key="value" red="0.0" green="1" blue="0.14433013756816804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <integer key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="border">
-                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
+                                                <state key="normal" title="Square" image="Square"/>
                                                 <connections>
                                                     <action selector="selectNewShapeWithButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xnq-fJ-hXF"/>
                                                 </connections>
@@ -432,18 +410,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="lgL-DW-5JG" secondAttribute="height" multiplier="1:1" id="Mhr-cP-ay7"/>
                                                 </constraints>
-                                                <state key="normal" title="Circle"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="background">
-                                                        <color key="value" red="0.0" green="0.13124972751830288" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <integer key="value" value="2"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="border">
-                                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
+                                                <state key="normal" title="Circle" image="Circle"/>
                                                 <connections>
                                                     <action selector="selectNewShapeWithButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="K7F-rV-2zs"/>
                                                 </connections>
@@ -506,7 +473,7 @@
                                     <outletCollection property="gestureRecognizers" destination="js0-5U-7ll" appends="YES" id="UwE-s3-X3n"/>
                                 </connections>
                             </view>
-                            <scrollView clipsSubviews="YES" contentMode="center" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYQ-Sr-4NP" userLabel="Button View">
+                            <scrollView clipsSubviews="YES" contentMode="center" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYQ-Sr-4NP" userLabel="Button View" customClass="ScrollSettings" customModule="Maps" customModuleProvider="target">
                                 <rect key="frame" x="41" y="1307" width="942" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1a-2X-XBk">
@@ -555,6 +522,14 @@
                                     <constraint firstItem="Rg4-PK-PmN" firstAttribute="top" secondItem="8xj-0u-uRS" secondAttribute="top" id="oEC-UM-aFQ"/>
                                     <constraint firstItem="8xj-0u-uRS" firstAttribute="top" secondItem="FYQ-Sr-4NP" secondAttribute="top" constant="8" id="vV8-MQ-Hca"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" red="0.54775100946426392" green="0.81467825174331665" blue="0.98872238397598267" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.54950308799743652" green="0.81137442588806152" blue="0.98874908685684204" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -594,5 +569,10 @@
             <point key="canvasLocation" x="-104.8828125" y="31.625183016105414"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Circle" width="50" height="50"/>
+        <image name="Square" width="50" height="50"/>
+        <image name="Triangle" width="50" height="50"/>
+    </resources>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>
