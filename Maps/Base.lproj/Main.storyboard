@@ -272,6 +272,7 @@
                                 <state key="normal" title="Back"/>
                                 <connections>
                                     <action selector="buttonPressedWithSender:" destination="vEc-fz-Ap1" eventType="touchUpInside" id="Wnc-Rn-8UY"/>
+                                    <action selector="buttonPressedWithSender:" destination="OZn-Sr-EbT" eventType="touchUpInside" id="g4x-e0-6w4"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Confirm Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dJM-WR-6Gt">
