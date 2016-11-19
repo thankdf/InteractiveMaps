@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CDBF13E1DDFCD8200023320 /* CustomShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBF13D1DDFCD8200023320 /* CustomShapes.swift */; };
+		2CDBF1401DDFCEB100023320 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBF13F1DDFCEB100023320 /* Line.swift */; };
 		6A767AEE1DB2DDF60001161F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A767AED1DB2DDF60001161F /* AppDelegate.swift */; };
 		6A767AF01DB2DDF60001161F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A767AEF1DB2DDF60001161F /* ViewController.swift */; };
 		6A767AF31DB2DDF60001161F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A767AF11DB2DDF60001161F /* Main.storyboard */; };
@@ -17,6 +19,7 @@
 		6A767B111DB2DDF70001161F /* MapsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A767B101DB2DDF70001161F /* MapsUITests.swift */; };
 		6A767B251DB338FC0001161F /* ViewSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A767B241DB338FC0001161F /* ViewSettings.swift */; };
 		6A767B271DB3457D0001161F /* BoothProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A767B261DB3457D0001161F /* BoothProperties.swift */; };
+		6AC9A5E81DC27EDB001D7C8B /* ScrollSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC9A5E71DC27EDB001D7C8B /* ScrollSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CDBF13D1DDFCD8200023320 /* CustomShapes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShapes.swift; sourceTree = "<group>"; };
+		2CDBF13F1DDFCEB100023320 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		6A767AEA1DB2DDF60001161F /* Maps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A767AED1DB2DDF60001161F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A767AEF1DB2DDF60001161F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +58,7 @@
 		6A767B121DB2DDF70001161F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A767B241DB338FC0001161F /* ViewSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewSettings.swift; sourceTree = "<group>"; };
 		6A767B261DB3457D0001161F /* BoothProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothProperties.swift; sourceTree = "<group>"; };
+		6AC9A5E71DC27EDB001D7C8B /* ScrollSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +113,10 @@
 				6A767B261DB3457D0001161F /* BoothProperties.swift */,
 				6A767AEF1DB2DDF60001161F /* ViewController.swift */,
 				6A767AF11DB2DDF60001161F /* Main.storyboard */,
+				2CDBF13D1DDFCD8200023320 /* CustomShapes.swift */,
+				2CDBF13F1DDFCEB100023320 /* Line.swift */,
 				6A767B241DB338FC0001161F /* ViewSettings.swift */,
+				6AC9A5E71DC27EDB001D7C8B /* ScrollSettings.swift */,
 				6A767AF71DB2DDF60001161F /* Assets.xcassets */,
 				6A767AF91DB2DDF60001161F /* LaunchScreen.storyboard */,
 				6A767AFC1DB2DDF60001161F /* Info.plist */,
@@ -269,9 +278,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A767AF61DB2DDF60001161F /* Maps.xcdatamodeld in Sources */,
+				2CDBF1401DDFCEB100023320 /* Line.swift in Sources */,
+				6AC9A5E81DC27EDB001D7C8B /* ScrollSettings.swift in Sources */,
 				6A767AF01DB2DDF60001161F /* ViewController.swift in Sources */,
 				6A767B251DB338FC0001161F /* ViewSettings.swift in Sources */,
 				6A767B271DB3457D0001161F /* BoothProperties.swift in Sources */,
+				2CDBF13E1DDFCD8200023320 /* CustomShapes.swift in Sources */,
 				6A767AEE1DB2DDF60001161F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
