@@ -13,19 +13,32 @@ class BoothShape
     var button: UIButton
     var origin: CGPoint
     var rectangle: CGSize
-    var image: String
+    var geometry: String
     var col: String
+    var name: String
+    var info: String
+    var image: UIImage
+    
+    //Gesture recognizers
     var zoom: UIPinchGestureRecognizer
     var select: UITapGestureRecognizer
     var move: UIPanGestureRecognizer
+    var press: UILongPressGestureRecognizer
     
     init(_ point: CGPoint, _ size: CGSize, _ shape: String, _ color: String)
     {
         origin = point
         rectangle = size
-        image = shape
+        geometry = shape
         col = color
         button = UIButton()
+        zoom = UIPinchGestureRecognizer.init();
+        select = UITapGestureRecognizer.init();
+        move = UIPanGestureRecognizer.init();
+        press = UILongPressGestureRecognizer.init()
+        name = "Default name"
+        info = "Default info"
+        image = UIImage.init()
     }
     
     /*
@@ -36,7 +49,7 @@ class BoothShape
     {
         button = UIButton.init(frame: CGRect.init(origin: CGPoint.init(x: origin.x - rectangle.width/2, y: origin.y - rectangle.height/2), size: rectangle))
         button.setTitle("Test!", for: UIControlState.normal)
-        switch(image)
+        switch(geometry)
         {
         case "circle":
             switch(col)
@@ -48,36 +61,68 @@ class BoothShape
             default: break
             }
         default: break
+        }
         zoom = UIPinchGestureRecognizer.init(target: self, action: #selector(pinch))
         select = UITapGestureRecognizer.init(target: self, action: #selector(tap))
-            //        move = UIPanGestureRecognizer.init(target: self, action: #selector(move))
-        }
+        move = UIPanGestureRecognizer.init(target: self, action: #selector(pan))
+        press = UILongPressGestureRecognizer.init(target: self, action: #selector((popOver)))
+        button.addGestureRecognizer(zoom)
+        button.addGestureRecognizer(select)
+        button.addGestureRecognizer(move)
+        button.addGestureRecognizer(press)
     }
     
     @objc func tap(gesture: UITapGestureRecognizer)
     {
+        for gesture in (self.button.superview?.gestureRecognizers)!
+        {
+            if !(gesture.isKind(of: UITapGestureRecognizer.self))
+            {
+                gesture.isEnabled = false
+            }
+        }
         
-        if(col == "red")
-        {
-            col = "white"
-            button.setBackgroundImage(UIImage.init(named: "WhiteCircle"), for: UIControlState.normal)
-        }
-        else
-        {
-            col = "red"
-            button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
-        }
+//        if(col == "red")
+//        {
+//            col = "white"
+//            button.setBackgroundgeometry(UIgeometry.init(named: "WhiteCircle"), for: UIControlState.normal)
+//        }
+//        else
+//        {
+//            col = "red"
+//            button.setBackgroundgeometry(UIgeometry.init(named: "RedCircle"), for: UIControlState.normal)
+//        }
     }
     
     @objc func pinch(gesture: UIPinchGestureRecognizer)
     {
         if let viewer = gesture.view
         {
-            if !(viewer.frame.height < 250 && viewer.frame.width < 250 && gesture.scale < 1)
+            if !((viewer.frame.maxX - button.bounds.width) * gesture.scale < 0 || viewer.frame.minX * gesture.scale > (button.superview?.bounds.width)! - button.bounds.width || (viewer.frame.maxY - button.bounds.height) * gesture.scale < 0 || viewer.frame.minY * gesture.scale > (button.superview?.bounds.height)! - button.bounds.height)
             {
                 viewer.transform = viewer.transform.scaledBy(x: gesture.scale, y: gesture.scale)
                 gesture.scale = 1
             }
         }
+    }
+    
+    @objc func pan(gesture: UIPanGestureRecognizer)
+    {
+        let translation = gesture.translation(in: button.superview)
+        if let viewer = gesture.view
+        {
+            button.superview?.backgroundColor = UIColor.green
+            if !(viewer.frame.maxX + translation.x - button.bounds.width < 0 || viewer.frame.minX + translation.x > (button.superview?.bounds.width)! - button.bounds.width || viewer.frame.maxY + translation.y - button.bounds.height < 0 || viewer.frame.minY + translation.y > (button.superview?.bounds.height)! - button.bounds.height)
+            {
+                viewer.center = CGPoint.init(x: viewer.center.x + translation.x, y: viewer.center.y + translation.y)
+                gesture.setTranslation(CGPoint.init(x: 0, y: 0), in: button.superview)
+            }
+        }
+    }
+    
+    @objc func popOver(gesture: UILongPressGestureRecognizer)
+    {
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController as! MapViewController
+        rootVC.popOver(self)
     }
 }

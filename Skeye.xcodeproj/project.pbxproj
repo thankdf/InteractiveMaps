@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1497A51E52E26F0001478A /* BoothShape.swift */; };
+		6A81892E1E6A68AB0041E5B1 /* EditBoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A81892D1E6A68AB0041E5B1 /* EditBoothViewController.swift */; };
 		6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */; };
-		6AF8C51C1E493BA8006F1B26 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C51B1E493BA8006F1B26 /* MapController.swift */; };
+		6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */; };
 		6AF8C51F1E493BA8006F1B26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C51D1E493BA8006F1B26 /* Main.storyboard */; };
 		6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5201E493BA8006F1B26 /* Skeye.xcdatamodeld */; };
 		6AF8C5241E493BA8006F1B26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5231E493BA8006F1B26 /* Assets.xcassets */; };
@@ -37,9 +38,10 @@
 
 /* Begin PBXFileReference section */
 		6A1497A51E52E26F0001478A /* BoothShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothShape.swift; sourceTree = "<group>"; };
+		6A81892D1E6A68AB0041E5B1 /* EditBoothViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBoothViewController.swift; sourceTree = "<group>"; };
 		6AF8C5161E493BA7006F1B26 /* Skeye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skeye.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6AF8C51B1E493BA8006F1B26 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
+		6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6AF8C51E1E493BA8006F1B26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6AF8C5211E493BA8006F1B26 /* Skeye.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Skeye.xcdatamodel; sourceTree = "<group>"; };
 		6AF8C5231E493BA8006F1B26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -102,9 +104,10 @@
 			isa = PBXGroup;
 			children = (
 				6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */,
-				6AF8C51B1E493BA8006F1B26 /* MapController.swift */,
+				6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */,
 				6A1497A51E52E26F0001478A /* BoothShape.swift */,
 				6AF8C51D1E493BA8006F1B26 /* Main.storyboard */,
+				6A81892D1E6A68AB0041E5B1 /* EditBoothViewController.swift */,
 				6AF8C5231E493BA8006F1B26 /* Assets.xcassets */,
 				6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */,
 				6AF8C5281E493BA8006F1B26 /* Info.plist */,
@@ -268,8 +271,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A81892E1E6A68AB0041E5B1 /* EditBoothViewController.swift in Sources */,
 				6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */,
-				6AF8C51C1E493BA8006F1B26 /* MapController.swift in Sources */,
+				6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */,
 				6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */,
 				6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */,
 			);
