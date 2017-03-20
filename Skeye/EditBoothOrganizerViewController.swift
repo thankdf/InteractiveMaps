@@ -16,7 +16,7 @@ protocol DataSentDelegate {
     func userDidUploadPic(data:UIImage, whichBooth: BoothShape)
 }
 
-class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate
+class EditBoothOrganizerViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate
 {
     
     /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the

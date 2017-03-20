@@ -8,106 +8,98 @@
 
 import UIKit
 
-class MapViewController: UIViewController, UIPopoverPresentationControllerDelegate, DataSentDelegate
+class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate
 {
     /* Delegate Comment: mainVC implement protocal fucntion*/
-    internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
+    internal func userDidEditInfo(data: String, whichBooth: BoothShape)
+    {
         whichBooth.info = data
     }
-    internal func userDidEditName(data: String, whichBooth: BoothShape) {
+    internal func userDidEditName(data: String, whichBooth: BoothShape)
+    {
         whichBooth.name = data
         
     }
-    internal func userDidUploadPic(data: UIImage, whichBooth: BoothShape){
+    internal func userDidUploadPic(data: UIImage, whichBooth: BoothShape)
+    {
         whichBooth.image = data
     }
     
     /* Map Boundaries */
-    var frameMinimum: CGFloat = 0 //allowed frame boundaries
-    var zoomMinimum: CGFloat = 0 //minimum zoom screen size
+    @IBOutlet weak var scrollView: UIScrollView!
+    {
+        didSet
+        {
+            scrollView.backgroundColor = UIColor.white
+            scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        }
+    }
+    
+    /* Background Image */
+    var mapImage: UIImageView!
+    {
+        didSet
+        {
+            mapImage.isUserInteractionEnabled = true
+        }
+    }
     
     /* Booleans */
     var shapeSelected = false //if user selected a shape before tapping on the screen
     
     /* Objects obtained from the database */
     var buttons: [BoothShape] = [BoothShape]() //list of booths
-    var image: UIImage = UIImage.init(named: "NotefyMe")! //map image
 
     /* Gesture recognizers */
-    var zoom: UIPinchGestureRecognizer = UIPinchGestureRecognizer.init()
     var select: UITapGestureRecognizer = UITapGestureRecognizer.init()
-    var move: UIPanGestureRecognizer = UIPanGestureRecognizer.init()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        mapImage.contentScaleFactor = 1
-        mapImage.frame = CGRect.init(x: 0, y: 0, width: (image.cgImage?.width)!, height: (image.cgImage?.height)!)
-        mapImage.sizeToFit()
+        scrollView.frame = view.bounds
+        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        scrollView.contentSize = mapImage.bounds.size
+        scrollView.delegate = self
+        scrollView.addSubview(mapImage)
+        mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
+        enableZoom()
+        for booth in buttons
+        {
+            booth.draw(mapImage.bounds)
+            mapImage.addSubview(booth.button)
+        }
+        view.addSubview(scrollView)
+        scrollViewDidZoom(scrollView) //readjusts image to correct aspect ratio
     }
     
-    
-    @IBOutlet weak var shape: UIButton!
+   
+    @IBOutlet weak var boothButton: UIButton!
     {
         didSet
         {
-            shape.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(turnOnShape)))
+            boothButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(turnOnShape)))
         }
     }
     
-    @IBOutlet weak var color: UIButton!
+    override func viewWillLayoutSubviews()
     {
-        didSet
-        {
-            color.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(turnOnShape)))
-        }
+        enableZoom()
+        super.viewWillLayoutSubviews()
     }
     
-    @IBOutlet weak var mapImage: UIImageView!
+    func disableZoom()
     {
-        didSet
-        {
-            mapImage.image = image
-            mapImage.alpha = 0.25
-            mapImage.contentScaleFactor = 1
-            zoom = UIPinchGestureRecognizer(target: self, action: #selector(pinch))
-            mapImage.addGestureRecognizer(zoom)
-            select = UITapGestureRecognizer(target: self, action: #selector(tap))
-            mapImage.addGestureRecognizer(select)
-            move = UIPanGestureRecognizer(target: self, action: #selector(pan))
-            mapImage.addGestureRecognizer(move)
-        }
+        let scale = scrollView.zoomScale
+        scrollView.minimumZoomScale = scale
+        scrollView.maximumZoomScale = scale
     }
     
     /*
-     Controls zoom for the map and booths within a specified range
+     
     */
-    func pinch(gesture: UIPinchGestureRecognizer)
+    func viewForZooming(in scrollView: UIScrollView) -> UIView?
     {
-        if let viewer = gesture.view
-        {
-            if !(viewer.frame.height < mapImage.frame.width || viewer.frame.width < zoomMinimum && gesture.scale < 1)
-            {
-                viewer.transform = viewer.transform.scaledBy(x: gesture.scale, y: gesture.scale)
-                gesture.scale = 1
-            }
-        }
-    }
-    
-    /*
-     Controls movement for the map and booths within a specified range
-     */
-    func pan(gesture: UIPanGestureRecognizer)
-    {
-        let translation = gesture.translation(in: self.view)
-        if let viewer = gesture.view
-        {
-            if !(viewer.frame.maxX + translation.x < 0 || viewer.frame.minX + translation.x > image.size.width || viewer.frame.maxY + translation.y < 0 || viewer.frame.minY + translation.y > image.size.height)
-            {
-                viewer.center = CGPoint.init(x: viewer.center.x + translation.x, y: viewer.center.y + translation.y)
-                gesture.setTranslation(CGPoint.init(x: 0, y: 0), in: self.view)
-            }
-        }
+        return mapImage
     }
     
     /*
@@ -118,11 +110,60 @@ class MapViewController: UIViewController, UIPopoverPresentationControllerDelega
         if(shapeSelected == true)
         {
             shapeSelected = false
-            createBooth(gesture.location(in: self.mapImage), "circle")
+            createBooth(gesture.location(in: self.scrollView), "circle")
         }
-        for gesture in mapImage.gestureRecognizers!
+        for button in buttons
         {
-            gesture.isEnabled = true
+            button.zoom.isEnabled = false
+            button.move.isEnabled = false
+            button.press.isEnabled = false
+        }
+        scrollView.isScrollEnabled = true
+        enableZoom()
+    }
+    
+    /*
+     Determines the minimum scale and maximum scale for zooming. Minimum scale is the smallest scale that fits the entire width or height of the image.
+    */
+    func enableZoom()
+    {
+        let mapImageSize = mapImage.bounds.size
+        let scrollViewSize = scrollView.bounds.size
+        let widthScale = scrollViewSize.width / mapImageSize.width //scale where the width fits the screen
+        let heightScale = scrollViewSize.height / mapImageSize.height //scale where the height fits the screen
+        
+        scrollView.minimumZoomScale = min(widthScale, heightScale) //finds the minimum scale between width and height
+        scrollView.maximumZoomScale = 8 * min(widthScale, heightScale) //equivalent to 8x zoom
+    }
+    
+    /*
+     Function that controls the zooming of the scroll view
+    */
+    func scrollViewDidZoom(_ scrollView: UIScrollView)
+    {
+        let mapImageSize = mapImage.frame.size
+        let scrollViewSize = scrollView.bounds.size
+        
+        let verticalPadding = mapImageSize.height < scrollViewSize.height ? (scrollViewSize.height - mapImageSize.height) / 2 : 0
+        let horizontalPadding = mapImageSize.width < scrollViewSize.width ? (scrollViewSize.width - mapImageSize.width) / 2 : 0
+        if !(verticalPadding == 0 || horizontalPadding == 0)
+        {
+            scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+        }
+        else
+        {
+            if(verticalPadding > horizontalPadding)
+            {
+                scrollView.contentInset = UIEdgeInsets(top: verticalPadding - horizontalPadding, left: 0, bottom: verticalPadding - horizontalPadding, right: 0)
+            }
+            else if(horizontalPadding > verticalPadding)
+            {
+                scrollView.contentInset = UIEdgeInsets(top: 0, left: horizontalPadding - verticalPadding, bottom: 0, right: horizontalPadding - verticalPadding)
+            }
+            else
+            {
+                scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) //equal padding ratio
+            }
         }
     }
     
@@ -136,7 +177,7 @@ class MapViewController: UIViewController, UIPopoverPresentationControllerDelega
         
         if let castedSender: BoothShape = sender as? BoothShape
         {
-            let popoverController = storyboard?.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
+            let popoverController = storyboard?.instantiateViewController(withIdentifier: "EditBoothOrganizerViewController") as! EditBoothOrganizerViewController
             popoverController.boothRef = castedSender
             popoverController.name = castedSender.name
             popoverController.info = castedSender.info
@@ -161,7 +202,7 @@ class MapViewController: UIViewController, UIPopoverPresentationControllerDelega
     */
     func createBooth(_ point: CGPoint, _ shape: String)
     {
-        let newButton: BoothShape = BoothShape.init(point, CGSize.init(width: 100, height: 100), shape, "red")
+        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/scrollView.zoomScale, y: point.y/scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white")
         newButton.draw(mapImage.bounds)
         mapImage.addSubview(newButton.button)
         buttons.append(newButton)
