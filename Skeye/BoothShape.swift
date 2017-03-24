@@ -32,6 +32,7 @@ class BoothShape
         geometry = shape
         col = color
         button = UIButton()
+        button.setTitle("Test!", for: UIControlState.normal)
         zoom = UIPinchGestureRecognizer.init();
         select = UITapGestureRecognizer.init();
         move = UIPanGestureRecognizer.init();
@@ -41,6 +42,23 @@ class BoothShape
         image = UIImage.init()
     }
     
+    init(_ point: CGPoint, _ size: CGSize, _ shape: String, _ color: String, _ click: UIButton, _ zoomGesture: UIPinchGestureRecognizer, _ selectGesture: UITapGestureRecognizer, _ moveGesture: UIPanGestureRecognizer, _ pressGesture: UILongPressGestureRecognizer, _ boothName: String, _ information: String, _ picture: UIImage)
+    {
+        origin = point
+        rectangle = size
+        geometry = shape
+        col = color
+        button = click
+        button.setTitle("Test!", for: UIControlState.normal)
+        zoom = zoomGesture
+        select = selectGesture
+        move = moveGesture
+        press = UILongPressGestureRecognizer.init()
+        name = boothName
+        info = information
+        image = picture
+    }
+    
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -48,7 +66,6 @@ class BoothShape
     func draw(_ rect: CGRect)
     {
         button = UIButton.init(frame: CGRect.init(origin: CGPoint.init(x: origin.x - rectangle.width/2, y: origin.y - rectangle.height/2), size: rectangle))
-        button.setTitle("Test!", for: UIControlState.normal)
         
         //draws shapes
         switch(geometry)
@@ -96,6 +113,12 @@ class BoothShape
         {
             controller.scrollView.isScrollEnabled = false
             controller.disableZoom()
+            for booth in controller.booths
+            {
+                booth.zoom.isEnabled = false
+                booth.move.isEnabled = false
+                booth.press.isEnabled = false
+            }
         }
         zoom.isEnabled = true
         move.isEnabled = true
@@ -119,10 +142,23 @@ class BoothShape
     {
         if let viewer = gesture.view
         {
-            if !(viewer.frame.maxX * gesture.scale > (button.superview?.bounds.width)! || viewer.frame.minX * gesture.scale < 0 || viewer.frame.maxY * gesture.scale > (button.superview?.bounds.height)! || viewer.frame.minY * gesture.scale < 0)
+            if let controller = UIApplication.shared.keyWindow?.rootViewController as? MapViewController
             {
-                viewer.transform = viewer.transform.scaledBy(x: gesture.scale, y: gesture.scale)
-                gesture.scale = 1
+                if(gesture.state == UIGestureRecognizerState.began)
+                {
+                    controller.lastBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, image) //last saved state
+                }
+                if !(viewer.frame.maxX * gesture.scale > (button.superview?.bounds.width)! || viewer.frame.minX * gesture.scale < 0 || viewer.frame.maxY * gesture.scale > (button.superview?.bounds.height)! || viewer.frame.minY * gesture.scale < 0) //if the zoom stays within the frame
+                {
+                    viewer.transform = viewer.transform.scaledBy(x: gesture.scale, y: gesture.scale)
+                    rectangle = CGSize.init(width: viewer.frame.width * gesture.scale, height: viewer.frame.height * gesture.scale)
+                    gesture.scale = 1
+                }
+                if(gesture.state == UIGestureRecognizerState.ended)
+                {
+                    controller.undoButton.isEnabled = true
+                    controller.currentBooth = BoothShape.init(origin, CGSize.init(width: viewer.frame.width * gesture.scale, height: viewer.frame.height * gesture.scale), geometry, col, button, zoom, select, move, press, name, info, image) //update rectangle size
+                }
             }
         }
     }
@@ -135,10 +171,23 @@ class BoothShape
         let translation = gesture.translation(in: button.superview)
         if let viewer = gesture.view
         {
-            if !(viewer.frame.maxX + translation.x > (button.superview?.bounds.width)! || viewer.frame.minX + translation.x < 0 || viewer.frame.maxY + translation.y > (button.superview?.bounds.height)! || viewer.frame.minY + translation.y < 0)
+            if let controller = UIApplication.shared.keyWindow?.rootViewController as? MapViewController
             {
-                viewer.center = CGPoint.init(x: viewer.center.x + translation.x, y: viewer.center.y + translation.y)
-                gesture.setTranslation(CGPoint.init(x: 0, y: 0), in: button.superview)
+                if(gesture.state == UIGestureRecognizerState.began)
+                {
+                    controller.lastBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, image) //last saved state
+                }
+                if !(viewer.frame.maxX + translation.x > (button.superview?.bounds.width)! || viewer.frame.minX + translation.x < 0 || viewer.frame.maxY + translation.y > (button.superview?.bounds.height)! || viewer.frame.minY + translation.y < 0) //if the translation stays within the frame
+                {
+                    origin = CGPoint.init(x: viewer.center.x + translation.x, y: viewer.center.y + translation.y)
+                    viewer.center = origin
+                    gesture.setTranslation(CGPoint.init(x: 0, y: 0), in: button.superview)
+                }
+                if(gesture.state == UIGestureRecognizerState.ended)
+                {
+                    controller.undoButton.isEnabled = true
+                    controller.currentBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, image) //update position
+                }
             }
         }
     }
@@ -150,5 +199,17 @@ class BoothShape
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController as! MapViewController
         rootVC.popOver(self)
+    }
+    
+    /*
+     Comparing whether two booths are identical
+    */
+    func equals(_ shape: BoothShape) -> Bool
+    {
+        if(button == shape.button && origin == shape.origin && col == shape.col && geometry == shape.geometry && name == shape.name && info == shape.info && image == shape.image)
+        {
+            return true
+        }
+        return false
     }
 }

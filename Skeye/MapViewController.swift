@@ -48,10 +48,23 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     var shapeSelected = false //if user selected a shape before tapping on the screen
     
     /* Objects obtained from the database */
-    var buttons: [BoothShape] = [BoothShape]() //list of booths
+    var booths: [BoothShape] = [BoothShape]() //list of booths
 
     /* Gesture recognizers */
     var select: UITapGestureRecognizer = UITapGestureRecognizer.init()
+    
+    /* For Undo function */
+    var lastBooth: BoothShape? = nil
+    var currentBooth: BoothShape? = nil
+    
+    @IBOutlet weak var undoButton: UIButton!
+    {
+        didSet
+        {
+            undoButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(undo)))
+            undoButton.isEnabled = false
+        }
+    }
     
     override func viewDidLoad()
     {
@@ -63,13 +76,13 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         scrollView.addSubview(mapImage)
         mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
         enableZoom()
-        for booth in buttons
+        for booth in booths
         {
             booth.draw(mapImage.bounds)
             mapImage.addSubview(booth.button)
         }
-        view.addSubview(scrollView)
         scrollViewDidZoom(scrollView) //readjusts image to correct aspect ratio
+        view.addSubview(scrollView)
     }
     
    
@@ -112,12 +125,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             shapeSelected = false
             createBooth(gesture.location(in: self.scrollView), "circle")
         }
-        for button in buttons
-        {
-            button.zoom.isEnabled = false
-            button.move.isEnabled = false
-            button.press.isEnabled = false
-        }
+        disableBooths()
         scrollView.isScrollEnabled = true
         enableZoom()
     }
@@ -146,7 +154,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         
         let verticalPadding = mapImageSize.height < scrollViewSize.height ? (scrollViewSize.height - mapImageSize.height) / 2 : 0
         let horizontalPadding = mapImageSize.width < scrollViewSize.width ? (scrollViewSize.width - mapImageSize.width) / 2 : 0
-        if !(verticalPadding == 0 || horizontalPadding == 0)
+        if(verticalPadding == 0 || horizontalPadding == 0)
         {
             scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
         }
@@ -158,7 +166,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             }
             else if(horizontalPadding > verticalPadding)
             {
-                scrollView.contentInset = UIEdgeInsets(top: 0, left: horizontalPadding - verticalPadding, bottom: 0, right: horizontalPadding - verticalPadding)
+                scrollView.contentInset = UIEdgeInsets(top: 0, left: horizontalPadding - verticalPadding, bottom: 0, right: horizontalPadding + verticalPadding)
             }
             else
             {
@@ -205,7 +213,10 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/scrollView.zoomScale, y: point.y/scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white")
         newButton.draw(mapImage.bounds)
         mapImage.addSubview(newButton.button)
-        buttons.append(newButton)
+        booths.append(newButton)
+        currentBooth = newButton
+        lastBooth = nil
+        undoButton.isEnabled = true
     }
     
     /*
@@ -214,6 +225,75 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     func turnOnShape()
     {
         shapeSelected = true
+    }
+    
+    /*
+    The undo function
+    */
+    func undo()
+    {
+        if(undoButton.isEnabled == true)
+        {
+            undoButton.isEnabled = false
+            for booth in booths
+            {
+                if(currentBooth != nil && lastBooth == nil) //undoing a create booth
+                {
+                    if(booth.equals(currentBooth!))
+                    {
+                        currentBooth!.button.removeFromSuperview()
+                        booths = booths.filter{$0.button != booth.button}
+                        currentBooth = nil
+                    }
+                }
+                else if(lastBooth != nil && currentBooth == nil) //undoing a delete booth
+                {
+                    if(booth.equals(lastBooth!))
+                    {
+                        lastBooth!.draw(mapImage.bounds)
+                        mapImage.addSubview(lastBooth!.button)
+                        disableBooths()
+                        enableBooth(lastBooth!)
+                        booths.append(lastBooth!)
+                        lastBooth = nil
+                    }
+                }
+                else if(lastBooth != nil && currentBooth != nil) //undoing other function
+                {
+                    currentBooth!.button.removeFromSuperview()
+                    booths = booths.filter{$0.button != booth.button}
+                    currentBooth = nil
+                    lastBooth!.draw(mapImage.bounds)
+                    mapImage.addSubview(lastBooth!.button)
+                    disableBooths()
+                    enableBooth(lastBooth!)
+                    booths.append(lastBooth!)
+                    lastBooth = nil
+                }
+            }
+        }
+    }
+    /*
+     Turns off all gesture recognizers for booths except for tap
+    */
+    func disableBooths()
+    {
+        for booth in booths
+        {
+            booth.zoom.isEnabled = false
+            booth.move.isEnabled = false
+            booth.press.isEnabled = false
+        }
+    }
+    
+    /*
+     Enables gesture recognizers for one booth
+    */
+    func enableBooth(_ booth: BoothShape)
+    {
+        booth.zoom.isEnabled = true
+        booth.move.isEnabled = true
+        booth.press.isEnabled = true
     }
 }
 

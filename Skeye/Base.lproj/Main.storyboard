@@ -28,16 +28,22 @@
                             <stackView opaque="NO" contentMode="scaleAspectFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Jnc-d7-aWk">
                                 <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Y1-2T-feA">
+                                        <rect key="frame" x="0.0" y="0.0" width="73.5" height="50"/>
+                                        <state key="normal" title="Undo">
+                                            <color key="titleColor" red="1" green="0.035360227309999999" blue="0.048782086439999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BtD-6S-yLE" userLabel="booths">
-                                        <rect key="frame" x="0.0" y="0.0" width="122.5" height="50"/>
+                                        <rect key="frame" x="73.5" y="0.0" width="94" height="50"/>
                                         <state key="normal" title="Booths"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brm-1s-cnU" userLabel="colors">
-                                        <rect key="frame" x="122.5" y="0.0" width="123" height="50"/>
+                                        <rect key="frame" x="167.5" y="0.0" width="95" height="50"/>
                                         <state key="normal" title="Colors"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Du9-0Y-RIP" userLabel="save">
-                                        <rect key="frame" x="245.5" y="0.0" width="74.5" height="50"/>
+                                        <rect key="frame" x="262.5" y="0.0" width="57.5" height="50"/>
                                         <state key="normal" title="Save">
                                             <color key="titleColor" red="0.0025389347946654828" green="0.78723826142131981" blue="0.12039883314780345" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -65,6 +71,7 @@
                     <connections>
                         <outlet property="boothButton" destination="BtD-6S-yLE" id="srj-jO-gHB"/>
                         <outlet property="scrollView" destination="sJw-q5-lGe" id="ae8-H2-rhw"/>
+                        <outlet property="undoButton" destination="6Y1-2T-feA" id="e4b-Iw-EIu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -229,6 +236,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R7h-hd-dSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="888.75" y="138.75"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="8yC-53-5ys">
+            <objects>
+                <viewController id="6cJ-mP-koD" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9Pf-R7-W1V"/>
+                        <viewControllerLayoutGuide type="bottom" id="kEI-BV-D0d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IR1-LN-cMe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="grf-B2-hOa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="889" y="859"/>
         </scene>
     </scenes>
 </document>
