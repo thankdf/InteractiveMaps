@@ -66,7 +66,7 @@ class BoothShape
     func draw(_ rect: CGRect)
     {
         button = UIButton.init(frame: CGRect.init(origin: CGPoint.init(x: origin.x - rectangle.width/2, y: origin.y - rectangle.height/2), size: rectangle))
-        
+        button.setTitle("Test!", for: UIControlState.normal)
         //draws shapes
         switch(geometry)
         {

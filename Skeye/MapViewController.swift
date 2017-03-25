@@ -30,7 +30,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         didSet
         {
-            scrollView.backgroundColor = UIColor.white
+            scrollView.backgroundColor = UIColor.black
             scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
     }
@@ -43,6 +43,9 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             mapImage.isUserInteractionEnabled = true
         }
     }
+    
+    /* Adjust size for stack at the bottom */
+    @IBOutlet weak var stack: UIStackView!
     
     /* Booleans */
     var shapeSelected = false //if user selected a shape before tapping on the screen
@@ -70,7 +73,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         super.viewDidLoad()
         scrollView.frame = view.bounds
-        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        mapImage = UIImageView(image: UIImage.init(named: "Testing"))
         scrollView.contentSize = mapImage.bounds.size
         scrollView.delegate = self
         scrollView.addSubview(mapImage)
@@ -83,6 +86,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         }
         scrollViewDidZoom(scrollView) //readjusts image to correct aspect ratio
         view.addSubview(scrollView)
+         stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
     }
     
    
