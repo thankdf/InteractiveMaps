@@ -10,20 +10,20 @@ import UIKit
 
 class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate
 {
-    /* Delegate Comment: mainVC implement protocal fucntion*/
-    internal func userDidEditInfo(data: String, whichBooth: BoothShape)
-    {
+    /* Delegate-related: mainVC implement protocal fucntion*/
+    internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
         whichBooth.info = data
     }
-    internal func userDidEditName(data: String, whichBooth: BoothShape)
-    {
+    internal func userDidEditName(data: String, whichBooth: BoothShape) {
         whichBooth.name = data
-        
     }
-    internal func userDidUploadPic(data: UIImage, whichBooth: BoothShape)
-    {
-        whichBooth.image = data
+    internal func userDidUploadPic(data: [UIImage], whichBooth: BoothShape){
+        whichBooth.boothPhotos = data
     }
+    internal func userDidEditDate(data: String, whichBooth: BoothShape) {
+        whichBooth.date = data
+    }
+
     
     /* Map Boundaries */
     @IBOutlet weak var scrollView: UIScrollView!
@@ -187,26 +187,45 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         /* This is the line of code that calls the 'prepareforSegue' method */
         //performSegue(withIdentifier: "editBoothPopover", sender: sender)
         
-        if let castedSender: BoothShape = sender as? BoothShape
-        {
-            let popoverController = storyboard?.instantiateViewController(withIdentifier: "EditBoothOrganizerViewController") as! EditBoothOrganizerViewController
-            popoverController.boothRef = castedSender
-            popoverController.name = castedSender.name
-            popoverController.info = castedSender.info
-            popoverController.image = castedSender.image
-            popoverController.delegate = self
-            
-            // set the presentation style
-            popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
-            
-            // set up the popover presentation controller
-            popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
-            popoverController.popoverPresentationController?.sourceView = castedSender.button as UIView
-            // set anchor programatically
-            //        popoverController.popoverPresentationController?.sourceRect = sender.bounds
-            
-            self.present(popoverController, animated: true, completion: nil)
-        }
+        let castedSender : BoothShape = sender as! BoothShape
+        
+        //print(sender.name)
+        /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
+        //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+        //print(castedSender.name + " Here!")
+        
+        
+        
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        
+        //print(NSStringFromClass(rootVC!.classForCoder))
+        
+        
+        //let strBoard = UIStoryboard(name: "Main", bundle: nil)
+        let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
+        
+        
+        //get a reference to the view controller for the popover
+        popoverController.boothRef = castedSender //as? BoothShape
+        popoverController.name = castedSender.name
+        popoverController.info = castedSender.info
+        popoverController.date = castedSender.date
+        popoverController.boothImages = castedSender.boothPhotos
+        popoverController.delegate = self
+        
+        // set the presentation style
+        popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
+        
+        // set up the popover presentation controller
+        popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
+        popoverController.popoverPresentationController?.delegate = self
+        popoverController.popoverPresentationController?.sourceView = castedSender.button
+        
+        // set anchor programatically
+        popoverController.popoverPresentationController?.sourceRect = castedSender.button.bounds
+        
+        // present the popover
+        self.present(popoverController, animated: true, completion: nil)
     }
     
     /*
@@ -286,7 +305,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         {
             booth.zoom.isEnabled = false
             booth.move.isEnabled = false
-            booth.press.isEnabled = false
         }
     }
     
@@ -297,7 +315,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         booth.zoom.isEnabled = true
         booth.move.isEnabled = true
-        booth.press.isEnabled = true
     }
 }
 
