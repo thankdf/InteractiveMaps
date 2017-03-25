@@ -1,6 +1,6 @@
 //
 //  LocationSearchTable.swift
-//  Skeye_UI_New
+//  Skeye
 //
 //  Created by Sandeep Kaur on 3/20/17.
 //  Copyright © 2017 Sandeep Kaur. All rights reserved.
