@@ -1,0 +1,567 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1497A51E52E26F0001478A /* BoothShape.swift */; };
+		6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */; };
+		6A6B9A761E85D21900E4A28D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B9A751E85D21900E4A28D /* SearchViewController.swift */; };
+		6A6B9A781E85D22800E4A28D /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B9A771E85D22800E4A28D /* LocationSearchTable.swift */; };
+		6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */; };
+		6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */; };
+		6AF8C51F1E493BA8006F1B26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C51D1E493BA8006F1B26 /* Main.storyboard */; };
+		6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5201E493BA8006F1B26 /* Skeye.xcdatamodeld */; };
+		6AF8C5241E493BA8006F1B26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5231E493BA8006F1B26 /* Assets.xcassets */; };
+		6AF8C5271E493BA8006F1B26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */; };
+		6AF8C5321E493BA8006F1B26 /* SkeyeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6AF8C52E1E493BA8006F1B26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AF8C50E1E493BA7006F1B26 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AF8C5151E493BA7006F1B26;
+			remoteInfo = Skeye;
+		};
+		6AF8C5391E493BA8006F1B26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AF8C50E1E493BA7006F1B26 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AF8C5151E493BA7006F1B26;
+			remoteInfo = Skeye;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6A1497A51E52E26F0001478A /* BoothShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothShape.swift; sourceTree = "<group>"; };
+		6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBoothViewController.swift; sourceTree = "<group>"; };
+		6A6B9A751E85D21900E4A28D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		6A6B9A771E85D22800E4A28D /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
+		6AF8C5161E493BA7006F1B26 /* Skeye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skeye.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		6AF8C51E1E493BA8006F1B26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6AF8C5211E493BA8006F1B26 /* Skeye.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Skeye.xcdatamodel; sourceTree = "<group>"; };
+		6AF8C5231E493BA8006F1B26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6AF8C5261E493BA8006F1B26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6AF8C5281E493BA8006F1B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AF8C52D1E493BA8006F1B26 /* SkeyeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkeyeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeyeTests.swift; sourceTree = "<group>"; };
+		6AF8C5331E493BA8006F1B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AF8C5381E493BA8006F1B26 /* SkeyeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkeyeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6AF8C5131E493BA7006F1B26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AF8C52A1E493BA8006F1B26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AF8C5351E493BA8006F1B26 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A6B9A791E86030D00E4A28D /* SkeyeUITests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SkeyeUITests;
+			sourceTree = "<group>";
+		};
+		6AF8C50D1E493BA7006F1B26 = {
+			isa = PBXGroup;
+			children = (
+				6AF8C5181E493BA7006F1B26 /* Skeye */,
+				6AF8C5301E493BA8006F1B26 /* SkeyeTests */,
+				6A6B9A791E86030D00E4A28D /* SkeyeUITests */,
+				6AF8C5171E493BA7006F1B26 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6AF8C5171E493BA7006F1B26 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6AF8C5161E493BA7006F1B26 /* Skeye.app */,
+				6AF8C52D1E493BA8006F1B26 /* SkeyeTests.xctest */,
+				6AF8C5381E493BA8006F1B26 /* SkeyeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6AF8C5181E493BA7006F1B26 /* Skeye */ = {
+			isa = PBXGroup;
+			children = (
+				6A6B9A771E85D22800E4A28D /* LocationSearchTable.swift */,
+				6A6B9A751E85D21900E4A28D /* SearchViewController.swift */,
+				6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */,
+				6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */,
+				6A1497A51E52E26F0001478A /* BoothShape.swift */,
+				6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */,
+				6AF8C51D1E493BA8006F1B26 /* Main.storyboard */,
+				6AF8C5231E493BA8006F1B26 /* Assets.xcassets */,
+				6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */,
+				6AF8C5281E493BA8006F1B26 /* Info.plist */,
+				6AF8C5201E493BA8006F1B26 /* Skeye.xcdatamodeld */,
+			);
+			path = Skeye;
+			sourceTree = "<group>";
+		};
+		6AF8C5301E493BA8006F1B26 /* SkeyeTests */ = {
+			isa = PBXGroup;
+			children = (
+				6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */,
+				6AF8C5331E493BA8006F1B26 /* Info.plist */,
+			);
+			path = SkeyeTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6AF8C5151E493BA7006F1B26 /* Skeye */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AF8C5411E493BA8006F1B26 /* Build configuration list for PBXNativeTarget "Skeye" */;
+			buildPhases = (
+				6AF8C5121E493BA7006F1B26 /* Sources */,
+				6AF8C5131E493BA7006F1B26 /* Frameworks */,
+				6AF8C5141E493BA7006F1B26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Skeye;
+			productName = Skeye;
+			productReference = 6AF8C5161E493BA7006F1B26 /* Skeye.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6AF8C52C1E493BA8006F1B26 /* SkeyeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AF8C5441E493BA8006F1B26 /* Build configuration list for PBXNativeTarget "SkeyeTests" */;
+			buildPhases = (
+				6AF8C5291E493BA8006F1B26 /* Sources */,
+				6AF8C52A1E493BA8006F1B26 /* Frameworks */,
+				6AF8C52B1E493BA8006F1B26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6AF8C52F1E493BA8006F1B26 /* PBXTargetDependency */,
+			);
+			name = SkeyeTests;
+			productName = SkeyeTests;
+			productReference = 6AF8C52D1E493BA8006F1B26 /* SkeyeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6AF8C5371E493BA8006F1B26 /* SkeyeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AF8C5471E493BA8006F1B26 /* Build configuration list for PBXNativeTarget "SkeyeUITests" */;
+			buildPhases = (
+				6AF8C5341E493BA8006F1B26 /* Sources */,
+				6AF8C5351E493BA8006F1B26 /* Frameworks */,
+				6AF8C5361E493BA8006F1B26 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6AF8C53A1E493BA8006F1B26 /* PBXTargetDependency */,
+			);
+			name = SkeyeUITests;
+			productName = SkeyeUITests;
+			productReference = 6AF8C5381E493BA8006F1B26 /* SkeyeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6AF8C50E1E493BA7006F1B26 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Team_Parking;
+				TargetAttributes = {
+					6AF8C5151E493BA7006F1B26 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7BHCDJ55EZ;
+						ProvisioningStyle = Automatic;
+					};
+					6AF8C52C1E493BA8006F1B26 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7BHCDJ55EZ;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 6AF8C5151E493BA7006F1B26;
+					};
+					6AF8C5371E493BA8006F1B26 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7BHCDJ55EZ;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 6AF8C5151E493BA7006F1B26;
+					};
+				};
+			};
+			buildConfigurationList = 6AF8C5111E493BA7006F1B26 /* Build configuration list for PBXProject "Skeye" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6AF8C50D1E493BA7006F1B26;
+			productRefGroup = 6AF8C5171E493BA7006F1B26 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6AF8C5151E493BA7006F1B26 /* Skeye */,
+				6AF8C52C1E493BA8006F1B26 /* SkeyeTests */,
+				6AF8C5371E493BA8006F1B26 /* SkeyeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6AF8C5141E493BA7006F1B26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AF8C5271E493BA8006F1B26 /* LaunchScreen.storyboard in Resources */,
+				6AF8C5241E493BA8006F1B26 /* Assets.xcassets in Resources */,
+				6AF8C51F1E493BA8006F1B26 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AF8C52B1E493BA8006F1B26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AF8C5361E493BA8006F1B26 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6AF8C5121E493BA7006F1B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A6B9A781E85D22800E4A28D /* LocationSearchTable.swift in Sources */,
+				6A6B9A761E85D21900E4A28D /* SearchViewController.swift in Sources */,
+				6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */,
+				6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */,
+				6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */,
+				6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */,
+				6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AF8C5291E493BA8006F1B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AF8C5321E493BA8006F1B26 /* SkeyeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AF8C5341E493BA8006F1B26 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6AF8C52F1E493BA8006F1B26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AF8C5151E493BA7006F1B26 /* Skeye */;
+			targetProxy = 6AF8C52E1E493BA8006F1B26 /* PBXContainerItemProxy */;
+		};
+		6AF8C53A1E493BA8006F1B26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AF8C5151E493BA7006F1B26 /* Skeye */;
+			targetProxy = 6AF8C5391E493BA8006F1B26 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6AF8C51D1E493BA8006F1B26 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6AF8C51E1E493BA8006F1B26 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6AF8C5261E493BA8006F1B26 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6AF8C53F1E493BA8006F1B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6AF8C5401E493BA8006F1B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6AF8C5421E493BA8006F1B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				INFOPLIST_FILE = Skeye/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.Skeye;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		6AF8C5431E493BA8006F1B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				INFOPLIST_FILE = Skeye/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.Skeye;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		6AF8C5451E493BA8006F1B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				INFOPLIST_FILE = SkeyeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.SkeyeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Skeye.app/Skeye";
+			};
+			name = Debug;
+		};
+		6AF8C5461E493BA8006F1B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				INFOPLIST_FILE = SkeyeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.SkeyeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Skeye.app/Skeye";
+			};
+			name = Release;
+		};
+		6AF8C5481E493BA8006F1B26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				INFOPLIST_FILE = SkeyeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.SkeyeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Skeye;
+			};
+			name = Debug;
+		};
+		6AF8C5491E493BA8006F1B26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				INFOPLIST_FILE = SkeyeUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.SkeyeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Skeye;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6AF8C5111E493BA7006F1B26 /* Build configuration list for PBXProject "Skeye" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AF8C53F1E493BA8006F1B26 /* Debug */,
+				6AF8C5401E493BA8006F1B26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AF8C5411E493BA8006F1B26 /* Build configuration list for PBXNativeTarget "Skeye" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AF8C5421E493BA8006F1B26 /* Debug */,
+				6AF8C5431E493BA8006F1B26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AF8C5441E493BA8006F1B26 /* Build configuration list for PBXNativeTarget "SkeyeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AF8C5451E493BA8006F1B26 /* Debug */,
+				6AF8C5461E493BA8006F1B26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AF8C5471E493BA8006F1B26 /* Build configuration list for PBXNativeTarget "SkeyeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AF8C5481E493BA8006F1B26 /* Debug */,
+				6AF8C5491E493BA8006F1B26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6AF8C5201E493BA8006F1B26 /* Skeye.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6AF8C5211E493BA8006F1B26 /* Skeye.xcdatamodel */,
+			);
+			currentVersion = 6AF8C5211E493BA8006F1B26 /* Skeye.xcdatamodel */;
+			path = Skeye.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 6AF8C50E1E493BA7006F1B26 /* Project object */;
+}
