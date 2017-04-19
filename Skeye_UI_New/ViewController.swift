@@ -14,6 +14,7 @@ class ViewController : UIViewController {
     var resultSearchController:UISearchController? = nil
     
     let locationManager = CLLocationManager()
+    
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C8AEB1F1EA49949005EDCF5 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8AEB1E1EA49949005EDCF5 /* HomeModel.swift */; };
+		2C8AEB211EA4995A005EDCF5 /* LocationModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8AEB201EA4995A005EDCF5 /* LocationModal.swift */; };
 		2C8D68871E7F6D4500EC0A66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D68861E7F6D4500EC0A66 /* AppDelegate.swift */; };
 		2C8D68891E7F6D4500EC0A66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D68881E7F6D4500EC0A66 /* ViewController.swift */; };
 		2C8D688C1E7F6D4500EC0A66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C8D688A1E7F6D4500EC0A66 /* Main.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C8AEB1E1EA49949005EDCF5 /* HomeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
+		2C8AEB201EA4995A005EDCF5 /* LocationModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationModal.swift; sourceTree = "<group>"; };
 		2C8D68831E7F6D4500EC0A66 /* Skeye_UI_New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skeye_UI_New.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C8D68861E7F6D4500EC0A66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C8D68881E7F6D4500EC0A66 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				2C8D688D1E7F6D4500EC0A66 /* Assets.xcassets */,
 				2C8D688F1E7F6D4500EC0A66 /* LaunchScreen.storyboard */,
 				2C8D68921E7F6D4500EC0A66 /* Info.plist */,
+				2C8AEB1E1EA49949005EDCF5 /* HomeModel.swift */,
+				2C8AEB201EA4995A005EDCF5 /* LocationModal.swift */,
 			);
 			path = Skeye_UI_New;
 			sourceTree = "<group>";
@@ -139,8 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C8AEB1F1EA49949005EDCF5 /* HomeModel.swift in Sources */,
 				2C8D68991E80590000EC0A66 /* LocationSearchTable.swift in Sources */,
 				2C8D68891E7F6D4500EC0A66 /* ViewController.swift in Sources */,
+				2C8AEB211EA4995A005EDCF5 /* LocationModal.swift in Sources */,
 				2C8D68871E7F6D4500EC0A66 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,6 +311,7 @@
 				2C8D68971E7F6D4500EC0A66 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
