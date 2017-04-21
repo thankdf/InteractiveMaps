@@ -7,12 +7,13 @@
 //
 
 
-
+import MapKit
 import UIKit
-class LocationSearchTable : UITableViewController, HomeModelProtocal{
+class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBarDelegate, UIKit.UISearchResultsUpdating{
 
     //Properties
     
+    var mapView: MKMapView? = nil
     var feedItems: NSArray = NSArray()
     var selectedLocation : LocationModel = LocationModel()
     @IBOutlet weak var listTableView: UITableView!
@@ -25,11 +26,33 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal{
         self.listTableView.delegate = self
         self.listTableView.dataSource = self
         
-        let homeModel = HomeModel()
-        homeModel.delegate = self
-        homeModel.downloadItems()
+
         
     }
+    func updateSearchResults(for searchController: UISearchController)
+    
+    {
+        guard let _ = mapView,
+        let searchBarText = searchController.searchBar.text else { return }
+       
+        print(searchBarText)
+        print("doSearch is working")
+
+        let homeModel = HomeModel()
+        homeModel.delegate = self
+        homeModel.doSearch(searchWord: searchBarText)
+
+        
+    }
+    
+/*    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+ 
+        print("doSearch is working")
+
+ 
+    }
+ 
+ */
     
     func itemsDownloaded(items: NSArray) {
         
@@ -50,15 +73,10 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal{
         // Get the location to be shown
         let item: LocationModel = feedItems[indexPath.row] as! LocationModel
         // Get references to labels of cell
-        myCell.textLabel!.text = item.address
+        myCell.textLabel!.text = item.event_name
         
         return myCell
     }
 }
 
-extension LocationSearchTable : UIKit.UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        
-    }
-}
+

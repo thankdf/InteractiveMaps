@@ -24,17 +24,24 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     
     let urlPath: String = "http://130.65.159.80/service.php" 
     
-    func downloadItems() {
-        
+    func doSearch(searchWord: String) {
         let url: NSURL = NSURL(string: urlPath)!
         var session: URLSession!
         let configuration = URLSessionConfiguration.default
         
+        let request = NSMutableURLRequest(url:url as URL);
+        request.httpMethod = "POST";
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        let postString = "searchWord=\(searchWord)".addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed);
+        print(postString);
+        
+        request.httpBody = postString?.data(using: String.Encoding.utf8)
+        request.setValue("\(request.httpBody?.count)", forHTTPHeaderField:"Content-Length")
+
         session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         
         let task = session.dataTask(with: url as URL)
-        
         task.resume()
         
     }
@@ -56,37 +63,40 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     
     func parseJSON() {
         
-        var jsonResult = [[String:Any]]()
+        var jsonResult = [String:Any]()
         
         do{
-            jsonResult = try JSONSerialization.jsonObject(with: self.data as Data) as! [[String:Any]]
+            jsonResult = try JSONSerialization.jsonObject(with: self.data as Data) as! [String:Any]
             
         } catch let error as NSError {
             print(error)
             
         }
         
-        var jsonElement = [String:Any]()
+       // var jsonElement = [String:Any]()
         var locations = [LocationModel]()
         
-        for i in 0 ..< jsonResult.count
+        for _ in (0...(jsonResult.count)).reversed()
         {
-            
-            jsonElement = jsonResult[i]
+            print(jsonResult)
+
+            //jsonElement = jsonResult[i]
             let location = LocationModel()
             
             //the following insures none of the JsonElement values are nil through optional binding
-            if let event_name = jsonElement["Name"] as? String,
-                let address = jsonElement["Address"] as? String,
+            if let event_name = jsonResult["event_name"] as? String
+   /*             let address = jsonElement["Address"] as? String,
                 let latitude = jsonElement["Latitude"] as? String,
                 let longitude = jsonElement["Longitude"] as? String
+ */
             {
                 
                 location.event_name = event_name
-                location.address = address
+   /*             location.address = address
                 location.latitude = latitude
                 location.longitude = longitude
                 
+ */
             }
             
             locations.append(location)
