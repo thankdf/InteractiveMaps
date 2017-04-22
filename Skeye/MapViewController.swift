@@ -3,7 +3,7 @@
 //  Skeye
 //
 //  Created by Kevin Dang on 2/6/17.
-//  Copyright © 2017 Team_Parking. All rights reserved.
+//  Copyright © 2017 Team_Skeye. All rights reserved.
 //
 
 import UIKit
@@ -30,7 +30,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         didSet
         {
-            scrollView.backgroundColor = UIColor.black
+            scrollView.backgroundColor = UIColor.white
             scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
     }
@@ -60,41 +60,106 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     var lastBooth: BoothShape? = nil
     var currentBooth: BoothShape? = nil
     
-    @IBOutlet weak var undoButton: UIButton!
-    {
-        didSet
-        {
-            undoButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(undo)))
-            undoButton.isEnabled = false
-        }
-    }
+    /* Map Variables */
+    var mapID: Int = 1
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         scrollView.frame = view.bounds
-        mapImage = UIImageView(image: UIImage.init(named: "Testing"))
+        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
         scrollView.contentSize = mapImage.bounds.size
         scrollView.delegate = self
         scrollView.addSubview(mapImage)
         mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
         enableZoom()
+        
+//        let ipAddress = "http://130.65.159.80/RetrieveMap.php"
+//        let url = URL(string: ipAddress)
+//        var request = URLRequest(url: url!)
+//        request.httpMethod = "POST"
+        
+        //let postString = "eventID=\(eventID)"
+//        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+//        URLSession.shared.dataTask(with: request, completionHandler:
+//            {
+//                (data, response, error) -> Void in
+//                if(error != nil)
+//                {
+//                    print("error=\(String(describing: error))\n")
+//                    return
+//                }
+//                do
+//                {
+//                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+//                    if let parseJSON = json
+//                    {
+//                        let resultValue: String = parseJSON["status"] as! String
+//                        print("result: \(resultValue)\n")
+//                        let value = parseJSON["map"] as! String
+//                        print(value)
+//                    }
+//                }
+//                catch let error as Error?
+//                {
+//                    print("Found an error - \(String(describing: error))")
+//                }
+//                
+//        }).resume()
+
+        
         for booth in booths
         {
             booth.draw(mapImage.bounds)
             mapImage.addSubview(booth.button)
         }
-        scrollViewDidZoom(scrollView) //readjusts image to correct aspect ratio
         view.addSubview(scrollView)
          stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
     }
     
-   
+    /* Buttons */
     @IBOutlet weak var boothButton: UIButton!
     {
         didSet
         {
             boothButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(turnOnShape)))
+            boothButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var shapeButton: UIButton!
+    {
+        didSet
+        {
+            shapeButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var colorButton: UIButton!
+    {
+        didSet
+        {
+            colorButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var undoButton: UIButton!
+    {
+        didSet
+        {
+            undoButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(undo)))
+            undoButton.setTitleColor(UIColor.gray, for: .disabled)
+            undoButton.isEnabled = false
+            undoButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        }
+    }
+    @IBOutlet weak var saveButton: UIButton!
+    {
+        didSet
+        {
+            saveButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            saveButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(save)))
         }
     }
     
@@ -233,7 +298,47 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     */
     func createBooth(_ point: CGPoint, _ shape: String)
     {
-        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/scrollView.zoomScale, y: point.y/scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white")
+        var idNumber: Int = 1
+        let location_x = point.x/scrollView.zoomScale
+        let location_y = point.y/scrollView.zoomScale
+        let ipAddress = "http://130.65.159.80/RetrieveBoothID.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        let postString = "event_id=\(mapID)&user=hi&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let responseString = NSString(data:data!, encoding: String.Encoding.utf8.rawValue)
+                    print(responseString)
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        
+                        if(resultValue == "Success")
+                        {
+                            idNumber = parseJSON["message"] as! Int
+                        }
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                }
+                
+        }).resume()
+        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/scrollView.zoomScale, y: point.y/scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", idNumber,UserDefaults.standard.string(forKey: "username")!)
         newButton.draw(mapImage.bounds)
         mapImage.addSubview(newButton.button)
         booths.append(newButton)
@@ -315,6 +420,84 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         booth.zoom.isEnabled = true
         booth.move.isEnabled = true
+    }
+    
+    @IBAction func backPressed(_ sender: UIButton)
+    {
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
+        
+        self.present(searchController, animated: true, completion: nil)
+    }
+    
+    /*
+     Saves map to the database
+    */
+    func save()
+    {
+        let ipAddress = "http://130.65.159.80/SaveMap.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        var boothsJSON: String = "["
+        for booth in booths
+        {
+            boothsJSON += "\(booth.id): [username: \(booth.user), location_x: \(booth.origin.x), location_y: \(booth.origin.y), shape: \(booth.geometry), color: \(booth.col), width: \(booth.rectangle.width), height: \(booth.rectangle.height), name: \(booth.name), info: \(booth.info)]"//, photos: ["
+//            for photo in booth.boothPhotos
+//            {
+//                boothsJSON += "\(photo.value(forKey: "number")): http://130.65.159.80/\(photo.value(forKey: "number")).png, "
+//            }
+//            boothsJSON.remove(at: boothsJSON.endIndex)
+//            boothsJSON.remove(at: boothsJSON.endIndex)
+//            boothsJSON += "], "
+        }
+//        boothsJSON.remove(at: boothsJSON.endIndex)
+//        boothsJSON.remove(at: boothsJSON.endIndex)
+//        boothsJSON += "]"
+        let post = [ "mapID": "\(mapID)", "booths": "\(boothsJSON)"]
+        request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: [])
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        let messageToDisplay = parseJSON["message"] as! String!
+                        
+                        DispatchQueue.main.async
+                        {
+                            self.displayAlert(messageToDisplay!)
+                        }
+                        
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                }
+                
+        }).resume()
+    }
+    
+    private func displayAlert(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+           self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

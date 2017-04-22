@@ -3,7 +3,7 @@
 //  Skeye_UI_New
 //
 //  Created by Sandeep Kaur on 3/19/17.
-//  Copyright © 2017 Sandeep Kaur. All rights reserved.
+//  Copyright © 2017 Team_Skeye. All rights reserved.
 //
 
 import UIKit
@@ -11,7 +11,9 @@ import MapKit
 
 class SearchViewController : UIViewController {
     
-    var resultSearchController:UISearchController? = nil
+    @IBOutlet weak var createMap: UIButton!
+    
+    var resultSearchController : UISearchController? = nil
     
     let locationManager = CLLocationManager()
     @IBOutlet weak var mapView: MKMapView!

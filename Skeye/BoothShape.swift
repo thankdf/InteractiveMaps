@@ -3,7 +3,7 @@
 //  Skeye
 //
 //  Created by Kevin Dang on 2/13/17.
-//  Copyright © 2017 Team_Parking. All rights reserved.
+//  Copyright © 2017 Team_Skeye. All rights reserved.
 //
 
 import UIKit
@@ -19,6 +19,8 @@ class BoothShape
     var info: String
     var date: String
     var boothPhotos: [UIImage]
+    var id: Int
+    var user: String
     
     //Gesture recognizers
     var zoom: UIPinchGestureRecognizer
@@ -26,7 +28,7 @@ class BoothShape
     var move: UIPanGestureRecognizer
     var press: UILongPressGestureRecognizer
     
-    init(_ point: CGPoint, _ size: CGSize, _ shape: String, _ color: String)
+    init(_ point: CGPoint, _ size: CGSize, _ shape: String, _ color: String, _ iden: Int, _ type: String)
     {
         origin = point
         rectangle = size
@@ -42,9 +44,11 @@ class BoothShape
         info = "Default info"
         date = ""
         boothPhotos = []
+        id = iden
+        user = type
     }
     
-    init(_ point: CGPoint, _ size: CGSize, _ shape: String, _ color: String, _ click: UIButton, _ zoomGesture: UIPinchGestureRecognizer, _ selectGesture: UITapGestureRecognizer, _ moveGesture: UIPanGestureRecognizer, _ pressGesture: UILongPressGestureRecognizer, _ boothName: String, _ information: String, _ time: String, _ booths: [UIImage])
+    init(_ point: CGPoint, _ size: CGSize, _ shape: String, _ color: String, _ click: UIButton, _ zoomGesture: UIPinchGestureRecognizer, _ selectGesture: UITapGestureRecognizer, _ moveGesture: UIPanGestureRecognizer, _ pressGesture: UILongPressGestureRecognizer, _ boothName: String, _ information: String, _ time: String, _ booths: [UIImage], _ iden: Int, _ type: String)
     {
         origin = point
         rectangle = size
@@ -60,6 +64,8 @@ class BoothShape
         info = information
         date = time
         boothPhotos = booths
+        id = iden
+        user = type
     }
     
     /*
@@ -147,7 +153,7 @@ class BoothShape
             {
                 if(gesture.state == UIGestureRecognizerState.began)
                 {
-                    controller.lastBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos) //last saved state
+                    controller.lastBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos, id, user) //last saved state
                 }
                 if !(viewer.frame.maxX * gesture.scale > (button.superview?.bounds.width)! || viewer.frame.minX * gesture.scale < 0 || viewer.frame.maxY * gesture.scale > (button.superview?.bounds.height)! || viewer.frame.minY * gesture.scale < 0) //if the zoom stays within the frame
                 {
@@ -158,7 +164,7 @@ class BoothShape
                 if(gesture.state == UIGestureRecognizerState.ended)
                 {
                     controller.undoButton.isEnabled = true
-                    controller.currentBooth = BoothShape.init(origin, CGSize.init(width: viewer.frame.width * gesture.scale, height: viewer.frame.height * gesture.scale), geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos) //update rectangle size
+                    controller.currentBooth = BoothShape.init(origin, CGSize.init(width: viewer.frame.width * gesture.scale, height: viewer.frame.height * gesture.scale), geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos, id, user) //update rectangle size
                 }
             }
         }
@@ -176,7 +182,7 @@ class BoothShape
             {
                 if(gesture.state == UIGestureRecognizerState.began)
                 {
-                    controller.lastBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos) //last saved state
+                    controller.lastBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos, id, user) //last saved state
                 }
                 if !(viewer.frame.maxX + translation.x > (button.superview?.bounds.width)! || viewer.frame.minX + translation.x < 0 || viewer.frame.maxY + translation.y > (button.superview?.bounds.height)! || viewer.frame.minY + translation.y < 0) //if the translation stays within the frame
                 {
@@ -187,7 +193,7 @@ class BoothShape
                 if(gesture.state == UIGestureRecognizerState.ended)
                 {
                     controller.undoButton.isEnabled = true
-                    controller.currentBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos) //update position
+                    controller.currentBooth = BoothShape.init(origin, rectangle, geometry, col, button, zoom, select, move, press, name, info, date, boothPhotos, id, user) //update position
                 }
             }
         }
@@ -207,7 +213,7 @@ class BoothShape
     */
     func equals(_ shape: BoothShape) -> Bool
     {
-        if(button == shape.button && origin == shape.origin && col == shape.col && geometry == shape.geometry && name == shape.name && info == shape.info && boothPhotos == shape.boothPhotos)
+        if(button == shape.button && origin == shape.origin && col == shape.col && geometry == shape.geometry && name == shape.name && info == shape.info && boothPhotos == shape.boothPhotos && id == shape.id && user == shape.user)
         {
             return true
         }

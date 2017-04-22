@@ -3,7 +3,7 @@
 //  Maps
 //
 //  Created by yoho chen on 11/4/16.
-//  Copyright © 2016 Team_Interactive_Maps. All rights reserved.
+//  Copyright © 2016 Team_Skeye. All rights reserved.
 //
 //  DatePicker Tutorial: www.youtube.com/watch?v=_ADJxJ7pjRk
 //

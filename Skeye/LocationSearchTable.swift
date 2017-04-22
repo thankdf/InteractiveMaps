@@ -3,7 +3,7 @@
 //  Skeye
 //
 //  Created by Sandeep Kaur on 3/20/17.
-//  Copyright © 2017 Sandeep Kaur. All rights reserved.
+//  Copyright © 2017 Team_Skeye. All rights reserved.
 //
 
 
