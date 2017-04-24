@@ -13,8 +13,8 @@ class LocationModel: NSObject {
     //properties
     
     var event_name: String?
-  /*  var address: String?
-    var latitude: String?
+    var username: String?
+   /* var latitude: String?
     var longitude: String?
    */
     
@@ -26,9 +26,10 @@ class LocationModel: NSObject {
     
     //construct with @name, @address, @latitude, and @longitude parameters
     
-    init(event_name: String) {
+    init(event_name: String, username: String) {
         
         self.event_name = event_name
+        self.username = username
         
     }
     
@@ -36,7 +37,7 @@ class LocationModel: NSObject {
     //prints object's current state
     
     override var description: String {
-        return "event_name: \(event_name))"
+        return "event_name: \(event_name), username: \(username))"
         
 }
 

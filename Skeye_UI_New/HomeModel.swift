@@ -22,43 +22,57 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     
     var data : NSMutableData = NSMutableData()
     
-    let urlPath: String = "http://130.65.159.80/service.php" 
+    let urlPath: String = "http://130.65.159.80/service.php"
     
     func doSearch(searchWord: String) {
-        let url: NSURL = NSURL(string: urlPath)!
-        var session: URLSession!
-        let configuration = URLSessionConfiguration.default
+               let url = URL(string: urlPath)
         
-        let request = NSMutableURLRequest(url:url as URL);
+       // let url: URL = URL(string: urlPath)!
+      //  var session: URLSession!
+     //   let configuration = URLSessionConfiguration.default
+        
+       // let request = NSMutableURLRequest(url:url as URL);
+        //var request = URLRequest(url: url!)
+         var request = URLRequest(url: url!)
         request.httpMethod = "POST";
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        //request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let postString = "searchWord=\(searchWord)".addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed);
+        let postString = "searchWord=\(searchWord)"
+        
+       // let postString = "searchWord=\(searchWord)".addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed);
         print(postString);
         
-        request.httpBody = postString?.data(using: String.Encoding.utf8)
-        request.setValue("\(request.httpBody?.count)", forHTTPHeaderField:"Content-Length")
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        //request.setValue("\(request.httpBody?.count)", forHTTPHeaderField:"Content-Length")
 
-        session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+      //  session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         
-        let task = session.dataTask(with: url as URL)
-        task.resume()
-        
-    }
-    
-    func urlSession(_ _session: URLSession, dataTask: URLSessionDataTask, didReceive data:Data) {
-        self.data.append(data as Data);
-        
-    }
-    
-     func urlSession(_ _session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if error != nil {
-            print("Failed to download data")
-        }else {
-            print("Data downloaded")
-            self.parseJSON()
+        print(request)
+
+        let task = URLSession.shared.dataTask(with: request) {
+            
+            (data: Data?, response: URLResponse?, error: Error?) in
+            
+            if error != nil {
+                print("error=\(error)")
+                return
+            }
+            
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            self.data.append(data! as Data);
+
+            
+  
+//            self.data.append(data! as Data);
+//
+//            print("Data downloaded")
+//            self.parseJSON()
+//            
         }
-        
+        task.resume()
+    
+    
     }
     
     func parseJSON() {
@@ -66,10 +80,10 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         var jsonResult = [String:Any]()
         
         do{
-            jsonResult = try JSONSerialization.jsonObject(with: self.data as Data) as! [String:Any]
+            jsonResult = try JSONSerialization.jsonObject(with: self.data as Data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String:Any]
             
         } catch let error as NSError {
-            print(error)
+             print(error)
             
         }
         
@@ -84,7 +98,9 @@ class HomeModel: NSObject, URLSessionDataDelegate {
             let location = LocationModel()
             
             //the following insures none of the JsonElement values are nil through optional binding
-            if let event_name = jsonResult["event_name"] as? String
+            if let event_name = jsonResult["event_name"] as? String,
+               let username = jsonResult["username"] as? String
+
    /*             let address = jsonElement["Address"] as? String,
                 let latitude = jsonElement["Latitude"] as? String,
                 let longitude = jsonElement["Longitude"] as? String
@@ -92,6 +108,8 @@ class HomeModel: NSObject, URLSessionDataDelegate {
             {
                 
                 location.event_name = event_name
+                location.username = username
+
    /*             location.address = address
                 location.latitude = latitude
                 location.longitude = longitude

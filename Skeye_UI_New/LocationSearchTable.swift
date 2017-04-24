@@ -15,8 +15,10 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBa
     
     var mapView: MKMapView? = nil
     var feedItems: NSArray = NSArray()
+    var listTableView: UITableView! = nil
     var selectedLocation : LocationModel = LocationModel()
-    @IBOutlet weak var listTableView: UITableView!
+    
+   // @IBOutlet weak var listTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,6 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBa
         let searchBarText = searchController.searchBar.text else { return }
        
         print(searchBarText)
-        print("doSearch is working")
 
         let homeModel = HomeModel()
         homeModel.delegate = self
@@ -55,9 +56,12 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBa
  */
     
     func itemsDownloaded(items: NSArray) {
-        
+          print("tableView is working")
         feedItems = items
         self.listTableView.reloadData()
+        print(feedItems)
+
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,8 +77,11 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBa
         // Get the location to be shown
         let item: LocationModel = feedItems[indexPath.row] as! LocationModel
         // Get references to labels of cell
-        myCell.textLabel!.text = item.event_name
-        
+      //  myCell.textLabel!.text = item.event_name
+        myCell.textLabel!.text = item.username
+
+      
+    
         return myCell
     }
 }
