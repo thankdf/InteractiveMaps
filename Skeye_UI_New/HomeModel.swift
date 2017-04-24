@@ -25,29 +25,13 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     let urlPath: String = "http://130.65.159.80/service.php"
     
     func doSearch(searchWord: String) {
-               let url = URL(string: urlPath)
-        
-       // let url: URL = URL(string: urlPath)!
-      //  var session: URLSession!
-     //   let configuration = URLSessionConfiguration.default
-        
-       // let request = NSMutableURLRequest(url:url as URL);
-        //var request = URLRequest(url: url!)
-         var request = URLRequest(url: url!)
+        let url = URL(string: urlPath)
+        var request = URLRequest(url: url!)
         request.httpMethod = "POST";
-        //request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let postString = "searchWord=\(searchWord)"
         
-       // let postString = "searchWord=\(searchWord)".addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed);
-        print(postString);
-        
         request.httpBody = postString.data(using: String.Encoding.utf8)
-        //request.setValue("\(request.httpBody?.count)", forHTTPHeaderField:"Content-Length")
-
-      //  session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-        
-        print(request)
 
         let task = URLSession.shared.dataTask(with: request) {
             
@@ -58,17 +42,17 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 return
             }
             
-            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            print("responseString = \(responseString)")
-            self.data.append(data! as Data);
-
-            
-  
+//            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+//            print("responseString = \(responseString)")
 //            self.data.append(data! as Data);
 //
-//            print("Data downloaded")
-//            self.parseJSON()
-//            
+            
+  
+            self.data.append(data! as Data);
+
+            print("Data downloaded")
+            self.parseJSON()
+            
         }
         task.resume()
     
@@ -88,12 +72,8 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         }
         
        // var jsonElement = [String:Any]()
-        var locations = [LocationModel]()
-        
-        for _ in (0...(jsonResult.count)).reversed()
-        {
-            print(jsonResult)
-
+        let locations: NSMutableArray = NSMutableArray()
+  
             //jsonElement = jsonResult[i]
             let location = LocationModel()
             
@@ -117,12 +97,12 @@ class HomeModel: NSObject, URLSessionDataDelegate {
  */
             }
             
-            locations.append(location)
+            locations.add(location)
             
-        }
+        
         
             DispatchQueue.main.async(execute: { () -> Void in
-            self.delegate.itemsDownloaded(items: locations as NSArray)
+            self.delegate.itemsDownloaded(items: locations)
             
         })
     }

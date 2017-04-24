@@ -9,7 +9,7 @@
 
 import MapKit
 import UIKit
-class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBarDelegate, UIKit.UISearchResultsUpdating{
+class LocationSearchTable : UIViewController, UITableViewDataSource, UITableViewDelegate, HomeModelProtocal, UISearchBarDelegate, UIKit.UISearchResultsUpdating{
 
     //Properties
     
@@ -64,13 +64,13 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBa
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of feed items
         return feedItems.count
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Retrieve cell
         let cellIdentifier: String = "cell"
         let myCell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
@@ -78,7 +78,7 @@ class LocationSearchTable : UITableViewController, HomeModelProtocal, UISearchBa
         let item: LocationModel = feedItems[indexPath.row] as! LocationModel
         // Get references to labels of cell
       //  myCell.textLabel!.text = item.event_name
-        myCell.textLabel!.text = item.username
+        myCell.textLabel!.text = item.event_name
 
       
     
