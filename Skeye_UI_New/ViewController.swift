@@ -14,6 +14,7 @@ class ViewController : UIViewController {
     var resultSearchController:UISearchController? = nil
     
     let locationManager = CLLocationManager()
+    var selectedLocation : LocationModel?
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -55,5 +56,24 @@ extension ViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error:: \(error)")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // Create coordinates from location lat/long
+        var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
+        
+        // need to get these cooridnates from address
+        poiCoodinates.latitude = CDouble(37.335187)
+        poiCoodinates.longitude = CDouble(-121.881072)
+        // Zoom to region
+        let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
+        self.mapView.setRegion(viewRegion, animated: true)
+        // Plot pin
+        let pin: MKPointAnnotation = MKPointAnnotation()
+        pin.coordinate = poiCoodinates
+        self.mapView.addAnnotation(pin)
+        
+        //add title to the pin
+        pin.title = selectedLocation?.event_name
     }
 }

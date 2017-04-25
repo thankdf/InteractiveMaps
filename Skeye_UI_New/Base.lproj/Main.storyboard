@@ -43,12 +43,12 @@
                     </tableView>
                     <connections>
                         <outlet property="listTableView" destination="4jR-7a-QXo" id="1m2-d6-Enf"/>
-                        <segue destination="BYZ-38-t0r" kind="show" id="kzR-AQ-r1f"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="eventPinSegue" id="kzR-AQ-r1f"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dc7-Bd-RVF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1897" y="159"/>
+            <point key="canvasLocation" x="2433" y="50"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -80,7 +80,7 @@
                                 <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="juc-oR-M69"/>
                     <connections>
@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="962" y="107"/>
+            <point key="canvasLocation" x="1479" y="107"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="LJj-sK-9US">

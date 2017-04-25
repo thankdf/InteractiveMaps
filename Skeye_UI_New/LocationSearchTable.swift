@@ -46,14 +46,7 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
         
     }
     
-/*    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
- 
-        print("doSearch is working")
 
- 
-    }
- 
- */
     
     func itemsDownloaded(items: NSArray) {
           print("tableView is working")
@@ -77,12 +70,27 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
         // Get the location to be shown
         let item: LocationModel = feedItems[indexPath.row] as! LocationModel
         // Get references to labels of cell
-      //  myCell.textLabel!.text = item.event_name
         myCell.textLabel!.text = item.event_name
-
-      
-    
+  
         return myCell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Set selected location to var
+        selectedLocation = feedItems[indexPath.row] as! LocationModel
+        // Manually call segue to detail view controller
+        self.performSegue(withIdentifier: "eventPinSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "eventPinSegue"
+        {
+        // Get reference to the destination view controller
+        let detailVC  = segue.destination as! ViewController
+        // Set the property to the selected location so when the view for
+        // detail view controller loads, it can access that property to get the feeditem obj
+        detailVC.selectedLocation = selectedLocation
+        }
     }
 }
 

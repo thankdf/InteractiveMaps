@@ -42,12 +42,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 return
             }
             
-//            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-//            print("responseString = \(responseString)")
-//            self.data.append(data! as Data);
-//
-            
-  
+ 
             self.data.append(data! as Data);
 
             print("Data downloaded")
@@ -71,10 +66,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
             
         }
         
-       // var jsonElement = [String:Any]()
-        let locations: NSMutableArray = NSMutableArray()
-  
-            //jsonElement = jsonResult[i]
+            let locations: NSMutableArray = NSMutableArray()
             let location = LocationModel()
             
             //the following insures none of the JsonElement values are nil through optional binding
