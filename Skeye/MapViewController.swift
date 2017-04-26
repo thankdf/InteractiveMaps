@@ -43,8 +43,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             mapImage.isUserInteractionEnabled = true
         }
     }
-    
-    /* Adjust size for stack at the bottom */
+    /* Adjust sizes */
+    @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var stack: UIStackView!
     
     /* Booleans */
@@ -67,6 +67,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         super.viewDidLoad()
         scrollView.frame = view.bounds
+        stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
         mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
         scrollView.contentSize = mapImage.bounds.size
         scrollView.delegate = self
@@ -74,39 +76,39 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
         enableZoom()
         
-//        let ipAddress = "http://130.65.159.80/RetrieveMap.php"
-//        let url = URL(string: ipAddress)
-//        var request = URLRequest(url: url!)
-//        request.httpMethod = "POST"
+        let ipAddress = "http://130.65.159.80/RetrieveMap.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
         
-        //let postString = "eventID=\(eventID)"
-//        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let postString = "eventID=\(mapID)"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
         
-//        URLSession.shared.dataTask(with: request, completionHandler:
-//            {
-//                (data, response, error) -> Void in
-//                if(error != nil)
-//                {
-//                    print("error=\(String(describing: error))\n")
-//                    return
-//                }
-//                do
-//                {
-//                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-//                    if let parseJSON = json
-//                    {
-//                        let resultValue: String = parseJSON["status"] as! String
-//                        print("result: \(resultValue)\n")
-//                        let value = parseJSON["map"] as! String
-//                        print(value)
-//                    }
-//                }
-//                catch let error as Error?
-//                {
-//                    print("Found an error - \(String(describing: error))")
-//                }
-//                
-//        }).resume()
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        let value = parseJSON["map"] as! String
+                        print(value)
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                }
+                
+        }).resume()
 
         
         for booth in booths
@@ -115,7 +117,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             mapImage.addSubview(booth.button)
         }
         view.addSubview(scrollView)
-         stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
     }
     
     /* Buttons */
@@ -298,53 +299,56 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     */
     func createBooth(_ point: CGPoint, _ shape: String)
     {
-        var idNumber: Int = 1
         let location_x = point.x/scrollView.zoomScale
         let location_y = point.y/scrollView.zoomScale
+        
+        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", 1, "hk.at.dang@gmail.com")
+        newButton.draw(self.mapImage.bounds)
+        self.mapImage.addSubview(newButton.button)
+        
+        //Retrieves ID Number
         let ipAddress = "http://130.65.159.80/RetrieveBoothID.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        let postString = "event_id=\(mapID)&user=hi&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
+        let postString = "event_id=\(mapID)&user=hk.at.dang@gmail.com&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
+//        let postString = "event_id=\(mapID)&user=\(UserDefaults.standard.string(forKey: "username"))&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
         request.httpBody = postString.data(using: String.Encoding.utf8)
-        
         URLSession.shared.dataTask(with: request, completionHandler:
+        {
+            (data, response, error) -> Void in
+            if(error != nil)
             {
-                (data, response, error) -> Void in
-                if(error != nil)
+                print("error=\(String(describing: error))\n")
+                return
+            }
+            do
+            {
+                var id = 1
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                if let parseJSON = json
                 {
-                    print("error=\(String(describing: error))\n")
-                    return
-                }
-                do
-                {
-                    let responseString = NSString(data:data!, encoding: String.Encoding.utf8.rawValue)
-                    print(responseString)
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                    if let parseJSON = json
+                    let resultValue: String = parseJSON["status"] as! String
+                    print("result: \(resultValue)\n")
+                    
+                    if(resultValue == "success")
                     {
-                        let resultValue: String = parseJSON["status"] as! String
-                        print("result: \(resultValue)\n")
-                        
-                        if(resultValue == "Success")
-                        {
-                            idNumber = parseJSON["message"] as! Int
-                        }
+                        let idNumberString = parseJSON["message"] as! String
+                        id = Int(idNumberString)!
+//                                let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", id, UserDefaults.standard.string(forKey: "username")!)
+                        newButton.id = id
+                        self.booths.append(newButton)
+                        self.currentBooth = newButton
+                        self.lastBooth = nil
+                        self.undoButton.isEnabled = true
                     }
                 }
-                catch let error as Error?
-                {
-                    print("Found an error - \(String(describing: error))")
-                }
-                
+            }
+            catch let error as Error?
+            {
+                print("Found an error - \(String(describing: error))")
+            }
         }).resume()
-        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/scrollView.zoomScale, y: point.y/scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", idNumber,UserDefaults.standard.string(forKey: "username")!)
-        newButton.draw(mapImage.bounds)
-        mapImage.addSubview(newButton.button)
-        booths.append(newButton)
-        currentBooth = newButton
-        lastBooth = nil
-        undoButton.isEnabled = true
     }
     
     /*
@@ -442,19 +446,13 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         var boothsJSON: String = "["
         for booth in booths
         {
-            boothsJSON += "\(booth.id): [username: \(booth.user), location_x: \(booth.origin.x), location_y: \(booth.origin.y), shape: \(booth.geometry), color: \(booth.col), width: \(booth.rectangle.width), height: \(booth.rectangle.height), name: \(booth.name), info: \(booth.info)]"//, photos: ["
-//            for photo in booth.boothPhotos
-//            {
-//                boothsJSON += "\(photo.value(forKey: "number")): http://130.65.159.80/\(photo.value(forKey: "number")).png, "
-//            }
-//            boothsJSON.remove(at: boothsJSON.endIndex)
-//            boothsJSON.remove(at: boothsJSON.endIndex)
-//            boothsJSON += "], "
+            let boothArray: Dictionary<String, Any> = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
+            boothsJSON += "\(booth.id): \(boothArray), "
         }
-//        boothsJSON.remove(at: boothsJSON.endIndex)
-//        boothsJSON.remove(at: boothsJSON.endIndex)
-//        boothsJSON += "]"
-        let post = [ "mapID": "\(mapID)", "booths": "\(boothsJSON)"]
+        
+        boothsJSON = boothsJSON.substring(to: boothsJSON.index(boothsJSON.endIndex, offsetBy: -2)) + "]"
+        print(boothsJSON)
+        let post = [ "mapID": "\(mapID)", "user": "hk.at.dang@gmail.com", "booths": "\(boothsJSON)"]
         request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: [])
         URLSession.shared.dataTask(with: request, completionHandler:
             {

@@ -164,11 +164,11 @@ class SignUpViewController: UIViewController {
                         print("result: \(resultValue)\n")
                         
                         var isUserRegistered : Bool = false
-                        if(resultValue == "Success")
+                        if(resultValue == "success")
                         {
                             isUserRegistered = true
                         }
-                        var messageToDisplay = parseJSON["message"] as! String!
+                        let messageToDisplay = parseJSON["message"] as! String!
                         
                         if(!isUserRegistered)
                         {
@@ -202,7 +202,6 @@ class SignUpViewController: UIViewController {
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
         {
             (action:UIAlertAction) in
-            
             self.dismiss(animated: true, completion: nil)
         }
         alert.addAction(ok)
