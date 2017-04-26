@@ -30,6 +30,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         request.httpMethod = "POST";
         
         let postString = "searchWord=\(searchWord)"
+
         
         request.httpBody = postString.data(using: String.Encoding.utf8)
 
