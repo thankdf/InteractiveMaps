@@ -65,7 +65,10 @@ extension ViewController : CLLocationManagerDelegate {
         print("error:: \(error)")
     }
     
+
     override func viewDidAppear(_ animated: Bool) {
+
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: true)
 
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString("1 Infinite Loop, CA, USA") {
@@ -87,8 +90,18 @@ extension ViewController : CLLocationManagerDelegate {
             pin.coordinate = poiCoodinates
             self.mapView.addAnnotation(pin)
         
+
             //add title to the pin
             pin.title = self.selectedLocation?.event_name
+          
+           // if let city = self.selectedLocation?.event_name,
+            let state = self.selectedLocation?.username
+                do {
+                    pin.subtitle = state
+                }
+            
+            
+            
         }
     }
     

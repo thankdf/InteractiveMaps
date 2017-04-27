@@ -48,9 +48,9 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dc7-Bd-RVF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2433" y="50"/>
+            <point key="canvasLocation" x="2537" y="127"/>
         </scene>
-        <!--View Controller-->
+        <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Skeye_UI_New" customModuleProvider="target" sceneMemberID="viewController">
@@ -69,23 +69,22 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="mjm-e4-dSy"/>
                                 </connections>
                             </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ecd-0N-rrh">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                            <tabBar contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="iAN-OH-DIY">
+                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <barButtonItem title="Create a map" id="wgB-1V-Bqb">
-                                        <color key="tintColor" red="0.67615642809999998" green="0.85276192169999998" blue="0.96408913949999997" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="CreateMap:" destination="BYZ-38-t0r" id="szH-Iy-PWG"/>
-                                            <segue destination="tOp-z8-Vqk" kind="show" identifier="createEventSegue" id="HHV-AK-nqI"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <tabBarItem title="Create Event Map" image="Create map" selectedImage="Create map" id="kIJ-uX-j01"/>
+                                    <tabBarItem title="Add Booth details" image="add details" id="end-LV-dD4"/>
+                                    <tabBarItem title="Settings" image="settings" id="nzS-nb-Qd0"/>
                                 </items>
-                                <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </toolbar>
+                                <color key="tintColor" red="0.67615642809999998" green="0.85276192169999998" blue="0.96408913949999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="selectedImageTintColor" red="0.67615642809999998" green="0.85276192169999998" blue="0.96408913949999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </tabBar>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="FdT-kY-i6j"/>
                     <navigationItem key="navigationItem" id="juc-oR-M69"/>
                     <connections>
                         <outlet property="mapView" destination="hgz-Sc-DOf" id="8lr-IE-0gr"/>
@@ -95,10 +94,67 @@
             </objects>
             <point key="canvasLocation" x="1479" y="107"/>
         </scene>
-        <!--View Controller-->
+        <!--Item 2-->
+        <scene sceneID="5fz-5S-MJw">
+            <objects>
+                <viewController id="hnK-VG-k5h" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5ah-FR-Jek"/>
+                        <viewControllerLayoutGuide type="bottom" id="Pgg-L2-9kV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OKC-BE-FHQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 2" id="pEZ-zk-ZOD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l4D-dA-Z1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3327" y="1513"/>
+        </scene>
+        <!--Item 1-->
+        <scene sceneID="Jrl-la-xiq">
+            <objects>
+                <viewController id="yxX-AJ-cgv" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="m7V-R3-KEB"/>
+                        <viewControllerLayoutGuide type="bottom" id="qfP-aY-Tfi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NVe-Or-76C">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 1" id="jMA-EI-ZRx"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9U2-B1-N6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2746" y="943"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="R0e-ji-uRD">
+            <objects>
+                <tabBarController id="jvt-UB-R07" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="58Q-bg-rdY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="yxX-AJ-cgv" kind="relationship" relationship="viewControllers" id="KAm-AU-Aif"/>
+                        <segue destination="hnK-VG-k5h" kind="relationship" relationship="viewControllers" id="ABM-T1-gJE"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="kkJ-xX-5G4"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="krK-gc-W0j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138" y="1067"/>
+        </scene>
+        <!--Create_Event-->
         <scene sceneID="LJj-sK-9US">
             <objects>
-                <viewController id="tOp-z8-Vqk" sceneMemberID="viewController">
+                <viewController title="Create_Event" id="tOp-z8-Vqk" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hK3-Mp-IuU"/>
                         <viewControllerLayoutGuide type="bottom" id="YLA-jq-5vM"/>
@@ -262,11 +318,11 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8qx-fJ-WR9" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="V2e-hu-UPu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="V2e-hu-UPu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.67615642809999998" green="0.85276192169999998" blue="0.96408913949999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -278,7 +334,12 @@
             <point key="canvasLocation" x="380" y="107"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Create map" width="24" height="24"/>
+        <image name="add details" width="26" height="26"/>
+        <image name="settings" width="26" height="26"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kzR-AQ-r1f"/>
+        <segue reference="kkJ-xX-5G4"/>
     </inferredMetricsTieBreakers>
 </document>
