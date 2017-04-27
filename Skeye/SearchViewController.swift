@@ -3,24 +3,30 @@
 //  Skeye_UI_New
 //
 //  Created by Sandeep Kaur on 3/19/17.
-//  Copyright © 2017 Team_Skeye. All rights reserved.
+//  Copyright © 2017 Sandeep Kaur. All rights reserved.
 //
 
 import UIKit
 import MapKit
+import CoreLocation
+
 
 class SearchViewController : UIViewController {
     
-    @IBOutlet weak var createMap: UIButton!
-    
-    var resultSearchController : UISearchController? = nil
+    var resultSearchController:UISearchController? = nil
     
     let locationManager = CLLocationManager()
+    var selectedLocation : LocationModel?
+    
     @IBOutlet weak var mapView: MKMapView!
+    
+    @IBAction func CreateMap(_ sender: Any) {
+        performSegue(withIdentifier: "createEventSegue", sender: self)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.black
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -35,6 +41,8 @@ class SearchViewController : UIViewController {
         resultSearchController?.hidesNavigationBarDuringPresentation = false
         resultSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
+        locationSearchTable.mapView = mapView
+
     }
 }
 
@@ -56,4 +64,33 @@ extension SearchViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error:: \(error)")
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString("1 Infinite Loop, CA, USA") {
+            placemarks, error in
+            let placemark = placemarks?.first
+            let lat = placemark?.location?.coordinate.latitude
+            let lon = placemark?.location?.coordinate.longitude
+            print("Lat: \(lat), Lon: \(lon)")
+        
+            var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
+        
+            poiCoodinates.latitude = CDouble(lat!)
+            poiCoodinates.longitude = CDouble(lon!)
+
+            let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
+            self.mapView.setRegion(viewRegion, animated: true)
+
+            let pin: MKPointAnnotation = MKPointAnnotation()
+            pin.coordinate = poiCoodinates
+            self.mapView.addAnnotation(pin)
+        
+            //add title to the pin
+            pin.title = self.selectedLocation?.event_name
+        }
+    }
+    
+    
 }

@@ -102,7 +102,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         let resultValue: String = parseJSON["status"] as! String
                         print("result: \(resultValue)\n")
                         
-                        if(resultValue == "Success")
+                        if(resultValue == "success")
                         {
                             UserDefaults.standard.set(parseJSON["user"], forKey: "username")
                             UserDefaults.standard.set(parseJSON["usertype"], forKey: "type")

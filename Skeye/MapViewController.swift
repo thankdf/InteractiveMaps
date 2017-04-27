@@ -299,6 +299,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     */
     func createBooth(_ point: CGPoint, _ shape: String)
     {
+        self.view.isUserInteractionEnabled = false
         let location_x = point.x/scrollView.zoomScale
         let location_y = point.y/scrollView.zoomScale
         
@@ -341,12 +342,14 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         self.currentBooth = newButton
                         self.lastBooth = nil
                         self.undoButton.isEnabled = true
+                        self.view.isUserInteractionEnabled = true
                     }
                 }
             }
             catch let error as Error?
             {
                 print("Found an error - \(String(describing: error))")
+                self.view.isUserInteractionEnabled = true
             }
         }).resume()
     }
@@ -443,13 +446,23 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        var boothsJSON: [String: [String: Any]] = [:]
+        var boothsJSON = "["
         for booth in booths
         {
-            boothsJSON["\(booth.id)"] = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
+            let boothArray: Dictionary<String, Any> = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
+            let boothArrayJSON = try! JSONSerialization.data(withJSONObject: boothArray, options: [])
+            boothsJSON += "\(booth.id): \(boothArrayJSON), "
+        }
+        if(boothsJSON != "[")
+        {
+            boothsJSON = boothsJSON.substring(to: boothsJSON.index(boothsJSON.endIndex, offsetBy: -2)) + "]"
+        }
+        else
+        {
+            boothsJSON = ""
         }
         let post = ["mapID": "\(mapID)", "user": "hk.at.dang@gmail.com", "booths": boothsJSON] as [String : Any]
-        request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: .prettyPrinted)
+        request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: [])
         URLSession.shared.dataTask(with: request, completionHandler:
             {
                 (data, response, error) -> Void in
@@ -463,17 +476,15 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                     if let parseJSON = json
                     {
-//                        let resultValue: String = parseJSON["status"] as! String
-//                        print("result: \(resultValue)\n")
-//                        let messageToDisplay = parseJSON["message"] as! String!
-//                        
-//                        DispatchQueue.main.async
-//                        {
-//                            self.displayAlert(messageToDisplay!)
-//                        }
-                        print(parseJSON["mapID"] as! String)
-                        print(parseJSON["user"] as! String)
-                        print(parseJSON["booths"] as! String)
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        let messageToDisplay = parseJSON["message"] as! String!
+                        
+                        DispatchQueue.main.async
+                        {
+                            self.displayAlert(messageToDisplay!)
+                        }
+                        
                     }
                 }
                 catch let error as Error?
