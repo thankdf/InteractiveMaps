@@ -38,8 +38,12 @@ class TabBarController : UITabBarController {
             viewControllers?.remove(at:1)
 
         }
+        //testing commit
         
-        
+    }
+    
+    override func registerForPreviewing(with delegate: UIViewControllerPreviewingDelegate, sourceView: UIView) -> UIViewControllerPreviewing {
+        <#code#>
     }
 
 }
