@@ -22,7 +22,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     
     var data : NSMutableData = NSMutableData()
     
-    let urlPath: String = "http://130.65.159.80/service.php"
+    let urlPath: String = "http://130.65.159.80/service_old.php"
     
     func doSearch(searchWord: String) {
         let url = URL(string: urlPath)
