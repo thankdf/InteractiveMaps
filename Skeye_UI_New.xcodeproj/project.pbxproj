@@ -15,6 +15,7 @@
 		2C8D688E1E7F6D4500EC0A66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C8D688D1E7F6D4500EC0A66 /* Assets.xcassets */; };
 		2C8D68911E7F6D4500EC0A66 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C8D688F1E7F6D4500EC0A66 /* LaunchScreen.storyboard */; };
 		2C8D68991E80590000EC0A66 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8D68981E80590000EC0A66 /* LocationSearchTable.swift */; };
+		2C9ABB4D1EB722430081D70D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ABB4C1EB722430081D70D /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		2C8D68901E7F6D4500EC0A66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C8D68921E7F6D4500EC0A66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C8D68981E80590000EC0A66 /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
+		2C9ABB4C1EB722430081D70D /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				2C8D68921E7F6D4500EC0A66 /* Info.plist */,
 				2C8AEB1E1EA49949005EDCF5 /* HomeModel.swift */,
 				2C8AEB201EA4995A005EDCF5 /* LocationModal.swift */,
+				2C9ABB4C1EB722430081D70D /* TabBarController.swift */,
 			);
 			path = Skeye_UI_New;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				2C8AEB1F1EA49949005EDCF5 /* HomeModel.swift in Sources */,
 				2C8D68991E80590000EC0A66 /* LocationSearchTable.swift in Sources */,
 				2C8D68891E7F6D4500EC0A66 /* ViewController.swift in Sources */,
+				2C9ABB4D1EB722430081D70D /* TabBarController.swift in Sources */,
 				2C8AEB211EA4995A005EDCF5 /* LocationModal.swift in Sources */,
 				2C8D68871E7F6D4500EC0A66 /* AppDelegate.swift in Sources */,
 			);

@@ -307,7 +307,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="aXz-55-ABC">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="aUB-We-GIH" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="aUB-We-GIH" customClass="TabBarController" customModule="Skeye_UI_New" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="onM-wM-ziy">
                         <autoresizingMask key="autoresizingMask"/>
