@@ -10,7 +10,7 @@ import UIKit
 
 class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate
 {
-    /* Delegate-related: mainVC implement protocal fucntion*/
+    /* Delegate-related: mainVC implement protocol fucntion*/
     internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
         whichBooth.info = data
     }

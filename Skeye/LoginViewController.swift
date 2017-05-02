@@ -106,6 +106,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         {
                             UserDefaults.standard.set(parseJSON["user"], forKey: "username")
                             UserDefaults.standard.set(Int(parseJSON["usertype"] as! String)!, forKey: "usertype")
+                            UserDefaults.standard.set((parseJSON["first_name"] as! String) + " " + (parseJSON["last_name"] as! String), forKey: "name")
                             UserDefaults.standard.synchronize()
                             let messageToDisplay = parseJSON["message"] as! String!
                             DispatchQueue.main.async
