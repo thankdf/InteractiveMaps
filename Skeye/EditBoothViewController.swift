@@ -20,11 +20,11 @@ protocol DataSentDelegate {
     
 }
 
-class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
-
-/* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
+class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
+    
+    /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
      parentVC, set "this.delegate = parentVC.self" */
-
+    
     var delegate: DataSentDelegate? = nil;
     var boothRef :BoothShape? = nil
     var name = ""
@@ -41,20 +41,16 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
         boothInfo.text = info
         boothDate.text = date
         
-        //set no photo label
-        if(boothImages.count>0){
-            noPhotoLabel.isHidden = true
-            
-        }
+        
         boothInfo.layer.cornerRadius = 5.0
-
-//       // boothInfo.layer.shadowColor = UIColor.black.cgColor
-//        boothInfo.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-//        boothInfo.layer.shadowOpacity = 1.0
-//        boothInfo.layer.shadowRadius = 2.0
-       
-   
-       
+        
+        //       // boothInfo.layer.shadowColor = UIColor.black.cgColor
+        //        boothInfo.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        //        boothInfo.layer.shadowOpacity = 1.0
+        //        boothInfo.layer.shadowRadius = 2.0
+        
+        
+        
         
         createDatePicker()
         loadImages()
@@ -68,7 +64,6 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
     
     @IBOutlet weak var boothDate: UITextField!
     
-    @IBOutlet weak var noPhotoLabel: UILabel!
     
     @IBOutlet weak var imageScrollView: UIScrollView!
     
@@ -122,7 +117,7 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
         actionSheet.addAction(libButton)
         actionSheet.addAction(cancelButton)
         self.present(actionSheet, animated: true, completion: nil)
-    
+        
     }
     
     //after choosing the image
@@ -131,15 +126,11 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
     {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
         //imageDisplay.contentMode = .scaleAspectFill
-       // imageDisplay.image = chosenImage
+        // imageDisplay.image = chosenImage
         boothImages.append(chosenImage)
         loadImages()//for fun
         
-        //hide no photo label
-//        if imageDisplay.image != nil
-//        {
-//            self.noPhotoLabel.isHidden = true
-//        }
+
         dismiss(animated:true, completion: nil)
     }
     
@@ -165,7 +156,7 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
     
     //load ImageArray into the scroll view
     func loadImages(){
-
+        
         for i in 0..<boothImages.count{
             
             let imageView = UIImageView()
@@ -188,12 +179,12 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
     
     
     func deleteImage(sender: UIGestureRecognizer){
-
+        
         // if long press on user
         if sender.state == UIGestureRecognizerState.began {
-      
+            
             let alertController = UIAlertController(title: "Delete this photo?", message: nil , preferredStyle: .alert)
-
+            
             //cancel button
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
                 alertController.dismiss(animated: true, completion: nil)
@@ -221,11 +212,11 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
             alertController.addAction(deleteAction)
             self.present(alertController, animated: true)
             
-           
+            
             
         }
         
- 
+        
     }
     
     func dateDonePressed(){
@@ -239,19 +230,19 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
         datePickerTxt.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
-        
     
-//    //inorder to save/share photo
-//    func saveshare(){
-//        let myMessage = "Hello world"
-//        let activityVC = UIActivityViewController(activityItems: [myMessage], applicationActivities: nil)
-//        self.present(activityVC, animated: true, completion: nil)
-//    }
+    
+    //    //inorder to save/share photo
+    //    func saveshare(){
+    //        let myMessage = "Hello world"
+    //        let activityVC = UIActivityViewController(activityItems: [myMessage], applicationActivities: nil)
+    //        self.present(activityVC, animated: true, completion: nil)
+    //    }
     
     
     // Done button clicked
     
-    @IBAction func DoneBtnPressed(_ sender: UIButton) {
+    @IBAction func DoneBtnPressed(_ sender: UIBarButtonItem) {
         if delegate != nil
         {
             // check name change
@@ -304,24 +295,22 @@ class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,
         }
     }
     
-    @IBAction func cancelBtnPressed(_ sender: UIButton) {
-        if delegate != nil
-        {
-            /*
-                method to prompt the user exith withtou saving
-            */
-           self.presentingViewController!.dismiss(animated: false, completion: nil) //To dismiss popover
-        }
+    
+    @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
+        self.presentingViewController!.dismiss(animated: true, completion: nil) //To dismiss itself
     }
-
     
+    @IBAction func unwindFromReviewToInfo(segue: UIStoryboardSegue) {
+        
+    }
     
-
     
     // To dismiss keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    
     
     
     

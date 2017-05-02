@@ -184,24 +184,15 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
      */
     func popOver(_ sender: AnyObject)
     {
-        /* This is the line of code that calls the 'prepareforSegue' method */
+        /* This is the line of code that calls the 'prepareforSegue' method, but we are not using, we use storyboard.instantiateViewController instead.*/
         //performSegue(withIdentifier: "editBoothPopover", sender: sender)
         
         let castedSender : BoothShape = sender as! BoothShape
-        
-        //print(sender.name)
-        /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
-        //performSegue(withIdentifier: "editBoothPopover", sender: sender)
-        //print(castedSender.name + " Here!")
-        
-        
-        
+
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
         
         //print(NSStringFromClass(rootVC!.classForCoder))
         
-        
-        //let strBoard = UIStoryboard(name: "Main", bundle: nil)
         let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
         
         
@@ -316,5 +307,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         booth.zoom.isEnabled = true
         booth.move.isEnabled = true
     }
+    
+    
 }
 

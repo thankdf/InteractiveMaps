@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1497A51E52E26F0001478A /* BoothShape.swift */; };
 		6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */; };
-		6A6B9A761E85D21900E4A28D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B9A751E85D21900E4A28D /* SearchViewController.swift */; };
-		6A6B9A781E85D22800E4A28D /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B9A771E85D22800E4A28D /* LocationSearchTable.swift */; };
 		6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */; };
 		6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */; };
 		6AF8C51F1E493BA8006F1B26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C51D1E493BA8006F1B26 /* Main.storyboard */; };
@@ -18,6 +16,12 @@
 		6AF8C5241E493BA8006F1B26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5231E493BA8006F1B26 /* Assets.xcassets */; };
 		6AF8C5271E493BA8006F1B26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */; };
 		6AF8C5321E493BA8006F1B26 /* SkeyeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */; };
+		8500233D1EA7F4AF00FF69A4 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8500233C1EA7F4AF00FF69A4 /* ReviewViewController.swift */; };
+		85329BFA1E8B0E8B0088BB0B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85329BF91E8B0E8B0088BB0B /* LoginViewController.swift */; };
+		8556FD631EB098CE003F749B /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556FD621EB098CE003F749B /* AddReviewViewController.swift */; };
+		8556FD651EB09D9C003F749B /* ReviewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556FD641EB09D9C003F749B /* ReviewTableCell.swift */; };
+		8556FD691EB1C28D003F749B /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556FD681EB1C28D003F749B /* Review.swift */; };
+		85C8ED4E1E9D904B009BFF92 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C8ED4D1E9D904B009BFF92 /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +44,6 @@
 /* Begin PBXFileReference section */
 		6A1497A51E52E26F0001478A /* BoothShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothShape.swift; sourceTree = "<group>"; };
 		6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBoothViewController.swift; sourceTree = "<group>"; };
-		6A6B9A751E85D21900E4A28D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		6A6B9A771E85D22800E4A28D /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		6AF8C5161E493BA7006F1B26 /* Skeye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skeye.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +56,12 @@
 		6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeyeTests.swift; sourceTree = "<group>"; };
 		6AF8C5331E493BA8006F1B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AF8C5381E493BA8006F1B26 /* SkeyeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkeyeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8500233C1EA7F4AF00FF69A4 /* ReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
+		85329BF91E8B0E8B0088BB0B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8556FD621EB098CE003F749B /* AddReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
+		8556FD641EB09D9C003F749B /* ReviewTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableCell.swift; sourceTree = "<group>"; };
+		8556FD681EB1C28D003F749B /* Review.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		85C8ED4D1E9D904B009BFF92 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,14 +119,18 @@
 		6AF8C5181E493BA7006F1B26 /* Skeye */ = {
 			isa = PBXGroup;
 			children = (
-				6A6B9A771E85D22800E4A28D /* LocationSearchTable.swift */,
-				6A6B9A751E85D21900E4A28D /* SearchViewController.swift */,
+				85329BF91E8B0E8B0088BB0B /* LoginViewController.swift */,
+				85C8ED4D1E9D904B009BFF92 /* SignUpViewController.swift */,
 				6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */,
 				6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */,
 				6A1497A51E52E26F0001478A /* BoothShape.swift */,
 				6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */,
-				6AF8C51D1E493BA8006F1B26 /* Main.storyboard */,
+				8556FD621EB098CE003F749B /* AddReviewViewController.swift */,
+				8500233C1EA7F4AF00FF69A4 /* ReviewViewController.swift */,
+				8556FD641EB09D9C003F749B /* ReviewTableCell.swift */,
+				8556FD681EB1C28D003F749B /* Review.swift */,
 				6AF8C5231E493BA8006F1B26 /* Assets.xcassets */,
+				6AF8C51D1E493BA8006F1B26 /* Main.storyboard */,
 				6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */,
 				6AF8C5281E493BA8006F1B26 /* Info.plist */,
 				6AF8C5201E493BA8006F1B26 /* Skeye.xcdatamodeld */,
@@ -203,7 +215,7 @@
 				TargetAttributes = {
 					6AF8C5151E493BA7006F1B26 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7BHCDJ55EZ;
+						DevelopmentTeam = L6LKX4V96N;
 						ProvisioningStyle = Automatic;
 					};
 					6AF8C52C1E493BA8006F1B26 = {
@@ -272,11 +284,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A6B9A781E85D22800E4A28D /* LocationSearchTable.swift in Sources */,
-				6A6B9A761E85D21900E4A28D /* SearchViewController.swift in Sources */,
+				8556FD651EB09D9C003F749B /* ReviewTableCell.swift in Sources */,
+				8500233D1EA7F4AF00FF69A4 /* ReviewViewController.swift in Sources */,
 				6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */,
 				6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */,
+				85329BFA1E8B0E8B0088BB0B /* LoginViewController.swift in Sources */,
+				8556FD631EB098CE003F749B /* AddReviewViewController.swift in Sources */,
 				6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */,
+				8556FD691EB1C28D003F749B /* Review.swift in Sources */,
+				85C8ED4E1E9D904B009BFF92 /* SignUpViewController.swift in Sources */,
 				6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */,
 				6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */,
 			);
@@ -429,7 +445,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				DEVELOPMENT_TEAM = L6LKX4V96N;
 				INFOPLIST_FILE = Skeye/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.Skeye;
@@ -442,7 +458,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				DEVELOPMENT_TEAM = L6LKX4V96N;
 				INFOPLIST_FILE = Skeye/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.Skeye;
