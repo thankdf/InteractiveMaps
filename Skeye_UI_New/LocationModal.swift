@@ -37,7 +37,7 @@ class LocationModel: NSObject {
     //prints object's current state
     
     override var description: String {
-        return "event_name: \(event_name), username: \(username)"
+        return "event_name: \(event_name!), username: \(username!)"
         
 }
 

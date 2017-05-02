@@ -42,8 +42,6 @@ class TabBarController : UITabBarController {
         
     }
     
-    override func registerForPreviewing(with delegate: UIViewControllerPreviewingDelegate, sourceView: UIView) -> UIViewControllerPreviewing {
-        <#code#>
-    }
+  
 
 }
