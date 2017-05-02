@@ -105,9 +105,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         if(resultValue == "success")
                         {
                             UserDefaults.standard.set(parseJSON["user"], forKey: "username")
-                            UserDefaults.standard.set(parseJSON["usertype"], forKey: "type")
+                            UserDefaults.standard.set(Int(parseJSON["usertype"] as! String)!, forKey: "usertype")
                             UserDefaults.standard.synchronize()
-                            self.dismiss(animated: true, completion: nil)
                             let messageToDisplay = parseJSON["message"] as! String!
                             DispatchQueue.main.async
                             {
@@ -150,7 +149,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         {
             (action:UIAlertAction) in
             let rootVC = UIApplication.shared.keyWindow?.rootViewController
-            let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
+            let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
             self.present(searchController, animated: true, completion: nil)
             
         }

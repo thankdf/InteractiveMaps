@@ -1,6 +1,6 @@
 
 //  HomeModel.swift
-//  Skeye_UI_New
+//  Skeye
 //
 //  Created by Sandeep Kaur on 4/16/17.
 //  Copyright © 2017 Sandeep Kaur. All rights reserved.
@@ -57,10 +57,10 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     
     func parseJSON() {
         
-        var jsonResult = [String:Any]()
+        var jsonResult = [[String:Any]]()
         
         do{
-            jsonResult = try JSONSerialization.jsonObject(with: self.data as Data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String:Any]
+            jsonResult = try JSONSerialization.jsonObject(with: self.data as Data, options: JSONSerialization.ReadingOptions.allowFragments) as! [[String:Any]]
             
         } catch let error as NSError {
              print(error)
@@ -68,31 +68,33 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         }
         
             let locations: NSMutableArray = NSMutableArray()
-            let location = LocationModel()
-            
-            //the following insures none of the JsonElement values are nil through optional binding
-            if let event_name = jsonResult["event_name"] as? String,
-               let username = jsonResult["username"] as? String
-
-   /*             let address = jsonElement["Address"] as? String,
-                let latitude = jsonElement["Latitude"] as? String,
-                let longitude = jsonElement["Longitude"] as? String
- */
+            for json in jsonResult
             {
+                //the following insures none of the JsonElement values are nil through optional binding
+                if let event_name = json["event_name"] as? String,
+                    let username = json["username"] as? String
+                    
+                    /*             let address = jsonElement["Address"] as? String,
+                     let latitude = jsonElement["Latitude"] as? String,
+                     let longitude = jsonElement["Longitude"] as? String
+                     */
+                {
+                    
+                    let location = LocationModel()
+                    location.event_name = event_name
+                    location.username = username
+                    
+                    /*             location.address = address
+                     location.latitude = latitude
+                     location.longitude = longitude
+                     
+                     */
+                    locations.add(location)
+                }
                 
-                location.event_name = event_name
-                location.username = username
+                
 
-   /*             location.address = address
-                location.latitude = latitude
-                location.longitude = longitude
-                
- */
             }
-            
-            locations.add(location)
-            
-        
         
             DispatchQueue.main.async(execute: { () -> Void in
             self.delegate.itemsDownloaded(items: locations)

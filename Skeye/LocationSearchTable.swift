@@ -15,10 +15,9 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
     
     var mapView: MKMapView? = nil
     var feedItems: NSArray = NSArray()
-    var listTableView: UITableView! = nil
     var selectedLocation : LocationModel = LocationModel()
     
-   // @IBOutlet weak var listTableView: UITableView!
+    @IBOutlet var listTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

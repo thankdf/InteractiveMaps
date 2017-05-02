@@ -49,6 +49,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     
     /* Booleans */
     var shapeSelected = false //if user selected a shape before tapping on the screen
+    var changeShapeButtonPressed = false //if the user wants to change the shape of the button
+    var changeColorButtonPressed = false //if the user wants to change the color of the button
     
     /* Objects obtained from the database */
     var booths: [BoothShape] = [BoothShape]() //list of booths
@@ -99,8 +101,16 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     {
                         let resultValue: String = parseJSON["status"] as! String
                         print("result: \(resultValue)\n")
-                        let value = parseJSON["map"] as! String
-                        print(value)
+                        let map = parseJSON["map"] as! [String: Any]
+                        let booths = parseJSON["booths"] as! [[String: Any]]
+                        for booth in booths
+                        {
+                            let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
+                            newButton.draw(self.mapImage.bounds)
+                            self.mapImage.addSubview(newButton.button)
+                            self.booths.append(newButton)
+                        }
+                        self.mapName.title = map["event_name"] as? String
                     }
                 }
                 catch let error as Error?
@@ -109,13 +119,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                 }
                 
         }).resume()
-
-        
-        for booth in booths
-        {
-            booth.draw(mapImage.bounds)
-            mapImage.addSubview(booth.button)
-        }
         view.addSubview(scrollView)
     }
     
@@ -134,6 +137,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         didSet
         {
             shapeButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            shapeButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(shapeButtonPressed)))
         }
     }
     
@@ -142,6 +146,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         didSet
         {
             colorButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            colorButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(colorButtonPressed)))
         }
     }
     
@@ -161,6 +166,14 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         {
             saveButton.titleLabel?.adjustsFontSizeToFitWidth = true
             saveButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(save)))
+        }
+    }
+    
+    @IBOutlet weak var mapName: UINavigationItem!
+    {
+        didSet
+        {
+            mapName.title = "Title"
         }
     }
     
@@ -193,7 +206,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         if(shapeSelected == true)
         {
             shapeSelected = false
-            createBooth(gesture.location(in: self.scrollView), "circle")
+            createBooth(gesture.location(in: self.scrollView), "square")
         }
         disableBooths()
         scrollView.isScrollEnabled = true
@@ -246,55 +259,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     }
     
     /*
-    Triggers the popover
-     */
-    func popOver(_ sender: AnyObject)
-    {
-        /* This is the line of code that calls the 'prepareforSegue' method */
-        //performSegue(withIdentifier: "editBoothPopover", sender: sender)
-        
-        let castedSender : BoothShape = sender as! BoothShape
-        
-        //print(sender.name)
-        /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
-        //performSegue(withIdentifier: "editBoothPopover", sender: sender)
-        //print(castedSender.name + " Here!")
-        
-        
-        
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController
-        
-        //print(NSStringFromClass(rootVC!.classForCoder))
-        
-        
-        //let strBoard = UIStoryboard(name: "Main", bundle: nil)
-        let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
-        
-        
-        //get a reference to the view controller for the popover
-        popoverController.boothRef = castedSender //as? BoothShape
-        popoverController.name = castedSender.name
-        popoverController.info = castedSender.info
-        popoverController.date = castedSender.date
-        popoverController.boothImages = castedSender.boothPhotos
-        popoverController.delegate = self
-        
-        // set the presentation style
-        popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
-        
-        // set up the popover presentation controller
-        popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
-        popoverController.popoverPresentationController?.delegate = self
-        popoverController.popoverPresentationController?.sourceView = castedSender.button
-        
-        // set anchor programatically
-        popoverController.popoverPresentationController?.sourceRect = castedSender.button.bounds
-        
-        // present the popover
-        self.present(popoverController, animated: true, completion: nil)
-    }
-    
-    /*
     Creates a booth
     */
     func createBooth(_ point: CGPoint, _ shape: String)
@@ -303,7 +267,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let location_x = point.x/scrollView.zoomScale
         let location_y = point.y/scrollView.zoomScale
         
-        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", 1, "hk.at.dang@gmail.com")
+        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", 1, UserDefaults.standard.string(forKey: "username")!)
         newButton.draw(self.mapImage.bounds)
         self.mapImage.addSubview(newButton.button)
         
@@ -312,8 +276,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        let postString = "event_id=\(mapID)&user=hk.at.dang@gmail.com&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
-//        let postString = "event_id=\(mapID)&user=\(UserDefaults.standard.string(forKey: "username"))&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
+        let postString = "event_id=\(mapID)&user=\(String(describing: UserDefaults.standard.string(forKey: "username")))&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         URLSession.shared.dataTask(with: request, completionHandler:
         {
@@ -336,7 +299,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     {
                         let idNumberString = parseJSON["message"] as! String
                         id = Int(idNumberString)!
-//                                let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", id, UserDefaults.standard.string(forKey: "username")!)
                         newButton.id = id
                         self.booths.append(newButton)
                         self.currentBooth = newButton
@@ -446,20 +408,10 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        var boothsJSON = "["
+        var boothsJSON: [String:[String: Any]] = [:]
         for booth in booths
         {
-            let boothArray: Dictionary<String, Any> = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
-            let boothArrayJSON = try! JSONSerialization.data(withJSONObject: boothArray, options: [])
-            boothsJSON += "\(booth.id): \(boothArrayJSON), "
-        }
-        if(boothsJSON != "[")
-        {
-            boothsJSON = boothsJSON.substring(to: boothsJSON.index(boothsJSON.endIndex, offsetBy: -2)) + "]"
-        }
-        else
-        {
-            boothsJSON = ""
+            boothsJSON["\(booth.id)"] = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
         }
         let post = ["mapID": "\(mapID)", "user": "hk.at.dang@gmail.com", "booths": boothsJSON] as [String : Any]
         request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: [])
@@ -484,7 +436,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         {
                             self.displayAlert(messageToDisplay!)
                         }
-                        
                     }
                 }
                 catch let error as Error?
@@ -506,5 +457,67 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func shapeButtonPressed()
+    {
+        changeShapeButtonPressed = true
+    }
+    
+    func colorButtonPressed()
+    {
+        changeColorButtonPressed = true
+    }
+    
+    //For Booth Owners
+    
+//        /*
+//        Triggers the popover
+//         */
+//        func popOver(_ sender: AnyObject)
+//        {
+//            /* This is the line of code that calls the 'prepareforSegue' method */
+//            //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+//    
+//            let castedSender : BoothShape = sender as! BoothShape
+//    
+//            //print(sender.name)
+//            /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
+//            //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+//            //print(castedSender.name + " Here!")
+//    
+//    
+//    
+//            let rootVC = UIApplication.shared.keyWindow?.rootViewController
+//    
+//            //print(NSStringFromClass(rootVC!.classForCoder))
+//    
+//    
+//            //let strBoard = UIStoryboard(name: "Main", bundle: nil)
+//            let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
+//    
+//    
+//            //get a reference to the view controller for the popover
+//            popoverController.boothRef = castedSender //as? BoothShape
+//            popoverController.name = castedSender.name
+//            popoverController.info = castedSender.info
+//            popoverController.date = castedSender.date
+//            popoverController.boothImages = castedSender.boothPhotos
+//            popoverController.delegate = self
+//    
+//            // set the presentation style
+//            popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
+//    
+//            // set up the popover presentation controller
+//            popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
+//            popoverController.popoverPresentationController?.delegate = self
+//            popoverController.popoverPresentationController?.sourceView = castedSender.button
+//    
+//            // set anchor programatically
+//            popoverController.popoverPresentationController?.sourceRect = castedSender.button.bounds
+//            
+//            // present the popover
+//            self.present(popoverController, animated: true, completion: nil)
+//        }
+
 }
 

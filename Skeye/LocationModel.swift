@@ -1,6 +1,6 @@
 //
 //  LocationModal.swift
-//  Skeye_UI_New
+//  Skeye
 //
 //  Created by Sandeep Kaur on 4/16/17.
 //  Copyright © 2017 Sandeep Kaur. All rights reserved.
@@ -37,7 +37,7 @@ class LocationModel: NSObject {
     //prints object's current state
     
     override var description: String {
-        return "event_name: \(event_name), username: \(username)"
+        return "event_name: \(event_name!), username: \(username!)"
         
 }
 

@@ -86,12 +86,37 @@ class BoothShape
                     button.setBackgroundImage(UIImage.init(named: "WhiteCircle"), for: UIControlState.normal)
                 case("red"):
                     button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
+                case("orange"):
+                    button.setBackgroundImage(UIImage.init(named: "OrangeCircle"), for: UIControlState.normal)
                 case("yellow"):
                     button.setBackgroundImage(UIImage.init(named: "YellowCircle"), for: UIControlState.normal)
+                case("green"):
+                    button.setBackgroundImage(UIImage.init(named: "GreenCircle"), for: UIControlState.normal)
                 case("blue"):
                     button.setBackgroundImage(UIImage.init(named: "BlueCircle"), for: UIControlState.normal)
+                case("purple"):
+                    button.setBackgroundImage(UIImage.init(named: "PurpleCircle"), for: UIControlState.normal)
                 default: break
                 }
+            case "square":
+                switch(col)
+                {
+                case("white"):
+                    button.setBackgroundImage(UIImage.init(named: "WhiteSquare"), for: UIControlState.normal)
+                case("red"):
+                    button.setBackgroundImage(UIImage.init(named: "RedSquare"), for: UIControlState.normal)
+                case("orange"):
+                    button.setBackgroundImage(UIImage.init(named: "OrangeSquare"), for: UIControlState.normal)
+                case("yellow"):
+                    button.setBackgroundImage(UIImage.init(named: "YellowSquare"), for: UIControlState.normal)
+                case("green"):
+                    button.setBackgroundImage(UIImage.init(named: "GreenSquare"), for: UIControlState.normal)
+                case("blue"):
+                    button.setBackgroundImage(UIImage.init(named: "BlueSquare"), for: UIControlState.normal)
+                case("purple"):
+                    button.setBackgroundImage(UIImage.init(named: "PurpleSquare"), for: UIControlState.normal)
+                default: break
+            }
             default: break
         }
         
@@ -99,7 +124,7 @@ class BoothShape
         zoom = UIPinchGestureRecognizer.init(target: self, action: #selector(pinch))
         select = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         move = UIPanGestureRecognizer.init(target: self, action: #selector(pan))
-        press = UILongPressGestureRecognizer.init(target: self, action: #selector((popOver)))
+        press = UILongPressGestureRecognizer.init(target: self, action: #selector((popOverBoothDetails)))
         
         //adds the gesture recognizers to the button
         button.addGestureRecognizer(zoom)
@@ -119,26 +144,144 @@ class BoothShape
     {
         if let controller = UIApplication.shared.keyWindow?.rootViewController as? MapViewController
         {
-            controller.scrollView.isScrollEnabled = false
-            controller.disableZoom()
-            for booth in controller.booths
+            if(zoom.isEnabled && move.isEnabled && press.isEnabled)
             {
-                booth.zoom.isEnabled = false
-                booth.move.isEnabled = false
+                if(controller.changeShapeButtonPressed)
+                {
+                    switch(geometry)
+                    {
+                    case("circle"):
+                        switch(col)
+                        {
+                        case("white"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "WhiteSquare"), for: UIControlState.normal)
+                        case("red"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "RedSquare"), for: UIControlState.normal)
+                        case("orange"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "OrangeSquare"), for: UIControlState.normal)
+                        case("yellow"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "YellowSquare"), for: UIControlState.normal)
+                        case("green"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "GreenSquare"), for: UIControlState.normal)
+                        case("blue"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "BlueSquare"), for: UIControlState.normal)
+                        case("purple"):
+                            geometry = "square"
+                            button.setBackgroundImage(UIImage.init(named: "PurpleSquare"), for: UIControlState.normal)
+                        default: break
+                        }
+                    case "square":
+                        switch(col)
+                        {
+                        case("white"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "WhiteCircle"), for: UIControlState.normal)
+                        case("red"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
+                        case("orange"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "OrangeCircle"), for: UIControlState.normal)
+                        case("yellow"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "YellowCircle"), for: UIControlState.normal)
+                        case("green"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "GreenCircle"), for: UIControlState.normal)
+                        case("blue"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "BlueCircle"), for: UIControlState.normal)
+                        case("purple"):
+                            geometry = "circle"
+                            button.setBackgroundImage(UIImage.init(named: "PurpleCircle"), for: UIControlState.normal)
+                        default: break
+                        }
+                        
+                    default: break
+                    }
+                    controller.changeShapeButtonPressed = false
+                }
+                else if(controller.changeColorButtonPressed)
+                {
+                    switch(geometry)
+                    {
+                    case("circle"):
+                        switch(col)
+                        {
+                        case("white"):
+                            col = "red"
+                            button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
+                        case("red"):
+                            col = "orange"
+                            button.setBackgroundImage(UIImage.init(named: "OrangeCircle"), for: UIControlState.normal)
+                        case("orange"):
+                            col = "yellow"
+                            button.setBackgroundImage(UIImage.init(named: "YellowCircle"), for: UIControlState.normal)
+                        case("yellow"):
+                            col = "green"
+                            button.setBackgroundImage(UIImage.init(named: "GreenCircle"), for: UIControlState.normal)
+                        case("green"):
+                            col = "blue"
+                            button.setBackgroundImage(UIImage.init(named: "BlueCircle"), for: UIControlState.normal)
+                        case("blue"):
+                            col = "purple"
+                            button.setBackgroundImage(UIImage.init(named: "PurpleCircle"), for: UIControlState.normal)
+                        case("purple"):
+                            col = "white"
+                            button.setBackgroundImage(UIImage.init(named: "WhiteCircle"), for: UIControlState.normal)
+                        default: break
+                        }
+                    case "square":
+                        switch(col)
+                        {
+                        case("white"):
+                            col = "red"
+                            button.setBackgroundImage(UIImage.init(named: "RedSquare"), for: UIControlState.normal)
+                        case("red"):
+                            col = "orange"
+                            button.setBackgroundImage(UIImage.init(named: "OrangeSquare"), for: UIControlState.normal)
+                        case("orange"):
+                            col = "yellow"
+                            button.setBackgroundImage(UIImage.init(named: "YellowSquare"), for: UIControlState.normal)
+                        case("yellow"):
+                            col = "green"
+                            button.setBackgroundImage(UIImage.init(named: "GreenSquare"), for: UIControlState.normal)
+                        case("green"):
+                            col = "blue"
+                            button.setBackgroundImage(UIImage.init(named: "BlueSquare"), for: UIControlState.normal)
+                        case("blue"):
+                            col = "purple"
+                            button.setBackgroundImage(UIImage.init(named: "PurpleSquare"), for: UIControlState.normal)
+                        case("purple"):
+                            col = "white"
+                            button.setBackgroundImage(UIImage.init(named: "WhiteSquare"), for: UIControlState.normal)
+                        default: break
+                        }
+                        
+                    default: break
+                    }
+                    controller.changeColorButtonPressed = false
+                }
             }
-        }
-        zoom.isEnabled = true
-        move.isEnabled = true
-        press.isEnabled = true
-        if(col == "red")
-        {
-            col = "yellow"
-            button.setBackgroundImage(UIImage.init(named: "YellowCircle"), for: UIControlState.normal)
-        }
-        else
-        {
-            col = "red"
-            button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
+            else
+            {
+                controller.scrollView.isScrollEnabled = false
+                controller.disableZoom()
+                for booth in controller.booths
+                {
+                    booth.zoom.isEnabled = false
+                    booth.move.isEnabled = false
+                }
+                zoom.isEnabled = true
+                move.isEnabled = true
+                press.isEnabled = true
+            }
         }
     }
     
@@ -202,10 +345,19 @@ class BoothShape
     /*
      Initiates popover function in the view controller
     */
-    @objc func popOver(gesture: UILongPressGestureRecognizer)
+    @objc func popOverBoothDetails(gesture: UILongPressGestureRecognizer)
+    {
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController as! AttendeeMapViewController
+        rootVC.popOver(self)
+    }
+    
+    /*
+     Initiates popover function in the view controller
+     */
+    @objc func popOverEventCoordinator(gesture: UILongPressGestureRecognizer)
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController as! MapViewController
-        rootVC.popOver(self)
+        //rootVC.popOver(self)
     }
     
     /*
