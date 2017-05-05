@@ -10,7 +10,7 @@ import UIKit
 
 class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate
 {
-    /* Delegate-related: mainVC implement protocal fucntion*/
+    /* Returns data from Edit Booth View Controller to save*/
     internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
         whichBooth.info = data
     }
@@ -46,6 +46,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     /* Adjust sizes */
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var stack: UIStackView!
+    @IBOutlet weak var permissionsBar: UIView!
     
     /* Booleans */
     var shapeSelected = false //if user selected a shape before tapping on the screen
@@ -64,63 +65,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     
     /* Map Variables */
     var mapID: Int = 1
-    
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        scrollView.frame = view.bounds
-        stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
-        navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
-        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
-        scrollView.contentSize = mapImage.bounds.size
-        scrollView.delegate = self
-        scrollView.addSubview(mapImage)
-        mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
-        enableZoom()
-        
-        let ipAddress = "http://130.65.159.80/RetrieveMap.php"
-        let url = URL(string: ipAddress)
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST"
-        
-        let postString = "eventID=\(mapID)"
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        
-        URLSession.shared.dataTask(with: request, completionHandler:
-            {
-                (data, response, error) -> Void in
-                if(error != nil)
-                {
-                    print("error=\(String(describing: error))\n")
-                    return
-                }
-                do
-                {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                    if let parseJSON = json
-                    {
-                        let resultValue: String = parseJSON["status"] as! String
-                        print("result: \(resultValue)\n")
-                        let map = parseJSON["map"] as! [String: Any]
-                        let booths = parseJSON["booths"] as! [[String: Any]]
-                        for booth in booths
-                        {
-                            let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
-                            newButton.draw(self.mapImage.bounds)
-                            self.mapImage.addSubview(newButton.button)
-                            self.booths.append(newButton)
-                        }
-                        self.mapName.title = map["event_name"] as? String
-                    }
-                }
-                catch let error as Error?
-                {
-                    print("Found an error - \(String(describing: error))")
-                }
-                
-        }).resume()
-        view.addSubview(scrollView)
-    }
     
     /* Buttons */
     @IBOutlet weak var boothButton: UIButton!
@@ -169,12 +113,126 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         }
     }
     
+    @IBOutlet weak var permissionsSaveButton: UIButton!
+    {
+        didSet
+        {
+            permissionsSaveButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            permissionsSaveButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(changePermissions)))
+        }
+    }
+    
+    /* Permissions Text Field */
+    @IBOutlet weak var permissionsText: UITextField!
+    {
+        didSet
+        {
+            permissionsText.isEnabled = false
+        }
+    }
+    
+    
+    /* Event name */
     @IBOutlet weak var mapName: UINavigationItem!
     {
         didSet
         {
             mapName.title = "Title"
         }
+    }
+    
+    /* Permissions Label */
+    @IBOutlet weak var permissionsLabel: UILabel!
+    {
+        didSet
+        {
+            permissionsLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    /* Activity Indicator */
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    {
+        didSet
+        {
+            loadingView.hidesWhenStopped = true
+        }
+    }
+    
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        view.isUserInteractionEnabled = false
+        scrollView.frame = view.bounds
+        
+        //Sets stack, navbar, and permissions bar each at 1/10th of the view display
+        stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        permissionsBar.frame = CGRect.init(x: 0, y: 8 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        
+        //Sets up the map image
+        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        
+        //Sets up the scroll view
+        scrollView.contentSize = mapImage.bounds.size
+        scrollView.delegate = self
+        scrollView.addSubview(mapImage)
+        
+        //Adds gesture recognizer and repositions map to correct view
+        mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
+        enableZoom()
+        loadingView.startAnimating()
+        
+        //HTTP Request to retrieve map and booth information
+        let ipAddress = "http://130.65.159.80/RetrieveMap.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        
+        let postString = "eventID=\(mapID)"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        let map = parseJSON["map"] as! [String: Any]
+                        let booths = parseJSON["booths"] as! [[String: Any]]
+
+                        for booth in booths
+                        {
+                            let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
+                            newButton.draw(self.mapImage.bounds)
+                            self.mapImage.addSubview(newButton.button)
+                            self.booths.append(newButton)
+                        }
+                        self.mapName.title = map["event_name"] as? String
+                        self.view.isUserInteractionEnabled = true
+                        self.loadingView.stopAnimating()
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                    self.view.isUserInteractionEnabled = true
+                    self.loadingView.stopAnimating()
+                }
+                
+        }).resume()
+        view.addSubview(scrollView)
+        view.addSubview(loadingView)
     }
     
     override func viewWillLayoutSubviews()
@@ -208,6 +266,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             shapeSelected = false
             createBooth(gesture.location(in: self.scrollView), "square")
         }
+        permissionsText.text = ""
+        permissionsText.isEnabled = false
         disableBooths()
         scrollView.isScrollEnabled = true
         enableZoom()
@@ -270,13 +330,14 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", 1, UserDefaults.standard.string(forKey: "username")!)
         newButton.draw(self.mapImage.bounds)
         self.mapImage.addSubview(newButton.button)
+        loadingView.startAnimating()
         
         //Retrieves ID Number
         let ipAddress = "http://130.65.159.80/RetrieveBoothID.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        let postString = "event_id=\(mapID)&user=\(String(describing: UserDefaults.standard.string(forKey: "username")))&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
+        let postString = "event_id=\(mapID)&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         URLSession.shared.dataTask(with: request, completionHandler:
         {
@@ -292,7 +353,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                 let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                 if let parseJSON = json
                 {
-                    let resultValue: String = parseJSON["status"] as! String
+                    let resultValue = parseJSON["status"] as! String
                     print("result: \(resultValue)\n")
                     
                     if(resultValue == "success")
@@ -306,12 +367,14 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         self.undoButton.isEnabled = true
                         self.view.isUserInteractionEnabled = true
                     }
+                    self.loadingView.stopAnimating()
                 }
             }
             catch let error as Error?
             {
                 print("Found an error - \(String(describing: error))")
                 self.view.isUserInteractionEnabled = true
+                self.loadingView.stopAnimating()
             }
         }).resume()
     }
@@ -334,16 +397,18 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             undoButton.isEnabled = false
             for booth in booths
             {
-                if(currentBooth != nil && lastBooth == nil) //undoing a create booth
+                if(currentBooth != nil && lastBooth == nil) //Undoing a create booth
                 {
                     if(booth.equals(currentBooth!))
                     {
                         currentBooth!.button.removeFromSuperview()
                         booths = booths.filter{$0.button != booth.button}
                         currentBooth = nil
+                        permissionsText.text = ""
+                        permissionsText.isEnabled = false
                     }
                 }
-                else if(lastBooth != nil && currentBooth == nil) //undoing a delete booth
+                else if(lastBooth != nil && currentBooth == nil) //Undoing a delete booth
                 {
                     if(booth.equals(lastBooth!))
                     {
@@ -352,10 +417,12 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         disableBooths()
                         enableBooth(lastBooth!)
                         booths.append(lastBooth!)
+                        permissionsText.text = lastBooth!.user
+                        permissionsText.isEnabled = true
                         lastBooth = nil
                     }
                 }
-                else if(lastBooth != nil && currentBooth != nil) //undoing other function
+                else if(lastBooth != nil && currentBooth != nil) //Undoing other function
                 {
                     currentBooth!.button.removeFromSuperview()
                     booths = booths.filter{$0.button != booth.button}
@@ -365,6 +432,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     disableBooths()
                     enableBooth(lastBooth!)
                     booths.append(lastBooth!)
+                    permissionsText.text = lastBooth!.user
+                    permissionsText.isEnabled = true
                     lastBooth = nil
                 }
             }
@@ -408,6 +477,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
+        loadingView.startAnimating()
         var boothsJSON: [String:[String: Any]] = [:]
         for booth in booths
         {
@@ -431,31 +501,21 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         let resultValue: String = parseJSON["status"] as! String
                         print("result: \(resultValue)\n")
                         let messageToDisplay = parseJSON["message"] as! String!
+                        self.loadingView.stopAnimating()
                         
                         DispatchQueue.main.async
                         {
-                            self.displayAlert(messageToDisplay!)
+                            self.displaySaveAlert(messageToDisplay!)
                         }
                     }
                 }
                 catch let error as Error?
                 {
                     print("Found an error - \(String(describing: error))")
+                    self.loadingView.stopAnimating()
                 }
                 
         }).resume()
-    }
-    
-    private func displayAlert(_ message: String)
-    {
-        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
-        {
-            (action:UIAlertAction) in
-           self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
     }
     
     func shapeButtonPressed()
@@ -468,7 +528,92 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         changeColorButtonPressed = true
     }
     
-    //For Booth Owners
+    func changePermissions(_ gesture: UITapGestureRecognizer)
+    {
+        if(permissionsText.text == "" || permissionsText.text == "null")
+        {
+            DispatchQueue.main.async
+            {
+                self.displayChangeAlert("No booth is selected to make a change.")
+            }
+        }
+        else
+        {
+            let oldPermissionsText = currentBooth!.user
+            if(oldPermissionsText != permissionsText.text)
+            {
+                let ipAddress = "http://130.65.159.80/SavePermissions.php"
+                let url = URL(string: ipAddress)
+                var request = URLRequest(url: url!)
+                request.httpMethod = "POST"
+                let postString = "newPermissionsText=\(permissionsText.text!)&boothID=\(currentBooth!.id)"
+                print(postString)
+                request.httpBody = postString.data(using: String.Encoding.utf8)
+                
+                URLSession.shared.dataTask(with: request, completionHandler:
+                    {
+                        (data, response, error) -> Void in
+                        if(error != nil)
+                        {
+                            print("error=\(String(describing: error))\n")
+                            return
+                        }
+                        do
+                        {
+                            let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                            if let parseJSON = json
+                            {
+                                let resultValue = parseJSON["status"] as! String!
+                                print("result: \(resultValue)\n")
+                                let messageToDisplay = parseJSON["message"] as! String!
+                                
+                                DispatchQueue.main.async
+                                {
+                                    self.displayChangeAlert(messageToDisplay!)
+                                }
+                                self.currentBooth!.user = self.permissionsText.text!
+                                for booth in self.booths
+                                {
+                                    if(booth.id == self.currentBooth!.id)
+                                    {
+                                         booth.user = self.permissionsText.text!
+                                    }
+                                }
+                            }
+                        }
+                        catch let error as Error?
+                        {
+                            print("Found an error - \(String(describing: error))")
+                            DispatchQueue.main.async
+                            {
+                                self.displayChangeAlert("User does not exist.")
+                            }
+                        }
+                        
+                }).resume()
+            }
+        }
+    }
+    
+    private func displaySaveAlert(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func displayChangeAlert(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
     
 //        /*
 //        Triggers the popover

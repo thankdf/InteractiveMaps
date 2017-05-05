@@ -1,9 +1,9 @@
 //
-//  ViewController.swift
-//  Skeye_UI_New
+//  SearchViewController.swift
+//  Skeye
 //
 //  Created by Sandeep Kaur on 3/19/17.
-//  Copyright © 2017 Sandeep Kaur. All rights reserved.
+//  Copyright © 2017 Team Skeye. All rights reserved.
 //
 
 import UIKit

@@ -10,7 +10,7 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
-    @IBOutlet weak var buttonView: UIView!
+    @IBOutlet weak var buttonStackView: UIStackView!
     
     //Buttons
     @IBOutlet weak var coordinatorButton: UIButton!
@@ -71,18 +71,20 @@ class SignUpViewController: UIViewController {
         let button = gesture.view as? UIButton
         let text = button?.titleLabel!.text!
         
-        for subview in buttonView.subviews
+        for subview in buttonStackView.subviews
         {
             if let button = subview as? UIButton
             {
                 if button.titleLabel?.text == text
                 {
-                    button.backgroundColor = UIColor.red
+                    button.backgroundColor = UIColor.init(red: 53.0/255, green: 220.0/255, blue: 53.0/255, alpha: 1)
+                    button.setTitleColor(UIColor.black, for: .normal)
                 }
                 else
                 {
                     //custom color we have chose for sign up, modify this later
-                    button.backgroundColor = UIColor.init(red: 0.0/255, green: 55.0/255, blue: 255.0/255, alpha: 1)
+                    button.backgroundColor = UIColor.init(red: 14.0/255, green: 97.0/255, blue: 90.0/255, alpha: 1)
+                    button.setTitleColor(UIColor.white, for: .normal)
                 }
             }
         }

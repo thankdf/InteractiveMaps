@@ -23,28 +23,25 @@ extension UITextField{
 
 class LoginViewController: UIViewController,UITextFieldDelegate {
     
+    //Text Fields
     @IBOutlet weak var usernameTextField: UITextField!
-    
     @IBOutlet weak var passwordTextField: UITextField!
     
+    //Login and Sign Up Buttons
     @IBOutlet weak var loginButton: UIButton!
-    
     @IBOutlet weak var signUpField: UIButton!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        scrollView.bounds = CGRect.init(origin: CGPoint.init(x: 0, y: 0), size: CGSize.init(width: self.view.bounds.width, height: self.view.bounds.height))
         loginButton.isEnabled = false
         signUpField.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(signUpPressed)))
     }
     
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool// called when 'return' key pressed. return NO to ignore.
-//    {
-//        textField.resignFirstResponder()
-//        return true;
-//    }
-    
-    //check empty textfield
+    //Check if username field is empty to enable login button
     @IBAction func usernameTextFieldChanged(_ sender: UITextField) {
         if (!(usernameTextField.text?.isEmpty)! && !(passwordTextField.text?.isEmpty)!)
         {
@@ -59,7 +56,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-    //check empty textfield
+    //Check if password field is empty to enable login button
     @IBAction func passwordTextFieldChanged(_ sender: UITextField) {
         if (!(usernameTextField.text?.isEmpty)! && !(passwordTextField.text?.isEmpty)!)
         {
@@ -76,6 +73,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func loginButtonTapped(_ sender: UIButton)
     {
+        //HTTP Request
         let email = usernameTextField.text!
         let password = passwordTextField.text!
         let ipAddress = "http://130.65.159.80/Login.php"
@@ -104,6 +102,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         
                         if(resultValue == "success")
                         {
+                            //Setting user defaults for later access
                             UserDefaults.standard.set(parseJSON["user"], forKey: "username")
                             UserDefaults.standard.set(Int(parseJSON["usertype"] as! String)!, forKey: "usertype")
                             UserDefaults.standard.set((parseJSON["first_name"] as! String) + " " + (parseJSON["last_name"] as! String), forKey: "name")
@@ -134,6 +133,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
     }
     
+    //User was not able to login
     private func displayAlertFailure(_ message: String)
     {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -142,7 +142,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
+    //User is logged in and is redirected to search map page
     private func displayAlertSuccess(_ message: String)
     {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -158,6 +158,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    //Sign Up button pressed to redirect to sign up view controller
     func signUpPressed(gesture: UITapGestureRecognizer)
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
@@ -166,7 +167,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     }
     
     
-    //to hide keyboard
+    //Hides keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
         self.view.endEditing(true)

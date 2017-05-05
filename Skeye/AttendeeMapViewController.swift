@@ -55,17 +55,31 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     /* Map Variables */
     var mapID: Int = 1
     
+    /* Activity Indicator */
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        view.isUserInteractionEnabled = false
         scrollView.frame = view.bounds
+        
+        //Sets navbar bar each at 1/10th of the view display
         navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        
+        //Sets up the map image
         mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        
+         //Sets up the scroll view
         scrollView.contentSize = mapImage.bounds.size
         scrollView.delegate = self
         scrollView.addSubview(mapImage)
-        enableZoom()
         
+        //Repositions map to correct view
+        enableZoom()
+        loadingView.startAnimating()
+        
+        //HTTP Request to retrieve map and booth information
         let ipAddress = "http://130.65.159.80/RetrieveMap.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
@@ -99,15 +113,20 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
                             self.booths.append(newButton)
                         }
                         self.mapName.title = map["event_name"] as? String
+                        self.view.isUserInteractionEnabled = true
+                        self.loadingView.stopAnimating()
                     }
                 }
                 catch let error as Error?
                 {
                     print("Found an error - \(String(describing: error))")
+                    self.view.isUserInteractionEnabled = true
+                    self.loadingView.stopAnimating()
                 }
                 
         }).resume()
         view.addSubview(scrollView)
+        view.addSubview(loadingView)
     }
     @IBOutlet weak var mapName: UINavigationItem!
     {

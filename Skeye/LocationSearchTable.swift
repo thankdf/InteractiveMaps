@@ -1,14 +1,15 @@
 //
 //  LocationSearchTable.swift
-//  Skeye_UI_New
+//  Skeye
 //
-//  Created by Sandeep Kaur on 3/20/17.
-//  Copyright © 2017 Sandeep Kaur. All rights reserved.
+//  Created by Sandeep Kaur on 3/28/17.
+//  Copyright © 2017 Team Skeye. All rights reserved.
 //
 
 
 import MapKit
 import UIKit
+
 class LocationSearchTable : UIViewController, UITableViewDataSource, UITableViewDelegate, HomeModelProtocal, UISearchBarDelegate, UIKit.UISearchResultsUpdating{
 
     //Properties
@@ -30,6 +31,8 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
 
         
     }
+    
+    
     func updateSearchResults(for searchController: UISearchController)
     
     {

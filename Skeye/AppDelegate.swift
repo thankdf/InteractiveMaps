@@ -3,7 +3,7 @@
 //  Skeye
 //
 //  Created by Kevin Dang on 2/6/17.
-//  Copyright © 2017 Team_Skeye. All rights reserved.
+//  Copyright © 2017 Team Skeye. All rights reserved.
 //
 
 import UIKit

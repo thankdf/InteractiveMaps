@@ -10,6 +10,7 @@ import UIKit
 
 class BoothShape
 {
+    //Booth object variables
     var button: UIButton
     var origin: CGPoint
     var rectangle: CGSize
@@ -35,12 +36,13 @@ class BoothShape
         geometry = shape
         col = color
         button = UIButton()
-        button.setTitle("Test!", for: UIControlState.normal)
         zoom = UIPinchGestureRecognizer.init();
         select = UITapGestureRecognizer.init();
         move = UIPanGestureRecognizer.init();
         press = UILongPressGestureRecognizer.init()
         name = "Default name"
+        button.setTitle(name, for: UIControlState.normal)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         info = "Default info"
         date = ""
         boothPhotos = []
@@ -55,12 +57,13 @@ class BoothShape
         geometry = shape
         col = color
         button = click
-        button.setTitle("Test!", for: UIControlState.normal)
         zoom = zoomGesture
         select = selectGesture
         move = moveGesture
         press = UILongPressGestureRecognizer.init()
         name = boothName
+        button.setTitle(name, for: UIControlState.normal)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         info = information
         date = time
         boothPhotos = booths
@@ -75,7 +78,8 @@ class BoothShape
     func draw(_ rect: CGRect)
     {
         button = UIButton.init(frame: CGRect.init(origin: CGPoint.init(x: origin.x - rectangle.width/2, y: origin.y - rectangle.height/2), size: rectangle))
-        button.setTitle("Test!", for: UIControlState.normal)
+        button.setTitle(name, for: UIControlState.normal)
+        
         //draws shapes
         switch(geometry)
         {
@@ -273,6 +277,8 @@ class BoothShape
             {
                 controller.scrollView.isScrollEnabled = false
                 controller.disableZoom()
+                controller.permissionsText.text = user
+                controller.permissionsText.isEnabled = true
                 for booth in controller.booths
                 {
                     booth.zoom.isEnabled = false
@@ -281,6 +287,8 @@ class BoothShape
                 zoom.isEnabled = true
                 move.isEnabled = true
                 press.isEnabled = true
+                controller.lastBooth = controller.currentBooth
+                controller.currentBooth = self
             }
         }
     }
