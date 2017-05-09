@@ -19,6 +19,8 @@ class HomeModel: NSObject, URLSessionDataDelegate {
     //properties
     
     weak var delegate: HomeModelProtocal!
+
+
     
     var data : NSMutableData = NSMutableData()
     
@@ -68,32 +70,35 @@ class HomeModel: NSObject, URLSessionDataDelegate {
         }
         
             let locations: NSMutableArray = NSMutableArray()
+
             for json in jsonResult
             {
                 //the following insures none of the JsonElement values are nil through optional binding
                 if let event_name = json["event_name"] as? String,
-                    let username = json["username"] as? String
-                    
-                    /*             let address = jsonElement["Address"] as? String,
-                     let latitude = jsonElement["Latitude"] as? String,
-                     let longitude = jsonElement["Longitude"] as? String
-                     */
+                    let username = json["username"] as? String,
+                    let street_address = json["street_address"] as? String,
+                    let city = json["city"] as? String,
+                    let state = json["state"] as? String,
+                    let zipcode = json["zipcode"] as? String
+
+
+                
                 {
-                    
                     let location = LocationModel()
+
                     location.event_name = event_name
                     location.username = username
+                    location.street_address = street_address
+                    location.city = city
+                    location.state = state
+                    location.zipcode = zipcode
+
+   
                     
-                    /*             location.address = address
-                     location.latitude = latitude
-                     location.longitude = longitude
-                     
-                     */
                     locations.add(location)
                 }
                 
                 
-
             }
         
             DispatchQueue.main.async(execute: { () -> Void in
@@ -101,4 +106,18 @@ class HomeModel: NSObject, URLSessionDataDelegate {
             
         })
     }
+    
+//    func event_address() -> String
+//    {
+//
+//        let street_address1: String = self.location.street_address!
+//        let city = self.location.city! as String
+//        let state = self.location.state! as String
+//        let zipcode = self.location.zipcode! as String
+//        
+//        Address = street_address1+city+state+zipcode
+//        
+//        return Address
+//        
+//    }
 }

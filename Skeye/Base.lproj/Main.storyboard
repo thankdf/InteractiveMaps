@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="y7V-Zg-tqk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="feH-Pt-0hY">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -791,7 +791,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ltn-GX-7it" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1686" y="920"/>
+            <point key="canvasLocation" x="2558" y="-1427"/>
         </scene>
         <!--Location Search Table-->
         <scene sceneID="xQt-b4-Q4F">
@@ -855,6 +855,18 @@
                                     <outlet property="delegate" destination="Flb-lv-0bU" id="XkH-Xf-HSL"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fdz-L1-wzB">
+                                <rect key="frame" x="20" y="28" width="66" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleColor" red="0.69488517989999998" green="0.8772104154" blue="0.98632471639999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="BackButtonPressed:" destination="Flb-lv-0bU" eventType="touchUpInside" id="iV5-02-3n7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -862,11 +874,12 @@
                     <navigationItem key="navigationItem" id="NRf-vn-WRb"/>
                     <connections>
                         <outlet property="mapView" destination="dLO-Zm-iEC" id="IlH-kL-QAi"/>
+                        <segue destination="juw-Bh-f2b" kind="show" identifier="pinToAttendeeView" id="DGX-Nh-zyl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D9u-Lr-udY" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1686" y="-707"/>
+            <point key="canvasLocation" x="1685.5072463768117" y="-707.60869565217399"/>
         </scene>
         <!--Create_Event-->
         <scene sceneID="RaJ-Gt-sIg">
@@ -1117,6 +1130,6 @@
         <image name="settings" width="26" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fuM-aB-SwQ"/>
+        <segue reference="7Oe-yo-lQE"/>
     </inferredMetricsTieBreakers>
 </document>

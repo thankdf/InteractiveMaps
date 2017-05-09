@@ -14,14 +14,19 @@ import CoreLocation
 class SearchViewController : UIViewController {
     
     var resultSearchController:UISearchController? = nil
+    var myAnnotationWithCallout:MKPointAnnotation? = nil
+
     
     let locationManager = CLLocationManager()
     var selectedLocation : LocationModel?
     
     @IBOutlet weak var mapView: MKMapView!
     
-    @IBAction func CreateMap(_ sender: Any) {
-        performSegue(withIdentifier: "createEventSegue", sender: self)
+    @IBAction func BackButtonPressed(_ sender: UIButton) {
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
+        
+        self.present(searchController, animated: true, completion: nil)
         
     }
     
@@ -66,9 +71,12 @@ extension SearchViewController : CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+      //  let homeModel = HomeModel()
+    //   let Event_Address: String = homeModel.event_address()
 
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString("1 Infinite Loop, CA, USA") {
+        geocoder.geocodeAddressString("33300 mission blvd") {
             placemarks, error in
             let placemark = placemarks?.first
             let lat = placemark?.location?.coordinate.latitude
@@ -80,6 +88,7 @@ extension SearchViewController : CLLocationManagerDelegate {
             poiCoodinates.latitude = CDouble(lat!)
             poiCoodinates.longitude = CDouble(lon!)
 
+            
             let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
             self.mapView.setRegion(viewRegion, animated: true)
 
@@ -87,10 +96,36 @@ extension SearchViewController : CLLocationManagerDelegate {
             pin.coordinate = poiCoodinates
             self.mapView.addAnnotation(pin)
         
+            self.myAnnotationWithCallout = pin
+            
             //add title to the pin
             pin.title = self.selectedLocation?.event_name
+            pin.subtitle = self.selectedLocation?.username
+            
+            
+
         }
     }
     
+//     func mapView (_: MKMapView!, regionWillChangeAnimated_: animated)
+//{
+//    if ((myAnnotationWithCallout) != nil)
+//    {
+//    [mapView selectAnnotation: myAnnotationWithCallout animated:YES];
+//    myAnnotationWithCallout = nil;
+//    }
+//    }
+//    
+//    
+    func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+
+        
+        if control == annotationView.rightCalloutAccessoryView {
+            performSegue(withIdentifier: "pinToAttendeeView", sender: self)
+            
+            print("Going to the next VC!")
+        }
+    }
     
 }
