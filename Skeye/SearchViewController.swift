@@ -11,10 +11,12 @@ import MapKit
 import CoreLocation
 
 
-class SearchViewController : UIViewController {
+class SearchViewController : UIViewController, HomeModelProtocal {
     
     var resultSearchController:UISearchController? = nil
     var myAnnotationWithCallout:MKPointAnnotation? = nil
+    var feedItems: NSArray = NSArray()
+    var Address: String = ""
 
     
     let locationManager = CLLocationManager()
@@ -70,13 +72,26 @@ extension SearchViewController : CLLocationManagerDelegate {
         print("error:: \(error)")
     }
     
+    
+    func itemsDownloaded(items: NSArray) {
+        print("tableView is working")
+        feedItems = items
+        print(feedItems)
+        
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
-      //  let homeModel = HomeModel()
-    //   let Event_Address: String = homeModel.event_address()
+        let street_addrees: String =  selectedLocation!.street_address!
+        let city: String =  selectedLocation!.city!
+        let state: String =  selectedLocation!.state!
+        let zipcode: String =  selectedLocation!.zipcode!
 
+        Address = "\(street_addrees), \(city), \(state) \(zipcode)"
+        
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString("33300 mission blvd") {
+        geocoder.geocodeAddressString(Address) {
             placemarks, error in
             let placemark = placemarks?.first
             let lat = placemark?.location?.coordinate.latitude

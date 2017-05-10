@@ -81,6 +81,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                     let state = json["state"] as? String,
                     let zipcode = json["zipcode"] as? String
 
+            //        var address = street_address+city
 
                 
                 {
@@ -120,4 +121,6 @@ class HomeModel: NSObject, URLSessionDataDelegate {
 //        return Address
 //        
 //    }
+    
+    
 }

@@ -20,7 +20,7 @@ class BoothOwnerController : UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var boothListTable: UITableView!
     var data : NSMutableData = NSMutableData()
     
-    let urlPath: String = "http://130.65.159.80/BoothList.php"
+    let urlPath: String = "http://130.65.159.80/BoothList_new.php"
 
     
     override func viewDidLoad() {
@@ -72,7 +72,7 @@ class BoothOwnerController : UIViewController, UITableViewDataSource, UITableVie
         var request = URLRequest(url: url!)
         request.httpMethod = "POST";
         
-        let postString = "username=\(username)"
+        let postString = "searchWord=\(username!)"
         
         print(postString)
         request.httpBody = postString.data(using: String.Encoding.utf8)
