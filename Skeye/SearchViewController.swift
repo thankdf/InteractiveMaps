@@ -130,8 +130,8 @@ extension SearchViewController : CLLocationManagerDelegate {
 //    myAnnotationWithCallout = nil;
 //    }
 //    }
-//    
-//    
+    
+    
     func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
 
