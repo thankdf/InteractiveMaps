@@ -830,6 +830,7 @@
                         <segue destination="Flb-lv-0bU" kind="show" identifier="eventPinSegue" id="fuM-aB-SwQ">
                             <nil key="action"/>
                         </segue>
+                        <segue destination="juw-Bh-f2b" kind="show" identifier="pinToAttendeeView" id="db8-OU-Kys"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pht-w6-NnI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -874,7 +875,6 @@
                     <navigationItem key="navigationItem" id="NRf-vn-WRb"/>
                     <connections>
                         <outlet property="mapView" destination="dLO-Zm-iEC" id="IlH-kL-QAi"/>
-                        <segue destination="juw-Bh-f2b" kind="show" identifier="pinToAttendeeView" id="DGX-Nh-zyl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D9u-Lr-udY" sceneMemberID="firstResponder"/>
@@ -1181,6 +1181,6 @@
         <image name="settings" width="26" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7Oe-yo-lQE"/>
+        <segue reference="fuM-aB-SwQ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -51,48 +51,69 @@ class SearchViewController : UIViewController, HomeModelProtocal {
         locationSearchTable.mapView = mapView
         
         
-        if((selectedLocation) != nil)
-        {
-        let street_addrees: String =  selectedLocation!.street_address!
-        let city: String =  selectedLocation!.city!
-        let state: String =  selectedLocation!.state!
-        let zipcode: String =  selectedLocation!.zipcode!
+//        if((selectedLocation) != nil)
+//        {
+//        let street_addrees: String =  selectedLocation!.street_address!
+//        let city: String =  selectedLocation!.city!
+//        let state: String =  selectedLocation!.state!
+//        let zipcode: String =  selectedLocation!.zipcode!
+//        
+//        Address = "\(street_addrees), \(city), \(state) \(zipcode)"
+//        
+//        let geocoder = CLGeocoder()
+//        geocoder.geocodeAddressString(Address) {
+//            placemarks, error in
+//            let placemark = placemarks?.first
+//            let lat = placemark?.location?.coordinate.latitude
+//            let lon = placemark?.location?.coordinate.longitude
+//            print("Lat: \(lat), Lon: \(lon)")
+//            
+//            var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
+//            
+//            poiCoodinates.latitude = CDouble(lat!)
+//            poiCoodinates.longitude = CDouble(lon!)
+//            
+//            
+//            let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
+//            self.mapView.setRegion(viewRegion, animated: true)
+//            
+//            let pin: MKPointAnnotation = MKPointAnnotation()
+//            pin.coordinate = poiCoodinates
+//            self.mapView.addAnnotation(pin)
+//            
+//            self.myAnnotationWithCallout = pin
+//            
+//            //add title to the pin
+//            pin.title = self.selectedLocation?.event_name
+//            pin.subtitle = self.selectedLocation?.username
+//            
+//            }
         
-        Address = "\(street_addrees), \(city), \(state) \(zipcode)"
-        
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(Address) {
-            placemarks, error in
-            let placemark = placemarks?.first
-            let lat = placemark?.location?.coordinate.latitude
-            let lon = placemark?.location?.coordinate.longitude
-            print("Lat: \(lat), Lon: \(lon)")
-            
-            var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
-            
-            poiCoodinates.latitude = CDouble(lat!)
-            poiCoodinates.longitude = CDouble(lon!)
-            
-            
-            let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
-            self.mapView.setRegion(viewRegion, animated: true)
-            
-            let pin: MKPointAnnotation = MKPointAnnotation()
-            pin.coordinate = poiCoodinates
-            self.mapView.addAnnotation(pin)
-            
-            self.myAnnotationWithCallout = pin
-            
-            //add title to the pin
-            pin.title = self.selectedLocation?.event_name
-            pin.subtitle = self.selectedLocation?.username
-            
-            }
-            
         }
 
     }
-}
+    
+//    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView){
+//        performSegue(withIdentifier: "pinToAttendeeView", sender: nil)
+//    }
+//    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "pinToAttendeeView"
+//        {
+//            // Get reference to the destination view controller
+//            let destViewController  = segue.destination as! AttendeeMapViewController
+//            // Set the property to the selected location so when the view for
+//            // detail view controller loads, it can access that property to get the feeditem obj
+//            destViewController.selectedLocation = selectedLocation
+//            
+////            let rootVC = UIApplication.shared.keyWindow?.rootViewController
+////            let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "AttendeeMapViewController")
+////            
+////            self.present(searchController, animated: true, completion: nil)
+//
+//        }
+//    }
+//}
 
 extension SearchViewController : CLLocationManagerDelegate {
     private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -127,25 +148,5 @@ extension SearchViewController : CLLocationManagerDelegate {
 
     }
     
-//     func mapView (_: MKMapView!, regionWillChangeAnimated_: animated)
-//{
-//    if ((myAnnotationWithCallout) != nil)
-//    {
-//    [mapView selectAnnotation: myAnnotationWithCallout animated:YES];
-//    myAnnotationWithCallout = nil;
-//    }
-//    }
-    
-    
-    func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
-
-        
-        if control == annotationView.rightCalloutAccessoryView {
-            performSegue(withIdentifier: "pinToAttendeeView", sender: self)
-            
-            print("Going to the next VC!")
-        }
-    }
     
 }

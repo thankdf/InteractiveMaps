@@ -78,14 +78,18 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
         // Set selected location to var
         selectedLocation = feedItems[indexPath.row] as! LocationModel
         // Manually call segue to detail view controller
-        self.performSegue(withIdentifier: "eventPinSegue", sender: self)
+       // self.performSegue(withIdentifier: "eventPinSegue", sender: self)
+
+        self.performSegue(withIdentifier: "pinToAttendeeView", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "eventPinSegue"
+       // if segue.identifier == "eventPinSegue"
+        if segue.identifier == "pinToAttendeeView"
+
         {
         // Get reference to the destination view controller
-        let detailVC  = segue.destination as! SearchViewController
+        let detailVC  = segue.destination as! AttendeeMapViewController
         // Set the property to the selected location so when the view for
         // detail view controller loads, it can access that property to get the feeditem obj
         detailVC.selectedLocation = selectedLocation
