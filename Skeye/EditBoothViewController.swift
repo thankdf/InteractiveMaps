@@ -315,16 +315,3 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

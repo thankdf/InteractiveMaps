@@ -11,17 +11,29 @@ import MapKit
 import CoreLocation
 
 
-class SearchViewController : UIViewController {
+import UIKit
+import MapKit
+import CoreLocation
+
+
+class SearchViewController : UIViewController, HomeModelProtocal {
     
     var resultSearchController:UISearchController? = nil
+    var myAnnotationWithCallout:MKPointAnnotation? = nil
+    var feedItems: NSArray = NSArray()
+    var Address: String = ""
+    
     
     let locationManager = CLLocationManager()
     var selectedLocation : LocationModel?
     
     @IBOutlet weak var mapView: MKMapView!
     
-    @IBAction func CreateMap(_ sender: Any) {
-        performSegue(withIdentifier: "createEventSegue", sender: self)
+    @IBAction func BackButtonPressed(_ sender: UIButton) {
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
+        
+        self.present(searchController, animated: true, completion: nil)
         
     }
     
@@ -42,7 +54,7 @@ class SearchViewController : UIViewController {
         resultSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
         locationSearchTable.mapView = mapView
-
+        
     }
 }
 
@@ -65,32 +77,75 @@ extension SearchViewController : CLLocationManagerDelegate {
         print("error:: \(error)")
     }
     
+    
+    func itemsDownloaded(items: NSArray) {
+        print("tableView is working")
+        feedItems = items
+        print(feedItems)
+        
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
-
+        
+        let street_addrees: String =  selectedLocation!.street_address!
+        let city: String =  selectedLocation!.city!
+        let state: String =  selectedLocation!.state!
+        let zipcode: String =  selectedLocation!.zipcode!
+        
+        Address = "\(street_addrees), \(city), \(state) \(zipcode)"
+        
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString("1 Infinite Loop, CA, USA") {
+        geocoder.geocodeAddressString(Address) {
             placemarks, error in
             let placemark = placemarks?.first
             let lat = placemark?.location?.coordinate.latitude
             let lon = placemark?.location?.coordinate.longitude
             print("Lat: \(lat), Lon: \(lon)")
-        
+            
             var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
-        
+            
             poiCoodinates.latitude = CDouble(lat!)
             poiCoodinates.longitude = CDouble(lon!)
-
+            
+            
             let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
             self.mapView.setRegion(viewRegion, animated: true)
-
+            
             let pin: MKPointAnnotation = MKPointAnnotation()
             pin.coordinate = poiCoodinates
             self.mapView.addAnnotation(pin)
-        
+            
+            self.myAnnotationWithCallout = pin
+            
             //add title to the pin
             pin.title = self.selectedLocation?.event_name
+            pin.subtitle = self.selectedLocation?.username
+            
+            
+            
         }
     }
     
+    //     func mapView (_: MKMapView!, regionWillChangeAnimated_: animated)
+    //{
+    //    if ((myAnnotationWithCallout) != nil)
+    //    {
+    //    [mapView selectAnnotation: myAnnotationWithCallout animated:YES];
+    //    myAnnotationWithCallout = nil;
+    //    }
+    //    }
+    //
+    //
+    func mapView(mapView: MKMapView!, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        
+        
+        if control == annotationView.rightCalloutAccessoryView {
+            performSegue(withIdentifier: "pinToAttendeeView", sender: self)
+            
+            print("Going to the next VC!")
+        }
+    }
     
 }

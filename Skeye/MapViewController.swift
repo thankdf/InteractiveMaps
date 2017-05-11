@@ -8,21 +8,22 @@
 
 import UIKit
 
-class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate
+class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate
+//    DataSentDelegate
 {
-    /* Returns data from Edit Booth View Controller to save*/
-    internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
-        whichBooth.info = data
-    }
-    internal func userDidEditName(data: String, whichBooth: BoothShape) {
-        whichBooth.name = data
-    }
-    internal func userDidUploadPic(data: [UIImage], whichBooth: BoothShape){
-        whichBooth.boothPhotos = data
-    }
-    internal func userDidEditDate(data: String, whichBooth: BoothShape) {
-        whichBooth.date = data
-    }
+//    /* Returns data from Edit Booth View Controller to save*/
+//    internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
+//        whichBooth.info = data
+//    }
+//    internal func userDidEditName(data: String, whichBooth: BoothShape) {
+//        whichBooth.name = data
+//    }
+//    internal func userDidUploadPic(data: [UIImage], whichBooth: BoothShape){
+//        whichBooth.boothPhotos = data
+//    }
+//    internal func userDidEditDate(data: String, whichBooth: BoothShape) {
+//        whichBooth.date = data
+//    }
 
     
     /* Map Boundaries */
@@ -47,11 +48,13 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var stack: UIStackView!
     @IBOutlet weak var permissionsBar: UIView!
+    @IBOutlet weak var deleteAndInfoBar: UIView!
     
     /* Booleans */
     var shapeSelected = false //if user selected a shape before tapping on the screen
     var changeShapeButtonPressed = false //if the user wants to change the shape of the button
     var changeColorButtonPressed = false //if the user wants to change the color of the button
+    var deleteButtonPressed = false //if the user wants to delete a booth
     
     /* Objects obtained from the database */
     var booths: [BoothShape] = [BoothShape]() //list of booths
@@ -62,9 +65,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     /* For Undo function */
     var lastBooth: BoothShape? = nil
     var currentBooth: BoothShape? = nil
-    
-    /* Map Variables */
-    var mapID: Int = 1
     
     /* Buttons */
     @IBOutlet weak var boothButton: UIButton!
@@ -122,6 +122,23 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         }
     }
     
+    @IBOutlet weak var mapInfo: UIButton!
+    {
+        didSet
+        {
+            mapInfo.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(popOver(_:))))
+        }
+    }
+    
+    @IBOutlet weak var deleteBooth: UIButton!
+    {
+        didSet
+        {
+            deleteBooth.titleLabel?.adjustsFontSizeToFitWidth = true
+            deleteBooth.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(enableDeleteBooth)))
+        }
+    }
+    
     /* Permissions Text Field */
     @IBOutlet weak var permissionsText: UITextField!
     {
@@ -166,10 +183,15 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         view.isUserInteractionEnabled = false
         scrollView.frame = view.bounds
         
+        //for testing
+        UserDefaults.standard.set(81, forKey: "mapID")
+        UserDefaults.standard.set("hk.at.dang@gmail.com", forKey: "username")
+        
         //Sets stack, navbar, and permissions bar each at 1/10th of the view display
         stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
-        permissionsBar.frame = CGRect.init(x: 0, y: 8 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        permissionsBar.frame = CGRect.init(x: 0, y: self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
         navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
+        deleteAndInfoBar.frame = CGRect.init(x: 0, y: 0, width: 9 * self.view.bounds.width, height: self.view.bounds.height/10)
         
         //Sets up the map image
         mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
@@ -190,7 +212,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "eventID=\(mapID)"
+        let postString = "eventID=\(UserDefaults.standard.integer(forKey: "mapID"))"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -326,10 +348,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         self.view.isUserInteractionEnabled = false
         let location_x = point.x/scrollView.zoomScale
         let location_y = point.y/scrollView.zoomScale
-        
-        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", 1, UserDefaults.standard.string(forKey: "username")!)
-        newButton.draw(self.mapImage.bounds)
-        self.mapImage.addSubview(newButton.button)
         loadingView.startAnimating()
         
         //Retrieves ID Number
@@ -337,7 +355,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        let postString = "event_id=\(mapID)&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=\(shape)&color=white"
+        let postString = "event_id=\(UserDefaults.standard.integer(forKey: "mapID"))&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=square&color=white"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         URLSession.shared.dataTask(with: request, completionHandler:
         {
@@ -358,12 +376,13 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     
                     if(resultValue == "success")
                     {
-                        let idNumberString = parseJSON["message"] as! String
-                        id = Int(idNumberString)!
-                        newButton.id = id
+                        let idNumberString = parseJSON["message"] as! Int
+                        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", idNumberString, UserDefaults.standard.string(forKey: "username")!)
+                        newButton.draw(self.mapImage.bounds)
+                        self.mapImage.addSubview(newButton.button)
                         self.booths.append(newButton)
                         self.currentBooth = newButton
-                        self.lastBooth = nil
+                        self.lastBooth = self.currentBooth
                         self.undoButton.isEnabled = true
                         self.view.isUserInteractionEnabled = true
                     }
@@ -462,9 +481,9 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     
     @IBAction func backPressed(_ sender: UIButton)
     {
+        UserDefaults.standard.set(0, forKey: "mapID")
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
         let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
-        
         self.present(searchController, animated: true, completion: nil)
     }
     
@@ -483,7 +502,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         {
             boothsJSON["\(booth.id)"] = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
         }
-        let post = ["mapID": "\(mapID)", "user": "hk.at.dang@gmail.com", "booths": boothsJSON] as [String : Any]
+        let post = ["mapID": "\(UserDefaults.standard.integer(forKey: "mapID"))", "user": "\(UserDefaults.standard.string(forKey: "username"))", "booths": boothsJSON] as [String : Any]
         request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: [])
         URLSession.shared.dataTask(with: request, completionHandler:
             {
@@ -595,6 +614,23 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         }
     }
     
+    func enableDeleteBooth(_ gesture: UITapGestureRecognizer)
+    {
+        deleteButtonPressed = true
+    }
+    
+    func confirm()
+    {
+        if currentBooth != nil
+        {
+            displayDeleteAlert()
+        }
+        else
+        {
+            displayChangeAlert("No booth is selected to be deleted")
+        }
+    }
+    
     private func displaySaveAlert(_ message: String)
     {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -615,54 +651,128 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         self.present(alert, animated: true, completion: nil)
     }
     
-//        /*
-//        Triggers the popover
-//         */
-//        func popOver(_ sender: AnyObject)
-//        {
-//            /* This is the line of code that calls the 'prepareforSegue' method */
-//            //performSegue(withIdentifier: "editBoothPopover", sender: sender)
-//    
+    private func displayDeleteAlert()
+    {
+        let alert = UIAlertController(title: "Alert", message: "Are you sure you want to delete this booth?", preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+            self.deleteFromMap()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+            self.deleteButtonPressed = false
+        }
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func deleteFromMap()
+    {
+        view.isUserInteractionEnabled = false
+        loadingView.startAnimating()
+        let ipAddress = "http://130.65.159.80/DeleteBooth.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        let postString = "boothID=\(currentBooth!.id)"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue = parseJSON["status"] as! String!
+                        print("result: \(resultValue)\n")
+                        let messageToDisplay = parseJSON["message"] as! String!
+                        
+                        DispatchQueue.main.async
+                        {
+                            self.displayChangeAlert(messageToDisplay!)
+                        }
+                        self.lastBooth = nil
+                        //remove from superview
+                        self.currentBooth!.button.removeFromSuperview()
+                        //remove from booth array list
+                        self.booths = self.booths.filter {!$0.equals(self.currentBooth!)}
+                        self.currentBooth = nil
+                        self.loadingView.stopAnimating()
+                        self.view.isUserInteractionEnabled = true
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                    DispatchQueue.main.async
+                    {
+                        self.displayChangeAlert("Was not able to delete booth.")
+                    }
+                    self.loadingView.stopAnimating()
+                    self.view.isUserInteractionEnabled = true
+                }
+                
+        }).resume()
+    }
+    
+        /*
+        Triggers the popover
+         */
+        func popOver(_ sender: AnyObject)
+        {
+            /* This is the line of code that calls the 'prepareforSegue' method */
+            //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+    
 //            let castedSender : BoothShape = sender as! BoothShape
-//    
-//            //print(sender.name)
-//            /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
-//            //performSegue(withIdentifier: "editBoothPopover", sender: sender)
-//            //print(castedSender.name + " Here!")
-//    
-//    
-//    
-//            let rootVC = UIApplication.shared.keyWindow?.rootViewController
-//    
-//            //print(NSStringFromClass(rootVC!.classForCoder))
-//    
-//    
-//            //let strBoard = UIStoryboard(name: "Main", bundle: nil)
-//            let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
-//    
-//    
-//            //get a reference to the view controller for the popover
+    
+            //print(sender.name)
+            /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
+            //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+            //print(castedSender.name + " Here!")
+    
+    
+    
+            let rootVC = UIApplication.shared.keyWindow?.rootViewController
+    
+            //print(NSStringFromClass(rootVC!.classForCoder))
+    
+    
+            //let strBoard = UIStoryboard(name: "Main", bundle: nil)
+            let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "CreateMapViewController") as! CreateMapViewController
+    
+    
+            //get a reference to the view controller for the popover
 //            popoverController.boothRef = castedSender //as? BoothShape
 //            popoverController.name = castedSender.name
 //            popoverController.info = castedSender.info
 //            popoverController.date = castedSender.date
 //            popoverController.boothImages = castedSender.boothPhotos
 //            popoverController.delegate = self
-//    
-//            // set the presentation style
-//            popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
-//    
-//            // set up the popover presentation controller
-//            popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
+    
+            // set the presentation style
+            popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
+    
+            // set up the popover presentation controller
+            popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
 //            popoverController.popoverPresentationController?.delegate = self
 //            popoverController.popoverPresentationController?.sourceView = castedSender.button
-//    
-//            // set anchor programatically
+    
+            // set anchor programatically
 //            popoverController.popoverPresentationController?.sourceRect = castedSender.button.bounds
-//            
-//            // present the popover
-//            self.present(popoverController, animated: true, completion: nil)
-//        }
+            
+            // present the popover
+            self.present(popoverController, animated: true, completion: nil)
+        }
 
 }
 

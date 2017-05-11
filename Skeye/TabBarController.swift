@@ -15,8 +15,8 @@ class TabBarController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-}
+        
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -24,24 +24,24 @@ class TabBarController : UITabBarController {
         
         if(user_type == 1)
         {
-        viewControllers?.remove(at:2)
+            viewControllers?.remove(at:2)
         }
-        
+            
         else if(user_type == 2)
         {
             viewControllers?.remove(at:1)
-
+            
         }
         else if(user_type == 3)
         {
             viewControllers?.remove(at:1)
             viewControllers?.remove(at:1)
-
+            
         }
         //testing commit
         
     }
     
-  
-
+    
+    
 }

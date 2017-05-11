@@ -11,26 +11,288 @@ import UIKit
 class CreateMapViewController: UIViewController
 {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    let datePicker = UIDatePicker()
+    let timePicker = UIDatePicker()
+    
+    @IBOutlet weak var eventlabel: UILabel!
+    {
+        didSet
+        {
+            eventlabel.adjustsFontSizeToFitWidth = true
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBOutlet weak var screen: UIView!
+    
+    @IBOutlet weak var eventName: UITextField!
+    @IBOutlet weak var streetAddress: UITextField!
+    @IBOutlet weak var state: UITextField!
+    @IBOutlet weak var city: UITextField!
+    @IBOutlet weak var zipCode: UITextField!
+    @IBOutlet weak var StartDateText: UITextField!
+    @IBOutlet weak var EndDateText: UITextField!
+    
+    
+    @IBOutlet weak var saveButton: UIButton!
+    {
+        didSet
+        {
+            saveButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(save)))
+        }
+    }
+    @IBOutlet weak var backButton: UIButton!
+    {
+        didSet
+        {
+            backButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(back)))
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    var address_id = 0;
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let widthfactor = self.view.bounds.width/screen.bounds.width
+        let heightfactor = self.view.bounds.height/screen.bounds.height
+        screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
+        for subview in screen.subviews
+        {
+            subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
+        }
+        startDatePicker()
+        endDatePicker()
+        if(UserDefaults.standard.integer(forKey: "mapID") != 0)
+        {
+            //HTML Request
+            let ipAddress = "http://130.65.159.80/LoadMapData.php"
+            let url = URL(string: ipAddress)
+            var request = URLRequest(url: url!)
+            request.httpMethod = "POST"
+            let postString = "mapID=\(UserDefaults.standard.integer(forKey: "mapID"))"
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+            URLSession.shared.dataTask(with: request, completionHandler:
+                {
+                    (data, response, error) -> Void in
+                    if(error != nil)
+                    {
+                        print("error=\(String(describing: error))\n")
+                        return
+                    }
+                    do
+                    {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? [String: Any]
+                        if let parseJSON = json
+                        {
+                            let resultValue: String = parseJSON["status"] as! String
+                            print("result: \(resultValue)\n")
+                            
+                            if(resultValue == "success")
+                            {
+                                let mapData = parseJSON["map"] as! [String: Any]
+                                let addressData = parseJSON["address"] as! [String: Any]
+                                self.eventName.text = mapData["event_name"] as? String
+                                self.streetAddress.text = addressData["street_address"] as? String
+                                self.city.text = addressData["city"] as? String
+                                self.state.text = addressData["state"] as? String
+                                self.zipCode.text = addressData["zipcode"] as? String
+                                self.address_id = Int((addressData["address_id"] as? String)!)!
+                                if(!((mapData["start_date"] as? String)! == "" && (mapData["start_time"] as? String)! == ""))
+                                {
+                                    self.StartDateText.text = (mapData["start_date"] as? String)! + ", " + (mapData["start_time"] as? String)!
+                                }
+                                if(!((mapData["end_date"] as? String)! == "" && (mapData["end_time"] as? String)! == ""))
+                                {
+                                    self.EndDateText.text = (mapData["end_date"] as? String)! + ", " + (mapData["end_time"] as? String)!
+                                }
+                            }
+                        }
+                    }
+                    catch let error as Error?
+                    {
+                        print("Found an error - \(String(describing: error))")
+                    }
+                    
+            }).resume()
+   
+        }
     }
-    */
+    
+    /* Date Picker */
+    func startDatePicker(){
+        
+        datePicker.minimumDate = Date()
+        
+        
+        
+        //toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        //bar button item
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(startDateDonePressed))
+        toolbar.setItems([doneButton], animated: false)
+        
+        StartDateText.inputAccessoryView = toolbar
+        
+        //assigning date picker to textfield
+        StartDateText.inputView = datePicker
+    }
+    
+    func startDateDonePressed(){
+        
+        // formate date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        
+        
+        StartDateText.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+        
+    }
+    
+    
+    func endDatePicker(){
+        
+        // datePicker.datePickerMode = .date
+        datePicker.minimumDate = Date()
+        
+        //toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        //bar button item
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(endDateDonePressed))
+        toolbar.setItems([doneButton], animated: false)
+        
+        EndDateText.inputAccessoryView = toolbar
+        
+        //assigning date picker to textfield
+        EndDateText.inputView = datePicker
+    }
+    
+    func endDateDonePressed(){
+        
+        // format date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        
+        
+        EndDateText.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    func save()
+    {
+        if(eventName.text! == "" || streetAddress.text! == "" || state.text! == "" || city.text! == "" || zipCode.text! == "" || StartDateText.text! == "" || EndDateText.text! == "")
+        {
+            displayAlertFailure("One or more fields are empty. Try again.")
+        }
+        else
+        {
+            let startDate = StartDateText.text!.substring(to: StartDateText.text!.characters.index(StartDateText.text!.endIndex, offsetBy: -9))
+            let endDate = EndDateText.text!.substring(to: EndDateText.text!.characters.index(EndDateText.text!.endIndex, offsetBy: -9))
+            let startTime = StartDateText.text!.substring(from: StartDateText.text!.characters.index(StartDateText.text!.endIndex, offsetBy: -7))
+            let endTime = EndDateText.text!.substring(from: EndDateText.text!.characters.index(EndDateText.text!.endIndex, offsetBy: -7))
+            
+            //HTML Request
+            let ipAddress = "http://130.65.159.80/SaveMapInfo.php"
+            let url = URL(string: ipAddress)
+            var request = URLRequest(url: url!)
+            request.httpMethod = "POST"
+            let postString = "event_name=\(eventName.text!)&street_address=\(streetAddress.text!)&city=\(city.text!)&state=\(state.text!)&zipcode=\(zipCode.text!)&start_date=\(startDate)&end_date=\(endDate)&start_time=\(startTime)&end_time=\(endTime)&event_id=\(UserDefaults.standard.integer(forKey: "mapID"))&address_id=\(address_id)&username=\(UserDefaults.standard.string(forKey: "username")!)"
+            print(postString)
+            request.httpBody = postString.data(using: String.Encoding.utf8)
+            URLSession.shared.dataTask(with: request, completionHandler:
+                {
+                    (data, response, error) -> Void in
+                    if(error != nil)
+                    {
+                        print("error=\(String(describing: error))\n")
+                        return
+                    }
+                    do
+                    {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                        if let parseJSON = json
+                        {
+                            let resultValue: String = parseJSON["status"] as! String
+                            print("result: \(resultValue)\n")
+                            let messageToDisplay = parseJSON["message"] as! String!
+                            if(resultValue == "success")
+                            {
+                                
+                                if(UserDefaults.standard.integer(forKey: "mapID") == 0)
+                                {
+                                    DispatchQueue.main.async
+                                    {
+                                        self.displayAlertNew(messageToDisplay!)
+                                    }
+                                    UserDefaults.standard.set(parseJSON["mapID"] as! Int,forKey: "mapID")
+                                }
+                                else
+                                {
+                                    DispatchQueue.main.async
+                                    {
+                                        self.displayAlertOld(messageToDisplay!)
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                DispatchQueue.main.async
+                                {
+                                    self.displayAlertFailure(messageToDisplay!)
+                                }
+                            }
+                        }
+                    }
+                    catch let error as Error?
+                    {
+                        print("Found an error - \(String(describing: error))")
+                    }
+                    
+            }).resume()
+        }
+    }
+    
+    private func displayAlertOld(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func displayAlertNew(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+            let rootVC = UIApplication.shared.keyWindow?.rootViewController
+            let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+            self.present(searchController, animated: true, completion: nil)
+        }
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func displayAlertFailure(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func back(gesture: UITapGestureRecognizer)
+    {
+        self.dismiss(animated: true, completion: nil)
+    }
 
 }

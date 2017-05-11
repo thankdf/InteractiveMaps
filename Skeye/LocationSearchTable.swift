@@ -2,16 +2,15 @@
 //  LocationSearchTable.swift
 //  Skeye
 //
-//  Created by Sandeep Kaur on 3/28/17.
-//  Copyright © 2017 Team Skeye. All rights reserved.
+//  Created by Sandeep Kaur on 3/20/17.
+//  Copyright © 2017 Skeye. All rights reserved.
 //
 
 
 import MapKit
 import UIKit
-
 class LocationSearchTable : UIViewController, UITableViewDataSource, UITableViewDelegate, HomeModelProtocal, UISearchBarDelegate, UIKit.UISearchResultsUpdating{
-
+    
     //Properties
     
     var mapView: MKMapView? = nil
@@ -28,34 +27,32 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
         self.listTableView.delegate = self
         self.listTableView.dataSource = self
         
-
+        
         
     }
-    
-    
     func updateSearchResults(for searchController: UISearchController)
-    
+        
     {
         guard let _ = mapView,
-        let searchBarText = searchController.searchBar.text else { return }
-       
+            let searchBarText = searchController.searchBar.text else { return }
+        
         print(searchBarText)
-
+        
         let homeModel = HomeModel()
         homeModel.delegate = self
         homeModel.doSearch(searchWord: searchBarText)
-
+        
         
     }
     
-
+    
     
     func itemsDownloaded(items: NSArray) {
-          print("tableView is working")
+        print("tableView is working")
         feedItems = items
         self.listTableView.reloadData()
         print(feedItems)
-
+        
         
     }
     
@@ -73,7 +70,7 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
         let item: LocationModel = feedItems[indexPath.row] as! LocationModel
         // Get references to labels of cell
         myCell.textLabel!.text = item.event_name
-  
+        
         return myCell
     }
     
@@ -87,11 +84,11 @@ class LocationSearchTable : UIViewController, UITableViewDataSource, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "eventPinSegue"
         {
-        // Get reference to the destination view controller
-        let detailVC  = segue.destination as! SearchViewController
-        // Set the property to the selected location so when the view for
-        // detail view controller loads, it can access that property to get the feeditem obj
-        detailVC.selectedLocation = selectedLocation
+            // Get reference to the destination view controller
+            let detailVC  = segue.destination as! SearchViewController
+            // Set the property to the selected location so when the view for
+            // detail view controller loads, it can access that property to get the feeditem obj
+            detailVC.selectedLocation = selectedLocation
         }
     }
 }

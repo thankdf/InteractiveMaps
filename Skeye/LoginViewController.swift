@@ -30,13 +30,33 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     //Login and Sign Up Buttons
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var signUpField: UIButton!
+    {
+        didSet
+        {
+            signUpField.titleLabel?.adjustsFontSizeToFitWidth = true
+        }
+    }
     
-    @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var screen: UIView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    {
+        didSet
+        {
+            titleLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        scrollView.bounds = CGRect.init(origin: CGPoint.init(x: 0, y: 0), size: CGSize.init(width: self.view.bounds.width, height: self.view.bounds.height))
+        let widthfactor = self.view.bounds.width/screen.bounds.width
+        let heightfactor = self.view.bounds.height/screen.bounds.height
+        screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
+        for subview in screen.subviews
+        {
+            subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
+        }
         loginButton.isEnabled = false
         signUpField.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(signUpPressed)))
     }
@@ -106,6 +126,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             UserDefaults.standard.set(parseJSON["user"], forKey: "username")
                             UserDefaults.standard.set(Int(parseJSON["usertype"] as! String)!, forKey: "usertype")
                             UserDefaults.standard.set((parseJSON["first_name"] as! String) + " " + (parseJSON["last_name"] as! String), forKey: "name")
+                            UserDefaults.standard.set(0, forKey: "mapID")
                             UserDefaults.standard.synchronize()
                             let messageToDisplay = parseJSON["message"] as! String!
                             DispatchQueue.main.async

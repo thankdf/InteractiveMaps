@@ -9,8 +9,23 @@
 import UIKit
 
 class SignUpViewController: UIViewController {
-
-    @IBOutlet weak var buttonStackView: UIStackView!
+    
+    @IBOutlet weak var screen: UIView!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    {
+        didSet
+        {
+            titleLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    @IBOutlet weak var userLabel: UILabel!
+    {
+        didSet
+        {
+            userLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
     
     //Buttons
     @IBOutlet weak var coordinatorButton: UIButton!
@@ -59,6 +74,14 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        let widthfactor = self.view.bounds.width/screen.bounds.width
+        let heightfactor = self.view.bounds.height/screen.bounds.height
+        screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
+        for subview in screen.subviews
+        {
+            subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
+        }
+
         coordinatorButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(buttonTouched)))
         ownerButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(buttonTouched)))
         attendeeButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(buttonTouched)))
@@ -71,7 +94,7 @@ class SignUpViewController: UIViewController {
         let button = gesture.view as? UIButton
         let text = button?.titleLabel!.text!
         
-        for subview in buttonStackView.subviews
+        for subview in self.view.subviews
         {
             if let button = subview as? UIButton
             {
@@ -142,7 +165,7 @@ class SignUpViewController: UIViewController {
         }
         else
         {
-            //IP address
+            //HTML Request
             let ipAddress = "http://130.65.159.80/Register.php"
             let url = URL(string: ipAddress)
             var request = URLRequest(url: url!)

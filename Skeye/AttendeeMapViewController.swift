@@ -52,9 +52,6 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     /* Gesture recognizers */
     var select: UITapGestureRecognizer = UITapGestureRecognizer.init()
     
-    /* Map Variables */
-    var mapID: Int = 1
-    
     /* Activity Indicator */
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
     
@@ -85,7 +82,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "eventID=\(mapID)"
+        let postString = "eventID=\(UserDefaults.standard.integer(forKey: "mapID"))"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -243,7 +240,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
         let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
-        
+        UserDefaults.standard.set(0, forKey: "mapID")
         self.present(searchController, animated: true, completion: nil)
     }
     

@@ -130,11 +130,17 @@ class BoothShape
         move = UIPanGestureRecognizer.init(target: self, action: #selector(pan))
         press = UILongPressGestureRecognizer.init(target: self, action: #selector((popOverBoothDetails)))
         
-        //adds the gesture recognizers to the button
-        button.addGestureRecognizer(zoom)
-        button.addGestureRecognizer(select)
-        button.addGestureRecognizer(move)
-        button.addGestureRecognizer(press)
+        let controller = UIApplication.shared.keyWindow?.rootViewController
+        if controller is AttendeeMapViewController
+        {
+             button.addGestureRecognizer(press)
+        }
+        else if controller is MapViewController
+        {
+            button.addGestureRecognizer(zoom)
+            button.addGestureRecognizer(select)
+            button.addGestureRecognizer(move)
+        }
         
         //disables gestures at the start
         zoom.isEnabled = false
@@ -273,6 +279,12 @@ class BoothShape
                     controller.changeColorButtonPressed = false
                 }
             }
+            else if(controller.deleteButtonPressed)
+            {
+                controller.lastBooth = controller.currentBooth
+                controller.currentBooth = self
+                controller.confirm()
+            }
             else
             {
                 controller.scrollView.isScrollEnabled = false
@@ -287,8 +299,6 @@ class BoothShape
                 zoom.isEnabled = true
                 move.isEnabled = true
                 press.isEnabled = true
-                controller.lastBooth = controller.currentBooth
-                controller.currentBooth = self
             }
         }
     }
@@ -351,21 +361,12 @@ class BoothShape
     }
     
     /*
-     Initiates popover function in the view controller
+     Initiates popover function in the view controller as attendee
     */
     @objc func popOverBoothDetails(gesture: UILongPressGestureRecognizer)
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController as! AttendeeMapViewController
         rootVC.popOver(self)
-    }
-    
-    /*
-     Initiates popover function in the view controller
-     */
-    @objc func popOverEventCoordinator(gesture: UILongPressGestureRecognizer)
-    {
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController as! MapViewController
-        //rootVC.popOver(self)
     }
     
     /*

@@ -106,7 +106,6 @@
 		6A5B508C1EBBC97700BECA90 /* Login/Sign Up */ = {
 			isa = PBXGroup;
 			children = (
-				6A310FF21EB022CF006966C3 /* SearchViewController.swift */,
 				6A09CF551E9367DC00D0C434 /* LoginViewController.swift */,
 				6A401C621E8B186B00A3B8FB /* SignUpViewController.swift */,
 			);
@@ -116,6 +115,7 @@
 		6A5B508D1EBBC99500BECA90 /* Search Page */ = {
 			isa = PBXGroup;
 			children = (
+				6A310FF21EB022CF006966C3 /* SearchViewController.swift */,
 				6A310FEC1EB0228C006966C3 /* LocationSearchTable.swift */,
 				6A310FEE1EB022AE006966C3 /* HomeModel.swift */,
 				6A310FEF1EB022AE006966C3 /* LocationModel.swift */,
