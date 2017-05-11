@@ -49,6 +49,47 @@ class SearchViewController : UIViewController, HomeModelProtocal {
         resultSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
         locationSearchTable.mapView = mapView
+        
+        
+        if((selectedLocation) != nil)
+        {
+        let street_addrees: String =  selectedLocation!.street_address!
+        let city: String =  selectedLocation!.city!
+        let state: String =  selectedLocation!.state!
+        let zipcode: String =  selectedLocation!.zipcode!
+        
+        Address = "\(street_addrees), \(city), \(state) \(zipcode)"
+        
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(Address) {
+            placemarks, error in
+            let placemark = placemarks?.first
+            let lat = placemark?.location?.coordinate.latitude
+            let lon = placemark?.location?.coordinate.longitude
+            print("Lat: \(lat), Lon: \(lon)")
+            
+            var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
+            
+            poiCoodinates.latitude = CDouble(lat!)
+            poiCoodinates.longitude = CDouble(lon!)
+            
+            
+            let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
+            self.mapView.setRegion(viewRegion, animated: true)
+            
+            let pin: MKPointAnnotation = MKPointAnnotation()
+            pin.coordinate = poiCoodinates
+            self.mapView.addAnnotation(pin)
+            
+            self.myAnnotationWithCallout = pin
+            
+            //add title to the pin
+            pin.title = self.selectedLocation?.event_name
+            pin.subtitle = self.selectedLocation?.username
+            
+            }
+            
+        }
 
     }
 }
@@ -83,43 +124,7 @@ extension SearchViewController : CLLocationManagerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        let street_addrees: String =  selectedLocation!.street_address!
-        let city: String =  selectedLocation!.city!
-        let state: String =  selectedLocation!.state!
-        let zipcode: String =  selectedLocation!.zipcode!
 
-        Address = "\(street_addrees), \(city), \(state) \(zipcode)"
-        
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(Address) {
-            placemarks, error in
-            let placemark = placemarks?.first
-            let lat = placemark?.location?.coordinate.latitude
-            let lon = placemark?.location?.coordinate.longitude
-            print("Lat: \(lat), Lon: \(lon)")
-        
-            var poiCoodinates: CLLocationCoordinate2D = CLLocationCoordinate2D()
-        
-            poiCoodinates.latitude = CDouble(lat!)
-            poiCoodinates.longitude = CDouble(lon!)
-
-            
-            let viewRegion: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(poiCoodinates, 750, 750)
-            self.mapView.setRegion(viewRegion, animated: true)
-
-            let pin: MKPointAnnotation = MKPointAnnotation()
-            pin.coordinate = poiCoodinates
-            self.mapView.addAnnotation(pin)
-        
-            self.myAnnotationWithCallout = pin
-            
-            //add title to the pin
-            pin.title = self.selectedLocation?.event_name
-            pin.subtitle = self.selectedLocation?.username
-            
-            
-
-        }
     }
     
 //     func mapView (_: MKMapView!, regionWillChangeAnimated_: animated)
