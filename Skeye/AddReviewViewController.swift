@@ -21,7 +21,7 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
     var newReview : Review?
     
     var reviewImage = [UIImage?](repeating:nil, count:3)
-    var imageSet = [Bool](repeating: false, count: 3)
+    //var imageSet = [Bool](repeating: false, count: 3)
 
 
     
@@ -111,14 +111,14 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
             switch imageSelected
             {
                 case 1:
-                    imageSet[0] = true
+                    //imageSet[0] = true
                     reviewImage[0] = chosenImage
                 case 2:
-                    imageSet[1] = true
-                reviewImage[1] = chosenImage
+                    //imageSet[1] = true
+                    reviewImage[1] = chosenImage
                 case 3:
-                    imageSet[2] = true
-                reviewImage[2] = chosenImage
+                    //imageSet[2] = true
+                    reviewImage[2] = chosenImage
                 default:
                     print("error on picking review image")
             }

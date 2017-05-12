@@ -30,11 +30,14 @@ class ReviewTableViewCell: UITableViewCell {
     func configureCellWith(row: Int){
         userImage.image = #imageLiteral(resourceName: "userIcon")
         
+        
         reviewImage1.addGestureRecognizer(setTapGestureRecognizer())
         reviewImage2.addGestureRecognizer(setTapGestureRecognizer())
         reviewImage3.addGestureRecognizer(setTapGestureRecognizer())
         
-        
+        reviewImage1.isUserInteractionEnabled = false;
+        reviewImage1.isUserInteractionEnabled = false;
+        reviewImage1.isUserInteractionEnabled = false;
         
         //        if(row % 2 == 0)
         //        {

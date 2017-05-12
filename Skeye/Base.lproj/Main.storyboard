@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rQu-Uz-5ak">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Z08-BI-FMX">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -385,7 +385,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg6" translatesAutoresizingMaskIntoConstraints="NO" id="u8A-UY-dw9">
+                            <imageView userInteractionEnabled="NO" alpha="0.45000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg8" translatesAutoresizingMaskIntoConstraints="NO" id="u8A-UY-dw9" customClass="bg8">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kb-or-a3q">
@@ -644,7 +644,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1aW-QT-SAP">
-                                                    <rect key="frame" x="86" y="36" width="310" height="248"/>
+                                                    <rect key="frame" x="86" y="41.666666666666671" width="310" height="242.33333333333331"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -661,21 +661,21 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Tyr-Yc-U2s">
                                                     <rect key="frame" x="86" y="309" width="280" height="80"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RedCircle" translatesAutoresizingMaskIntoConstraints="NO" id="viy-6s-FRr">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viy-6s-FRr">
                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="80" id="Yzd-J3-Pph"/>
                                                                 <constraint firstAttribute="width" constant="80" id="qCk-3M-QFO"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg10" translatesAutoresizingMaskIntoConstraints="NO" id="G1Y-sU-5kx">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G1Y-sU-5kx">
                                                             <rect key="frame" x="100" y="0.0" width="80" height="80"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="80" id="TTY-XQ-lx1"/>
                                                                 <constraint firstAttribute="height" constant="80" id="dLg-Gq-xUS"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="testPic" translatesAutoresizingMaskIntoConstraints="NO" id="ZEh-MB-d2Q">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZEh-MB-d2Q">
                                                             <rect key="frame" x="200" y="0.0" width="80" height="80"/>
                                                         </imageView>
                                                     </subviews>
@@ -693,7 +693,7 @@
                                                 <constraint firstItem="FGT-ey-3b1" firstAttribute="top" secondItem="Tyr-Yc-U2s" secondAttribute="bottom" constant="25" id="WP7-jh-8pA"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="1aW-QT-SAP" secondAttribute="trailing" constant="10" id="XvU-qk-fko"/>
                                                 <constraint firstItem="Tyr-Yc-U2s" firstAttribute="top" secondItem="1aW-QT-SAP" secondAttribute="bottom" constant="25" id="lnA-zr-Qc9"/>
-                                                <constraint firstItem="1aW-QT-SAP" firstAttribute="top" secondItem="U5J-wU-D3A" secondAttribute="bottom" constant="8" symbolic="YES" id="n3k-H3-HBJ"/>
+                                                <constraint firstItem="1aW-QT-SAP" firstAttribute="top" secondItem="U5J-wU-D3A" secondAttribute="bottom" multiplier="1.2" constant="8" symbolic="YES" id="n3k-H3-HBJ"/>
                                                 <constraint firstAttribute="topMargin" secondItem="06W-oD-tdw" secondAttribute="top" id="oZA-P6-0YM"/>
                                                 <constraint firstItem="U5J-wU-D3A" firstAttribute="trailing" secondItem="Tyr-Yc-U2s" secondAttribute="trailing" id="vGJ-pe-UZu"/>
                                             </constraints>
@@ -734,7 +734,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hAx-Qj-fZa" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="CLf-54-3wP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="888" y="161"/>
+            <point key="canvasLocation" x="886.95652173913049" y="160.59782608695653"/>
         </scene>
         <!--Add Review View Controller-->
         <scene sceneID="eQv-1y-nGe">
@@ -771,6 +771,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="71e-xh-VIm">
                                         <rect key="frame" x="10" y="10" width="394" height="201"/>
                                         <color key="backgroundColor" red="0.73662742680000004" green="0.93581450779999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                     </textView>
                                 </subviews>
@@ -851,12 +852,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="RedCircle" width="500" height="500"/>
         <image name="addImage" width="80" height="80"/>
-        <image name="bg10" width="564" height="1001"/>
-        <image name="bg6" width="188" height="333"/>
         <image name="bg8" width="564" height="1001"/>
         <image name="blueCam" width="16" height="16"/>
-        <image name="testPic" width="577" height="360"/>
     </resources>
 </document>

@@ -47,8 +47,38 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         cell.userReview.text = review.comment
         cell.reviewTimeStapm.text = review.date
         cell.configureCellWith(row: indexPath.row)
-        cell.reviewVC = self
         
+       
+        for index in 0..<review.photos.count
+        {
+            if(index == 0)
+            {
+                if let img = review.photos[index]
+                {
+                    cell.reviewImage1.isUserInteractionEnabled = true
+                    cell.reviewImage1.image = img
+                }
+            }
+            else if(index == 1)
+            {
+                if let img = review.photos[index]
+                {
+                    cell.reviewImage1.isUserInteractionEnabled = true
+                    cell.reviewImage2.image = img
+                }
+            }
+            else{
+                if let img = review.photos[index]
+                {
+                    cell.reviewImage1.isUserInteractionEnabled = true
+                    cell.reviewImage3.image = img
+                }
+            }
+            
+            
+            
+        }
+        cell.reviewVC = self
         return cell
     }
     
@@ -183,14 +213,25 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                 reviewText = addReviewVC.reviewTextView.text
             }
             let timeStamp = DateFormatter.localizedString(from: Date(), dateStyle: .full, timeStyle: .none)
-            let reviewPic = addReviewVC.reviewImage
-            let newReview = Review(comment: reviewText, photos: reviewPic, boothID: 187, date: timeStamp, username: "yoho@gmail.com")
+            
+            var reviewImages:[UIImage?] = []
+            for tempImage in addReviewVC.reviewImage
+            {
+                if(tempImage != nil)
+                {
+                    reviewImages.append(tempImage)
+                }
+                
+            }
+            
+            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 187, date: timeStamp, username: "yoho@gmail.com")
             //let newReview = Review(comment: reviewText, photos: reviewPic, boothID: 187, date: timeStamp, username: UserDefaults.standard.string(forKey: "username"))
             
             //boothID and username need to be change above!!!
             
             //save to DB
-            saveToDB(for: newReview)
+            //saveToDB(for: newReview)
+            saveToDB2(for: newReview)
             
             //update Table
             reviews.append(newReview)
@@ -231,14 +272,48 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                     {
                         let resultStatus: String = parseJSON["status"] as! String
                         
+        
                         if(resultStatus == "success")
                         {
                             let parseReviews = parseJSON["reviews"] as! [[String: Any]]
+                            var arrayToBeSaved:[UIImage] = []
+                            //load image from server
                             for review in parseReviews
                             {
+                                
+                                let imgURL0 = "http://130.65.159.80/images/review\(review["review_id"] as! String)img0.jpg"
+                                let imgURL1 = "http://130.65.159.80/images/review\(review["review_id"] as! String)img1.jpg"
+                                let imgURL2 = "http://130.65.159.80/images/review\(review["review_id"] as! String)img2.jpg"
+                                let urlArray = [imgURL0,imgURL1,imgURL2]
+                                
+                                for eachURL in urlArray
+                                {
+                                    if let url = URL(string: eachURL) {
+                                        
+                                        if let data = NSData(contentsOf: url as URL){
+                                            if let downloadedImg = UIImage(data: data as Data) {
+                                                
+                                                DispatchQueue.global(qos: .userInitiated).async {
+                                               
+                                                    // When from background thread, UI needs to be updated on main_queue
+                                                    DispatchQueue.main.async {
+                                                        
+                                                        arrayToBeSaved.append(downloadedImg)
+                                                        //self.reviewTableView.reloadData()
+
+                                                        
+                                                    }
+                                                }                                        }
+                                        }
+                                    }
+                                }
+                                
+                      
+                                //load data from MySQL
+
                                 let newReview: Review = Review.init(reviewID: Int(review["review_id"] as! String)!,
                                                                     comment: review["review"] as! String,
-                                                                    photos: [nil],
+                                                                    photos: arrayToBeSaved,
                                                                     boothID: Int(review["booth_id"] as! String)!,
                                                                     date: review["date"] as! String,
                                                                     username: (review["first_name"] as! String)+" "+(review["last_name"] as! String))
@@ -265,46 +340,173 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-    func saveToDB(for review : Review)
-    {
-        let ipAddress = "http://130.65.159.80/SaveReview.php"
-        let url = URL(string: ipAddress)
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST"
+    // method for constructing request body
+    func createBodyWithParameters(parameters: NSMutableDictionary?,  boundary: String) -> NSData {
+        let body = NSMutableData();
         
-        let postString = "booth_id=\(review.boothID)&review=\(review.comment)&date=\(review.date)&username=\(review.username)"
-        
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        URLSession.shared.dataTask(with: request, completionHandler:
+        if parameters != nil {
+            for (key, value) in parameters!
             {
-                (data, response, error) -> Void in
-                if(error != nil)
+                
+                if(value is String || value is NSString)
                 {
-                    print("error=\(String(describing: error))\n")
-                    return
+                    body.appendString("--\(boundary)\r\n")
+                    body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                    body.appendString("\(value)\r\n")
                 }
-                do
-                {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-
-                    if let parseJSON = json
-                    {
-                        let resultValue: String = parseJSON["status"] as! String
+                else if(value is [UIImage]){
+                    var i = 0;
+                   
+                    for image in value as! [UIImage]{
                         
-                        if(resultValue == "success")
-                        {
-                           // print("result: \(resultValue)\n")
-
-                        }
+                        let filename = "image\(i).jpg"
+                        let data = UIImageJPEGRepresentation(image,0.5);
+                        let mimetype = "image/jpg"
+                        let filePathKey = "file" + String(i)
+            
+                        
+                        body.appendString("--\(boundary)\r\n")
+                       // body.appendString("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(filename)\"\r\n")
+                        body.appendString("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
+                        body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+                        body.append(data! as Data)
+                        body.appendString("\r\n")
+                        i = i+1;
                     }
+                    
+                    
                 }
-                catch let error as Error?
-                {
-                    print("Found an error - \(String(describing: error))")
-                }
-        }).resume()
-
+            }
+        }
+        
+        body.appendString("--\(boundary)--\r\n")
+        
+        print("Uploading \(body as Data) byte")
+        
+        return body
     }
+    
+    
+    func generateBoundaryString() -> String {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+    
+   
+    
+    func saveToDB2(for review : Review)
+    {
+        
+        let myUrl = NSURL(string: "http://130.65.159.80/SaveReview2.php");
+        
+        let request = NSMutableURLRequest(url:myUrl! as URL);
+        request.httpMethod = "POST";
+
+        let param = [
+            "booth_id"   : "\(review.boothID)",
+            "review"     : "\(review.comment)",
+            "date"       : "\(review.date)",
+            "username"   : "\(review.username)",
+            "images"     : review.photos
+            
+        ] as NSMutableDictionary
+        
+        let boundary = generateBoundaryString()
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        request.httpBody = createBodyWithParameters(parameters: param, boundary: boundary) as Data
+        
+        
+        //myActivityIndicator.startAnimating();
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            if error != nil {
+                print("error=\(error)")
+                return
+            }
+            
+            // You can print out response object
+            //print("******* response = \(response)")
+            
+            // Print out reponse body
+            //let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            //print("****** response data = \(responseString!)")
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary
+                
+                print(json)
+                
+//                dispatch_async(dispatch_get_main_queue(),{
+//                    self.myActivityIndicator.stopAnimating()
+//                    self.myImageView.image = nil;
+//                });
+                
+            }catch
+            {
+                print(error)
+            }
+            
+        }
+        
+        task.resume()
+    }
+    
+    
+//    func saveToDB(for review : Review)
+//    {
+//        let ipAddress = "http://130.65.159.80/SaveReview.php"
+//        let url = URL(string: ipAddress)
+//        var request = URLRequest(url: url!)
+//        request.httpMethod = "POST"
+//        
+//        let imgData = review.photos[0]!
+//        let representation = UIImagePNGRepresentation(imgData)
+//        
+//        
+//        
+//        let postString = "booth_id=\(review.boothID)&review=\(review.comment)&date=\(review.date)&username=\(review.username)&img1=\(representation)&img2=\(review.photos[1])&img3=\(review.photos[2])"
+//        
+//
+//        print(review.photos[0]!)
+//        print(review.photos[1])
+//        print(review.photos[2])
+//        
+//
+//        
+//        request.httpBody = postString.data(using: String.Encoding.utf8)
+//        URLSession.shared.dataTask(with: request, completionHandler:
+//            {
+//                (data, response, error) -> Void in
+//                if(error != nil)
+//                {
+//                    print("error=\(String(describing: error))\n")
+//                    return
+//                }
+//                do
+//                {
+//                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+//
+//                    if let parseJSON = json
+//                    {
+//                        let resultValue: String = parseJSON["status"] as! String
+//                        
+//                        if(resultValue == "success")
+//                        {
+//                           // print("result: \(resultValue)\n")
+//
+//                        }
+//                    }
+//                }
+//                catch let error as Error?
+//                {
+//                    print("Found an error - \(String(describing: error))")
+//                }
+//        }).resume()
+//
+//    }
     
     
     func deleteFromDB(for reviewID : Int)
@@ -349,4 +551,11 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
 
     
 
+}
+
+extension NSMutableData {
+    func appendString(_ string: String) {
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        append(data!)
+    }
 }
