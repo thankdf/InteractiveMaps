@@ -21,7 +21,9 @@ extension UITextField{
 
 
 
-class LoginViewController: UIViewController,UITextFieldDelegate {
+
+
+class LoginViewController: UIViewController,UITextFieldDelegate, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate {
     
     @IBOutlet weak var usernameTextField: UITextField!
     
@@ -30,6 +32,22 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var loginButton: UIButton!
     
     @IBOutlet weak var signUpField: UIButton!
+    
+    
+    
+    /* Delegate-related: mainVC implement protocol fucntion*/
+    internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
+        whichBooth.info = data
+    }
+    internal func userDidEditName(data: String, whichBooth: BoothShape) {
+        whichBooth.name = data
+    }
+    internal func userDidUploadPic(data: [UIImage], whichBooth: BoothShape){
+        whichBooth.boothPhotos = data
+    }
+    internal func userDidEditDate(data: String, whichBooth: BoothShape) {
+        whichBooth.date = data
+    }
     
     override func viewDidLoad()
     {
@@ -171,6 +189,52 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     {
         self.view.endEditing(true)
         
+    }
+
+    func popOver(_ sender: AnyObject)
+    {
+        /* This is the line of code that calls the 'prepareforSegue' method */
+        //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+        
+        let castedSender : BoothShape = sender as! BoothShape
+        
+        //print(sender.name)
+        /* This is the line of code that calls the 'prepareforSegue' method,but we are not using it */
+        //performSegue(withIdentifier: "editBoothPopover", sender: sender)
+        //print(castedSender.name + " Here!")
+        
+        
+        
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        
+        //print(NSStringFromClass(rootVC!.classForCoder))
+        
+        
+        //let strBoard = UIStoryboard(name: "Main", bundle: nil)
+        let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
+        
+        
+        //get a reference to the view controller for the popover
+        popoverController.boothRef = castedSender //as? BoothShape
+        popoverController.name = castedSender.name
+        popoverController.info = castedSender.info
+        popoverController.date = castedSender.date
+        popoverController.boothImages = castedSender.boothPhotos
+        popoverController.delegate = self
+        
+        // set the presentation style
+        popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
+        
+        // set up the popover presentation controller
+        popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
+        popoverController.popoverPresentationController?.delegate = self
+        popoverController.popoverPresentationController?.sourceView = castedSender.button
+        
+        // set anchor programatically
+        popoverController.popoverPresentationController?.sourceRect = castedSender.button.bounds
+        
+        // present the popover
+        self.present(popoverController, animated: true, completion: nil)
     }
 
 

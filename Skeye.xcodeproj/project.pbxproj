@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2CB1AC7E1EC2F0B800699E16 /* EventCoordinatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1AC7D1EC2F0B800699E16 /* EventCoordinatorController.swift */; };
+		2CB1AC821EC5A5E300699E16 /* calloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1AC811EC5A5E300699E16 /* calloutView.swift */; };
+		2CB1AC841EC5A6BA00699E16 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1AC831EC5A6BA00699E16 /* CustomAnnotationView.swift */; };
+		2CB1AC861EC5A71600699E16 /* EventCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1AC851EC5A71600699E16 /* EventCalloutView.swift */; };
 		2CF59F731EB9CD900095D356 /* CreateEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF59F721EB9CD900095D356 /* CreateEventController.swift */; };
 		2CF59F751EC0FB0D0095D356 /* BoothOwnerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF59F741EC0FB0D0095D356 /* BoothOwnerController.swift */; };
 		6A09CF561E9367DC00D0C434 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A09CF551E9367DC00D0C434 /* LoginViewController.swift */; };
@@ -48,6 +51,9 @@
 
 /* Begin PBXFileReference section */
 		2CB1AC7D1EC2F0B800699E16 /* EventCoordinatorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCoordinatorController.swift; sourceTree = "<group>"; };
+		2CB1AC811EC5A5E300699E16 /* calloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calloutView.swift; sourceTree = "<group>"; };
+		2CB1AC831EC5A6BA00699E16 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
+		2CB1AC851EC5A71600699E16 /* EventCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCalloutView.swift; sourceTree = "<group>"; };
 		2CF59F721EB9CD900095D356 /* CreateEventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventController.swift; sourceTree = "<group>"; };
 		2CF59F741EC0FB0D0095D356 /* BoothOwnerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothOwnerController.swift; sourceTree = "<group>"; };
 		6A09CF551E9367DC00D0C434 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +155,9 @@
 				6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */,
 				6AF8C5281E493BA8006F1B26 /* Info.plist */,
 				6AF8C5201E493BA8006F1B26 /* Skeye.xcdatamodeld */,
+				2CB1AC811EC5A5E300699E16 /* calloutView.swift */,
+				2CB1AC831EC5A6BA00699E16 /* CustomAnnotationView.swift */,
+				2CB1AC851EC5A71600699E16 /* EventCalloutView.swift */,
 			);
 			path = Skeye;
 			sourceTree = "<group>";
@@ -302,14 +311,17 @@
 				2CF59F731EB9CD900095D356 /* CreateEventController.swift in Sources */,
 				6A09CF561E9367DC00D0C434 /* LoginViewController.swift in Sources */,
 				6AAAA5FC1EB9398E006132BD /* TabBarController.swift in Sources */,
+				2CB1AC821EC5A5E300699E16 /* calloutView.swift in Sources */,
 				6A1300A71EB41A5E00F88AA1 /* AttendeeMapViewController.swift in Sources */,
 				6A310FF31EB022CF006966C3 /* SearchViewController.swift in Sources */,
 				6A401C631E8B186B00A3B8FB /* SignUpViewController.swift in Sources */,
 				6A310FED1EB0228C006966C3 /* LocationSearchTable.swift in Sources */,
 				6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */,
+				2CB1AC841EC5A6BA00699E16 /* CustomAnnotationView.swift in Sources */,
 				6A310FF11EB022AE006966C3 /* LocationModel.swift in Sources */,
 				6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */,
 				2CB1AC7E1EC2F0B800699E16 /* EventCoordinatorController.swift in Sources */,
+				2CB1AC861EC5A71600699E16 /* EventCalloutView.swift in Sources */,
 				2CF59F751EC0FB0D0095D356 /* BoothOwnerController.swift in Sources */,
 				6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */,
 				6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */,

@@ -21,6 +21,9 @@ protocol DataSentDelegate {
 }
 
 class EditBoothViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
+    
+    var selectedLocation : LocationModel?
+
 
 /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
      parentVC, set "this.delegate = parentVC.self" */

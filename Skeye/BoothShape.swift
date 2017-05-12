@@ -347,7 +347,7 @@ class BoothShape
     */
     @objc func popOverBoothDetails(gesture: UILongPressGestureRecognizer)
     {
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController as! AttendeeMapViewController
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController as! LoginViewController
         rootVC.popOver(self)
     }
     

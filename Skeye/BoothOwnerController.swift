@@ -15,6 +15,7 @@ class BoothOwnerController : UIViewController, UITableViewDataSource, UITableVie
     
     weak var delegate: HomeModelProtocal!
     var boothList: NSArray = NSArray()
+    var selectedLocation : LocationModel = LocationModel()
 
 
     @IBOutlet weak var boothListTable: UITableView!
@@ -62,6 +63,29 @@ class BoothOwnerController : UIViewController, UITableViewDataSource, UITableVie
         
         return myCell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Set selected location to var
+        selectedLocation = boothList[indexPath.row] as! LocationModel
+        // Manually call segue to detail view controller
+        // self.performSegue(withIdentifier: "eventPinSegue", sender: self)
+        
+        self.performSegue(withIdentifier: "BoothListToEditBooth", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // if segue.identifier == "eventPinSegue"
+        if segue.identifier == "BoothListToEditBooth"
+            
+        {
+            // Get reference to the destination view controller
+            let detailVC  = segue.destination as! EditBoothViewController
+            // Set the property to the selected location so when the view for
+            // detail view controller loads, it can access that property to get the feeditem obj
+            detailVC.selectedLocation = selectedLocation
+        }
+    }
+
     
     func retrieveBoothList()
     {

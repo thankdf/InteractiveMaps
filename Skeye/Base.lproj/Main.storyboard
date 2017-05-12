@@ -740,7 +740,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="270" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7GZ-d1-qRV">
-                                <rect key="frame" x="4" y="64" width="406" height="50"/>
+                                <rect key="frame" x="4" y="20" width="406" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="igX-Yh-Bzg"/>
                                 </constraints>
@@ -769,7 +769,7 @@
                                 </items>
                             </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZJb-wf-WNm">
-                                <rect key="frame" x="0.0" y="114" width="414" height="573"/>
+                                <rect key="frame" x="0.0" y="70" width="414" height="666"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -791,7 +791,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ltn-GX-7it" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2558" y="-1427"/>
+            <point key="canvasLocation" x="2903" y="153"/>
         </scene>
         <!--Location Search Table-->
         <scene sceneID="xQt-b4-Q4F">
@@ -830,7 +830,6 @@
                         <segue destination="Flb-lv-0bU" kind="show" identifier="eventPinSegue" id="fuM-aB-SwQ">
                             <nil key="action"/>
                         </segue>
-                        <segue destination="juw-Bh-f2b" kind="show" identifier="pinToAttendeeView" id="db8-OU-Kys"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pht-w6-NnI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -875,6 +874,7 @@
                     <navigationItem key="navigationItem" id="NRf-vn-WRb"/>
                     <connections>
                         <outlet property="mapView" destination="dLO-Zm-iEC" id="IlH-kL-QAi"/>
+                        <segue destination="juw-Bh-f2b" kind="show" identifier="pinToAttendeeView" id="Php-qo-wj4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D9u-Lr-udY" sceneMemberID="firstResponder"/>
@@ -979,8 +979,16 @@
                                         <state key="normal" title="Create Event">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqX-ag-5bh">
+                                        <rect key="frame" x="128" y="561" width="209" height="57"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="View Existing Events">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
-                                            <segue destination="Zx6-LP-ryu" kind="show" identifier="EventCoodinatorListEvents" id="LT1-NS-mmo"/>
+                                            <segue destination="Zx6-LP-ryu" kind="show" identifier="EventCoodinatorListEvents" id="RxP-lS-CBR"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1004,7 +1012,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WTs-rU-tQZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="121" y="154"/>
+            <point key="canvasLocation" x="120.28985507246378" y="153.2608695652174"/>
         </scene>
         <!--Event Coordinator Controller-->
         <scene sceneID="O3R-yh-WIl">
@@ -1048,6 +1056,7 @@
                     </view>
                     <connections>
                         <outlet property="eventsListTable" destination="v3S-DF-3fz" id="0vc-OS-9ln"/>
+                        <segue destination="juw-Bh-f2b" kind="show" identifier="EventListToAttendeeView" id="wAz-0T-gUc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PaW-V3-WKu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1103,6 +1112,7 @@
                     <tabBarItem key="tabBarItem" title="Add Booth Details" image="booth details" id="INK-zK-DZ0"/>
                     <connections>
                         <outlet property="boothListTable" destination="vNH-uB-BEG" id="dEP-Cb-gbY"/>
+                        <segue destination="rQu-Uz-5ak" kind="show" identifier="BoothListToEditBooth" id="z5b-x0-NnZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdU-vN-FKy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1181,6 +1191,7 @@
         <image name="settings" width="26" height="26"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Php-qo-wj4"/>
         <segue reference="fuM-aB-SwQ"/>
     </inferredMetricsTieBreakers>
 </document>
