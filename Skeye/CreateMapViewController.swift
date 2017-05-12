@@ -294,5 +294,11 @@ class CreateMapViewController: UIViewController
     {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func CreateEventTapped(_ sender: Any) {
+        
+        performSegue(withIdentifier: "EventCoodinatorListEvents", sender: self)
+        
+    }
 
 }

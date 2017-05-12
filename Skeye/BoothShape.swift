@@ -60,7 +60,7 @@ class BoothShape
         zoom = zoomGesture
         select = selectGesture
         move = moveGesture
-        press = UILongPressGestureRecognizer.init()
+        press = pressGesture
         name = boothName
         button.setTitle(name, for: UIControlState.normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -72,8 +72,8 @@ class BoothShape
     }
     
     /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+     // Only override draw() if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
      */
     func draw(_ rect: CGRect)
     {
@@ -83,45 +83,45 @@ class BoothShape
         //draws shapes
         switch(geometry)
         {
-            case "circle":
-                switch(col)
-                {
-                case("white"):
-                    button.setBackgroundImage(UIImage.init(named: "WhiteCircle"), for: UIControlState.normal)
-                case("red"):
-                    button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
-                case("orange"):
-                    button.setBackgroundImage(UIImage.init(named: "OrangeCircle"), for: UIControlState.normal)
-                case("yellow"):
-                    button.setBackgroundImage(UIImage.init(named: "YellowCircle"), for: UIControlState.normal)
-                case("green"):
-                    button.setBackgroundImage(UIImage.init(named: "GreenCircle"), for: UIControlState.normal)
-                case("blue"):
-                    button.setBackgroundImage(UIImage.init(named: "BlueCircle"), for: UIControlState.normal)
-                case("purple"):
-                    button.setBackgroundImage(UIImage.init(named: "PurpleCircle"), for: UIControlState.normal)
-                default: break
-                }
-            case "square":
-                switch(col)
-                {
-                case("white"):
-                    button.setBackgroundImage(UIImage.init(named: "WhiteSquare"), for: UIControlState.normal)
-                case("red"):
-                    button.setBackgroundImage(UIImage.init(named: "RedSquare"), for: UIControlState.normal)
-                case("orange"):
-                    button.setBackgroundImage(UIImage.init(named: "OrangeSquare"), for: UIControlState.normal)
-                case("yellow"):
-                    button.setBackgroundImage(UIImage.init(named: "YellowSquare"), for: UIControlState.normal)
-                case("green"):
-                    button.setBackgroundImage(UIImage.init(named: "GreenSquare"), for: UIControlState.normal)
-                case("blue"):
-                    button.setBackgroundImage(UIImage.init(named: "BlueSquare"), for: UIControlState.normal)
-                case("purple"):
-                    button.setBackgroundImage(UIImage.init(named: "PurpleSquare"), for: UIControlState.normal)
-                default: break
-            }
+        case "circle":
+            switch(col)
+            {
+            case("white"):
+                button.setBackgroundImage(UIImage.init(named: "WhiteCircle"), for: UIControlState.normal)
+            case("red"):
+                button.setBackgroundImage(UIImage.init(named: "RedCircle"), for: UIControlState.normal)
+            case("orange"):
+                button.setBackgroundImage(UIImage.init(named: "OrangeCircle"), for: UIControlState.normal)
+            case("yellow"):
+                button.setBackgroundImage(UIImage.init(named: "YellowCircle"), for: UIControlState.normal)
+            case("green"):
+                button.setBackgroundImage(UIImage.init(named: "GreenCircle"), for: UIControlState.normal)
+            case("blue"):
+                button.setBackgroundImage(UIImage.init(named: "BlueCircle"), for: UIControlState.normal)
+            case("purple"):
+                button.setBackgroundImage(UIImage.init(named: "PurpleCircle"), for: UIControlState.normal)
             default: break
+            }
+        case "square":
+            switch(col)
+            {
+            case("white"):
+                button.setBackgroundImage(UIImage.init(named: "WhiteSquare"), for: UIControlState.normal)
+            case("red"):
+                button.setBackgroundImage(UIImage.init(named: "RedSquare"), for: UIControlState.normal)
+            case("orange"):
+                button.setBackgroundImage(UIImage.init(named: "OrangeSquare"), for: UIControlState.normal)
+            case("yellow"):
+                button.setBackgroundImage(UIImage.init(named: "YellowSquare"), for: UIControlState.normal)
+            case("green"):
+                button.setBackgroundImage(UIImage.init(named: "GreenSquare"), for: UIControlState.normal)
+            case("blue"):
+                button.setBackgroundImage(UIImage.init(named: "BlueSquare"), for: UIControlState.normal)
+            case("purple"):
+                button.setBackgroundImage(UIImage.init(named: "PurpleSquare"), for: UIControlState.normal)
+            default: break
+            }
+        default: break
         }
         
         //initializes gesture recognizers
@@ -130,17 +130,11 @@ class BoothShape
         move = UIPanGestureRecognizer.init(target: self, action: #selector(pan))
         press = UILongPressGestureRecognizer.init(target: self, action: #selector((popOverBoothDetails)))
         
-        let controller = UIApplication.shared.keyWindow?.rootViewController
-        if controller is AttendeeMapViewController
-        {
-             button.addGestureRecognizer(press)
-        }
-        else if controller is MapViewController
-        {
-            button.addGestureRecognizer(zoom)
-            button.addGestureRecognizer(select)
-            button.addGestureRecognizer(move)
-        }
+        //check for class type later
+        button.addGestureRecognizer(press)
+        button.addGestureRecognizer(zoom)
+        button.addGestureRecognizer(select)
+        button.addGestureRecognizer(move)
         
         //disables gestures at the start
         zoom.isEnabled = false
@@ -152,7 +146,7 @@ class BoothShape
      */
     @objc func tap(gesture: UITapGestureRecognizer)
     {
-        if let controller = UIApplication.shared.keyWindow?.rootViewController as? MapViewController
+        if controller =  as? MapViewController
         {
             if(zoom.isEnabled && move.isEnabled && press.isEnabled)
             {
@@ -301,11 +295,12 @@ class BoothShape
                 press.isEnabled = true
             }
         }
+
     }
     
     /*
      Zooming function for booths
-    */
+     */
     @objc func pinch(gesture: UIPinchGestureRecognizer)
     {
         if let viewer = gesture.view
@@ -362,16 +357,21 @@ class BoothShape
     
     /*
      Initiates popover function in the view controller as attendee
-    */
+     */
     @objc func popOverBoothDetails(gesture: UILongPressGestureRecognizer)
     {
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController as! AttendeeMapViewController
-        rootVC.popOver(self)
+        for controllers in (UIApplication.shared.keyWindow?.rootViewController?.childViewControllers)!
+        {
+            if let rootVC = controllers as? AttendeeMapViewController
+            {
+                rootVC.popOver(self)
+            }
+        }
     }
     
     /*
      Comparing whether two booths are identical
-    */
+     */
     func equals(_ shape: BoothShape) -> Bool
     {
         if(button == shape.button && origin == shape.origin && col == shape.col && geometry == shape.geometry && name == shape.name && info == shape.info && boothPhotos == shape.boothPhotos && id == shape.id && user == shape.user)

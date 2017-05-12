@@ -71,6 +71,8 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
     
+    var buttons: [UIButton] = []
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -87,28 +89,27 @@ class SignUpViewController: UIViewController {
         attendeeButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(buttonTouched)))
         signUp.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(register)))
         back.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action:  #selector(cancel)))
+        buttons.append(coordinatorButton)
+        buttons.append(ownerButton)
+        buttons.append(attendeeButton)
     }
     
-    func buttonTouched(gesture: UIGestureRecognizer)
+    func buttonTouched(_ gesture: UITapGestureRecognizer)
     {
-        let button = gesture.view as? UIButton
-        let text = button?.titleLabel!.text!
+        let button = gesture.view as! UIButton
+        let text = button.titleLabel!.text!
         
-        for subview in self.view.subviews
+        for subview in buttons
         {
-            if let button = subview as? UIButton
-            {
-                if button.titleLabel?.text == text
-                {
-                    button.backgroundColor = UIColor.init(red: 53.0/255, green: 220.0/255, blue: 53.0/255, alpha: 1)
-                    button.setTitleColor(UIColor.black, for: .normal)
-                }
-                else
-                {
-                    //custom color we have chose for sign up, modify this later
-                    button.backgroundColor = UIColor.init(red: 14.0/255, green: 97.0/255, blue: 90.0/255, alpha: 1)
-                    button.setTitleColor(UIColor.white, for: .normal)
-                }
+           if button.titleLabel?.text == subview.titleLabel?.text
+           {
+                subview.backgroundColor = UIColor.init(red: 53.0/255, green: 220.0/255, blue: 53.0/255, alpha: 1)
+                subview.setTitleColor(UIColor.black, for: .normal)
+           }
+           else
+           {
+                subview.backgroundColor = UIColor.init(red: 14.0/255, green: 97.0/255, blue: 90.0/255, alpha: 1)
+                subview.setTitleColor(UIColor.white, for: .normal)
             }
         }
     }
@@ -122,15 +123,15 @@ class SignUpViewController: UIViewController {
         let passwordText = password.text!
         let confirmPasswordText = confirmPassword.text!
         var permissionsText: Int = 0
-        if(coordinatorButton.backgroundColor == UIColor.red)
+        if(coordinatorButton.backgroundColor == UIColor.init(red: 53.0/255, green: 220.0/255, blue: 53.0/255, alpha: 1))
         {
             permissionsText = 1
         }
-        else if(ownerButton.backgroundColor == UIColor.red)
+        else if(ownerButton.backgroundColor == UIColor.init(red: 53.0/255, green: 220.0/255, blue: 53.0/255, alpha: 1))
         {
             permissionsText = 2
         }
-        else if(attendeeButton.backgroundColor == UIColor.red)
+        else if(attendeeButton.backgroundColor == UIColor.init(red: 53.0/255, green: 220.0/255, blue: 53.0/255, alpha: 1))
         {
             permissionsText = 3
         }

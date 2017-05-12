@@ -22,6 +22,21 @@ protocol DataSentDelegate {
 
 class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
     
+    @IBOutlet weak var reviewButton: UIButton!
+    {
+        didSet
+        {
+            reviewButton.titleLabel?.adjustsFontSizeToFitWidth = true 
+        }
+    
+    }
+    @IBOutlet weak var deleteButton: UIButton!
+    {
+        didSet
+        {
+            deleteButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        }
+    }
     /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
      parentVC, set "this.delegate = parentVC.self" */
     
@@ -36,7 +51,13 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let widthfactor = self.view.bounds.width/screen.bounds.width
+        let heightfactor = self.view.bounds.height/screen.bounds.height
+        screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
+        for subview in screen.subviews
+        {
+            subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
+        }
         boothName.text = name
         boothInfo.text = info
         boothDate.text = date
@@ -55,6 +76,35 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         createDatePicker()
         loadImages()
     }
+    
+    @IBOutlet weak var deleteBooth: UIButton!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    {
+        didSet
+        {
+            nameLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var hoursLabel: UILabel!
+    {
+        didSet
+        {
+            hoursLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var infoLabel: UILabel!
+    {
+        didSet
+        {
+            infoLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    
+    @IBOutlet weak var screen: UIView!
     
     @IBOutlet weak var datePickerTxt: UITextField!
     

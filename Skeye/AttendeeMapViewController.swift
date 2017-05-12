@@ -10,6 +10,8 @@ import UIKit
 
 class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresentationControllerDelegate, DataSentDelegate
 {
+     var selectedLocation : LocationModel?
+    
     /* Delegate-related: mainVC implement protocol fucntion*/
     internal func userDidEditInfo(data: String, whichBooth: BoothShape) {
         whichBooth.info = data
@@ -54,6 +56,12 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     
     /* Activity Indicator */
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    {
+        didSet
+        {
+            loadingView.hidesWhenStopped = true
+        }
+    }
     
     override func viewDidLoad()
     {
@@ -239,7 +247,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     @IBAction func backPressed(_ sender: UIButton)
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
-        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
+        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
         UserDefaults.standard.set(0, forKey: "mapID")
         self.present(searchController, animated: true, completion: nil)
     }

@@ -184,7 +184,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         scrollView.frame = view.bounds
         
         //for testing
-        UserDefaults.standard.set(81, forKey: "mapID")
+        UserDefaults.standard.set(1, forKey: "mapID")
         UserDefaults.standard.set("hk.at.dang@gmail.com", forKey: "username")
         
         //Sets stack, navbar, and permissions bar each at 1/10th of the view display
@@ -367,7 +367,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             }
             do
             {
-                var id = 1
                 let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                 if let parseJSON = json
                 {
@@ -483,7 +482,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     {
         UserDefaults.standard.set(0, forKey: "mapID")
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
-        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "NavigationController")
+        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
         self.present(searchController, animated: true, completion: nil)
     }
     
