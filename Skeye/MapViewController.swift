@@ -183,10 +183,6 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         view.isUserInteractionEnabled = false
         scrollView.frame = view.bounds
         
-        //for testing
-        UserDefaults.standard.set(1, forKey: "mapID")
-        UserDefaults.standard.set("hk.at.dang@gmail.com", forKey: "username")
-        
         //Sets stack, navbar, and permissions bar each at 1/10th of the view display
         stack.frame = CGRect.init(x: 0, y: 9 * self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)
         permissionsBar.frame = CGRect.init(x: 0, y: self.view.bounds.height/10, width: self.view.bounds.width, height: self.view.bounds.height/10)

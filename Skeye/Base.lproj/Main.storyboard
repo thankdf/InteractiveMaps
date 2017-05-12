@@ -301,11 +301,11 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="41"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z63-Iw-0vv" id="j7q-fi-KoZ">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="40.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zdT-9l-w9q">
-                                            <rect key="frame" x="20" y="0.0" width="379" height="40"/>
+                                            <rect key="frame" x="15" y="0.0" width="384" height="40.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -469,7 +469,6 @@
                                         <rect key="frame" x="119" y="514" width="264" height="180"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.69411764710000001" green="0.87450980389999999" blue="0.99215686270000003" alpha="1" colorSpace="calibratedRGB"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -554,16 +553,21 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
-                        <outlet property="boothDate" destination="LXU-1i-TmD" id="IHB-d4-j4d"/>
-                        <outlet property="boothInfo" destination="S34-Rt-Gpq" id="Rbx-Gu-FS6"/>
-                        <outlet property="boothName" destination="j9e-M3-1D1" id="WyR-le-cBl"/>
-                        <outlet property="datePickerTxt" destination="LXU-1i-TmD" id="w2G-bU-cak"/>
-                        <outlet property="hoursLabel" destination="kYy-uZ-xCH" id="BrC-vB-Gqj"/>
+                        <outlet property="abbreviationLabel" destination="b3z-64-7Ek" id="3WI-Xb-B6v"/>
+                        <outlet property="abbreviationTextField" destination="gZl-7p-JZU" id="Hbq-7E-9kf"/>
+                        <outlet property="backButton" destination="V6v-Xd-eI7" id="IZQ-vt-bjT"/>
+                        <outlet property="doneButton" destination="Ecf-6f-kHh" id="ROu-RV-XTm"/>
+                        <outlet property="endTimeLabel" destination="6c5-40-6p4" id="bYg-yX-O9d"/>
+                        <outlet property="endTimeTextField" destination="RIN-tl-Z6u" id="eez-9d-RNL"/>
                         <outlet property="imageScrollView" destination="Erp-H8-Isj" id="qPa-ij-lV9"/>
-                        <outlet property="infoLabel" destination="huN-Cb-0SN" id="sss-k3-Eqi"/>
-                        <outlet property="nameLabel" destination="4lR-vv-O1f" id="JPl-9z-qrv"/>
+                        <outlet property="infoLabel" destination="huN-Cb-0SN" id="bhL-Tv-4LQ"/>
+                        <outlet property="infoTextField" destination="S34-Rt-Gpq" id="JkQ-PQ-oUZ"/>
+                        <outlet property="nameLabel" destination="4lR-vv-O1f" id="aef-WP-kHR"/>
+                        <outlet property="nameTextField" destination="j9e-M3-1D1" id="GLd-8X-723"/>
                         <outlet property="reviewButton" destination="rXu-nv-5z5" id="eqg-Rr-Q5P"/>
                         <outlet property="screen" destination="2GH-Zv-suC" id="UmH-gQ-shl"/>
+                        <outlet property="startTimeLabel" destination="kYy-uZ-xCH" id="JNE-sd-sHA"/>
+                        <outlet property="startTimeTextField" destination="LXU-1i-TmD" id="2lZ-6v-gZQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7OW-QE-2nE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1272,18 +1276,18 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JkK-h5-il3" id="7EG-fi-43r">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="55.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jVC-dl-gvR">
-                                                    <rect key="frame" x="15" y="10" width="34" height="21"/>
+                                                    <rect key="frame" x="15" y="10.999999999999998" width="33.333333333333336" height="20.333333333333332"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BJo-fg-WOo">
-                                                    <rect key="frame" x="15" y="31" width="44" height="15"/>
+                                                    <rect key="frame" x="14.999999999999996" y="31.333333333333332" width="43.666666666666664" height="14.333333333333334"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                                     <nil key="textColor"/>
@@ -1327,11 +1331,11 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W2x-0S-PVN" id="eIu-dg-mLr">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rwP-B2-uzX">
-                                                    <rect key="frame" x="15" y="0.0" width="384" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="384" height="43.666666666666664"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                                     <nil key="textColor"/>

@@ -14,8 +14,10 @@ import UIKit
 
 protocol DataSentDelegate {
     func userDidEditName(data:String, whichBooth: BoothShape)
+    func userDidEditAbbrev(data:String, whichBooth: BoothShape)
     func userDidEditInfo(data:String, whichBooth: BoothShape)
-    func userDidEditDate(data:String, whichBooth: BoothShape)
+    func userDidEditStartTime(data:String, whichBooth: BoothShape)
+    func userDidEditEndTime(data:String, whichBooth: BoothShape)
     func userDidUploadPic(data:[UIImage], whichBooth: BoothShape)
     
 }
@@ -30,55 +32,6 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         }
     
     }
-    @IBOutlet weak var deleteButton: UIButton!
-    {
-        didSet
-        {
-            deleteButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        }
-    }
-    /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
-     parentVC, set "this.delegate = parentVC.self" */
-    
-    var delegate: DataSentDelegate? = nil;
-    var boothRef :BoothShape? = nil
-    var name = ""
-    var info = ""
-    var date = ""
-    var boothImages:[UIImage] = []
-    
-    let datePicker = UIDatePicker()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let widthfactor = self.view.bounds.width/screen.bounds.width
-        let heightfactor = self.view.bounds.height/screen.bounds.height
-        screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
-        for subview in screen.subviews
-        {
-            subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
-        }
-        datePicker.datePickerMode = UIDatePickerMode.time
-        boothName.text = name
-        boothInfo.text = info
-        boothDate.text = date
-        
-        
-        boothInfo.layer.cornerRadius = 5.0
-        
-        //       // boothInfo.layer.shadowColor = UIColor.black.cgColor
-        //        boothInfo.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
-        //        boothInfo.layer.shadowOpacity = 1.0
-        //        boothInfo.layer.shadowRadius = 2.0
-        
-        
-        
-        
-        createDatePicker()
-        loadImages()
-    }
-    
-    @IBOutlet weak var deleteBooth: UIButton!
     
     @IBOutlet weak var nameLabel: UILabel!
     {
@@ -88,11 +41,27 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
-    @IBOutlet weak var hoursLabel: UILabel!
+    @IBOutlet weak var abbreviationLabel: UILabel!
     {
         didSet
         {
-            hoursLabel.adjustsFontSizeToFitWidth = true
+            abbreviationLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var startTimeLabel: UILabel!
+    {
+        didSet
+        {
+            startTimeLabel.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    @IBOutlet weak var endTimeLabel: UILabel!
+    {
+        didSet
+        {
+            endTimeLabel.adjustsFontSizeToFitWidth = true
         }
     }
     
@@ -104,19 +73,102 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
+    @IBOutlet weak var nameTextField: UITextField!
+    
+    @IBOutlet weak var abbreviationTextField: UITextField!
+    
+    @IBOutlet weak var startTimeTextField: UITextField!
+    
+    @IBOutlet weak var endTimeTextField: UITextField!
+    
+    @IBOutlet weak var infoTextField: UITextView!
+    
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
+    /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
+     parentVC, set "this.delegate = parentVC.self" */
+    
+    var delegate: DataSentDelegate? = nil;
+    var boothRef :BoothShape? = nil
+    var name = ""
+    var abbreviation = ""
+    var info = ""
+    var startTime = ""
+    var endTime = ""
+    var boothImages:[UIImage] = []
+    
+    let datePicker = UIDatePicker()
     
     @IBOutlet weak var screen: UIView!
     
-    @IBOutlet weak var datePickerTxt: UITextField!
-    
-    @IBOutlet weak var boothName: UITextField!
-    
-    @IBOutlet weak var boothInfo: UITextView!
-    
-    @IBOutlet weak var boothDate: UITextField!
-    
-    
     @IBOutlet weak var imageScrollView: UIScrollView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let widthfactor = self.view.bounds.width/screen.bounds.width
+        let heightfactor = self.view.bounds.height/screen.bounds.height
+        screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
+        for subview in screen.subviews
+        {
+            subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
+        }
+        datePicker.datePickerMode = UIDatePickerMode.time
+        infoTextField.layer.cornerRadius = 5.0
+        
+        //HTTP Request to retrieve booth detail information
+        let ipAddress = "http://130.65.159.80/RetrieveBooth.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        
+        let postString = "boothID=\(UserDefaults.standard.integer(forKey: "boothID"))"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        let booth = parseJSON["booth"] as! [String: Any]
+                        self.nameTextField.text = booth["booth_name"] as! String
+                        self.abbreviationTextField.text = booth["booth_abbrev"] as! String
+                        self.startTimeTextField.text = booth["start_time"] as! String
+                        self.endTimeTextField.text = booth["end_time"] as! String
+                        self.infoTextField.text = booth["booth_info"] as! String
+                        self.name = self.nameTextField.text!
+                        self.abbreviation = self.abbreviationTextField.text!
+                        self.startTime = self.startTimeTextField.text!
+                        self.endTime = self.endTimeTextField.text!
+                        self.info = self.infoTextField.text!
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                }
+                
+        }).resume()
+        
+        //       // boothInfo.layer.shadowColor = UIColor.black.cgColor
+        //        boothInfo.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        //        boothInfo.layer.shadowOpacity = 1.0
+        //        boothInfo.layer.shadowRadius = 2.0
+        startTimePicker()
+        endTimePicker()
+        loadImages()
+    }
     
     @IBAction func imageTapped(sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
@@ -185,26 +237,6 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         dismiss(animated:true, completion: nil)
     }
     
-    
-    /* Date Picker */
-    func createDatePicker(){
-        
-        //datePicker.datePickerMode = .date
-        
-        //toolbar
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        
-        //bar button item
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(dateDonePressed))
-        toolbar.setItems([doneButton], animated: false)
-        
-        datePickerTxt.inputAccessoryView = toolbar
-        
-        //assigning date picker to textfield
-        datePickerTxt.inputView = datePicker
-    }
-    
     //load ImageArray into the scroll view
     func loadImages(){
         
@@ -270,15 +302,69 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         
     }
     
-    func dateDonePressed(){
+    /* Date Picker */
+    func startTimePicker(){
+        
+        datePicker.minimumDate = Date()
+        
+        
+        
+        //toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        //bar button item
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(startTimeDonePressed))
+        toolbar.setItems([doneButton], animated: false)
+        
+        startTimeTextField.inputAccessoryView = toolbar
+        
+        //assigning date picker to textfield
+        startTimeTextField.inputView = datePicker
+    }
+    
+    func startTimeDonePressed(){
         
         // formate date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         
-        //datePickerTxt.text = "\(datePicker.date)" //without formatting
-        datePickerTxt.text = dateFormatter.string(from: datePicker.date)
+        
+        startTimeTextField.text = dateFormatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+        
+    }
+    
+    
+    func endTimePicker(){
+        
+        // datePicker.datePickerMode = .date
+        datePicker.minimumDate = Date()
+        
+        //toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        //bar button item
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(endTimeDonePressed))
+        toolbar.setItems([doneButton], animated: false)
+        
+        endTimeTextField.inputAccessoryView = toolbar
+        
+        //assigning date picker to textfield
+        endTimeTextField.inputView = datePicker
+    }
+    
+    func endTimeDonePressed(){
+        
+        // format date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        
+        
+        endTimeTextField.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
     
@@ -293,44 +379,115 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     // Done button clicked
     
-    @IBAction func DoneBtnPressed(_ sender: UIBarButtonItem) {
+    @IBAction func save(_ sender: UIBarButtonItem)
+    {
+        UserDefaults.standard.set(0, forKey: "boothID")
+        
+        //HTTP Request to save booth detail information
+        let ipAddress = "http://130.65.159.80/SaveBooth.php"
+        let url = URL(string: ipAddress)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        
+        let postString = "boothID=\(UserDefaults.standard.integer(forKey: "boothID"))&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+        URLSession.shared.dataTask(with: request, completionHandler:
+            {
+                (data, response, error) -> Void in
+                if(error != nil)
+                {
+                    print("error=\(String(describing: error))\n")
+                    return
+                }
+                do
+                {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                    if let parseJSON = json
+                    {
+                        let resultValue: String = parseJSON["status"] as! String
+                        print("result: \(resultValue)\n")
+                        self.updateDelegate()
+                        self.displayAlert(parseJSON["message"] as! String)
+                    }
+                }
+                catch let error as Error?
+                {
+                    print("Found an error - \(String(describing: error))")
+                    self.displayAlert("Was not able to successfully save booth.")
+                }
+                
+        }).resume()
+    }
+
+    func updateDelegate()
+    {
         if delegate != nil
         {
             // check name change
-            if boothName.text != name
+            if nameTextField.text != name
             {
-                if let newName = boothName.text
+                if let newName = nameTextField.text
                 {
                     delegate?.userDidEditName(data: newName, whichBooth: boothRef!)
                 }
                 else{
-                    print("null value for name")
+                    print("Name not changed.")
                 }
                 
             }
             
             // check info change
-            if boothInfo.text != info
+            if infoTextField.text != info
             {
-                if let newInfo = boothInfo.text
+                if let newInfo = infoTextField.text
                 {
                     delegate?.userDidEditInfo (data: newInfo, whichBooth: boothRef!)
                 }
-                else{
-                    print("null value for info")
+                else
+                {
+                    print("Info not changed.")
                 }
                 
             }
             
-            // check date change
-            if boothDate.text != date
+            // check start time change
+            if startTimeTextField.text != startTime
             {
-                if let newDate = boothDate.text
+                if let newStartTime = startTimeTextField.text
                 {
-                    delegate?.userDidEditDate (data: newDate, whichBooth: boothRef!)
+                    delegate?.userDidEditStartTime(data: newStartTime, whichBooth: boothRef!)
+                }
+                else
+                {
+                    print("Start time not changed.")
+                }
+                
+            }
+            
+            // check end time change
+            if endTimeTextField.text != endTime
+            {
+                if let newEndTime = endTimeTextField.text
+                {
+                    delegate?.userDidEditEndTime(data: newEndTime, whichBooth: boothRef!)
+                }
+                else
+                {
+                    print("End time not changed.")
+                }
+                
+            }
+            
+            // check info change
+            if abbreviationTextField.text != info
+            {
+                if let newAbbreviation = abbreviationTextField.text
+                {
+                    delegate?.userDidEditInfo(data: newAbbreviation, whichBooth: boothRef!)
                 }
                 else{
-                    print("null value for date")
+                    print("Abbreviation not changed.")
                 }
                 
             }
@@ -341,13 +498,13 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                 delegate?.userDidUploadPic(data: boothImages, whichBooth:boothRef!)
                 
             }
-            
-            self.presentingViewController!.dismiss(animated: false, completion: nil) //To dismiss popover
+
         }
     }
     
-    
+
     @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
+        UserDefaults.standard.set(0, forKey: "boothID")
         self.presentingViewController!.dismiss(animated: true, completion: nil) //To dismiss itself
     }
     
@@ -361,7 +518,17 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         self.view.endEditing(true)
     }
     
-    
+    private func displayAlert(_ message: String)
+    {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (action:UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(ok)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     

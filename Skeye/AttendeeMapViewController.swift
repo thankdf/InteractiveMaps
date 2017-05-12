@@ -22,8 +22,14 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     internal func userDidUploadPic(data: [UIImage], whichBooth: BoothShape){
         whichBooth.boothPhotos = data
     }
-    internal func userDidEditDate(data: String, whichBooth: BoothShape) {
-        whichBooth.date = data
+    internal func userDidEditStartTime(data: String, whichBooth: BoothShape) {
+        whichBooth.startTime = data
+    }
+    internal func userDidEditEndTime(data: String, whichBooth: BoothShape) {
+        whichBooth.endTime = data
+    }
+    internal func userDidEditAbbrev(data: String, whichBooth: BoothShape) {
+        whichBooth.abbrev = data
     }
     
     /* Map Boundaries */
@@ -68,10 +74,6 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         super.viewDidLoad()
         view.isUserInteractionEnabled = false
         scrollView.frame = view.bounds
-        
-        //for testing
-        UserDefaults.standard.set(1, forKey: "mapID")
-        UserDefaults.standard.set("hk.at.dang@gmail.com", forKey: "username")
         
         //Sets navbar bar each at 1/10th of the view display
         navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
@@ -226,7 +228,9 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         popoverController.boothRef = castedSender //as? BoothShape
         popoverController.name = castedSender.name
         popoverController.info = castedSender.info
-        popoverController.date = castedSender.date
+        popoverController.startTime = castedSender.startTime
+        popoverController.endTime = castedSender.endTime
+        popoverController.abbreviation = castedSender.abbrev
         popoverController.boothImages = castedSender.boothPhotos
         popoverController.delegate = self
         
@@ -253,6 +257,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
         let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
         UserDefaults.standard.set(0, forKey: "mapID")
+        UserDefaults.standard.set(0, forKey: "boothID")
         self.present(searchController, animated: true, completion: nil)
     }
     
