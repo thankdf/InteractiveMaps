@@ -69,6 +69,10 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         view.isUserInteractionEnabled = false
         scrollView.frame = view.bounds
         
+        //for testing
+        UserDefaults.standard.set(1, forKey: "mapID")
+        UserDefaults.standard.set("hk.at.dang@gmail.com", forKey: "username")
+        
         //Sets navbar bar each at 1/10th of the view display
         navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
         

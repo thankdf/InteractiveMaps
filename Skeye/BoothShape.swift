@@ -146,7 +146,13 @@ class BoothShape
      */
     @objc func tap(gesture: UITapGestureRecognizer)
     {
-        if controller =  as? MapViewController
+        let window = UIApplication.shared.keyWindow
+        var vc = window?.rootViewController
+        while (vc?.presentedViewController != nil)
+        {
+            vc = vc?.presentedViewController;
+        }
+        if let controller = vc as? MapViewController
         {
             if(zoom.isEnabled && move.isEnabled && press.isEnabled)
             {
@@ -360,12 +366,15 @@ class BoothShape
      */
     @objc func popOverBoothDetails(gesture: UILongPressGestureRecognizer)
     {
-        for controllers in (UIApplication.shared.keyWindow?.rootViewController?.childViewControllers)!
+        let window = UIApplication.shared.keyWindow
+        var vc = window?.rootViewController
+        while (vc?.presentedViewController != nil)
         {
-            if let rootVC = controllers as? AttendeeMapViewController
-            {
-                rootVC.popOver(self)
-            }
+            vc = vc?.presentedViewController;
+        }
+        if let rootVC = vc as? AttendeeMapViewController
+        {
+            rootVC.popOver(self)
         }
     }
     

@@ -58,6 +58,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         {
             subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
         }
+        datePicker.datePickerMode = UIDatePickerMode.time
         boothName.text = name
         boothInfo.text = info
         boothDate.text = date

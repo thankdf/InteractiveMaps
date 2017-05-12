@@ -292,7 +292,9 @@ class CreateMapViewController: UIViewController
     
     func back(gesture: UITapGestureRecognizer)
     {
-        self.dismiss(animated: true, completion: nil)
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
+        self.present(searchController, animated: true, completion: nil)
     }
     
     @IBAction func CreateEventTapped(_ sender: Any) {
