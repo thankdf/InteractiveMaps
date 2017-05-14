@@ -36,6 +36,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         }
     }
     
+    var selectedLocation : LocationModel?
+    
     /* Background Image */
     var mapImage: UIImageView!
     {
@@ -208,7 +210,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "eventID=\(UserDefaults.standard.integer(forKey: "mapID"))"
+        let postString = "eventID=\(selectedLocation!.event_id!)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -226,19 +228,22 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     {
                         let resultValue: String = parseJSON["status"] as! String
                         print("result: \(resultValue)\n")
-                        let map = parseJSON["map"] as! [String: Any]
-                        let booths = parseJSON["booths"] as! [[String: Any]]
-
-                        for booth in booths
+                        if(resultValue == "success")
                         {
-                            let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
-                            newButton.draw(self.mapImage.bounds)
-                            self.mapImage.addSubview(newButton.button)
-                            self.booths.append(newButton)
+                            let map = parseJSON["map"] as! [String: Any]
+                            let booths = parseJSON["booths"] as! [[String: Any]]
+                            
+                            for booth in booths
+                            {
+                                let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
+                                newButton.draw(self.mapImage.bounds)
+                                self.mapImage.addSubview(newButton.button)
+                                self.booths.append(newButton)
+                            }
+                            self.mapName.title = map["event_name"] as? String
+                            self.view.isUserInteractionEnabled = true
+                            self.loadingView.stopAnimating()
                         }
-                        self.mapName.title = map["event_name"] as? String
-                        self.view.isUserInteractionEnabled = true
-                        self.loadingView.stopAnimating()
                     }
                 }
                 catch let error as Error?
@@ -351,7 +356,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        let postString = "event_id=\(UserDefaults.standard.integer(forKey: "mapID"))&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=square&color=white"
+        let postString = "event_id=\(selectedLocation?.event_id!))&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=square&color=white"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         URLSession.shared.dataTask(with: request, completionHandler:
         {
@@ -476,10 +481,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     
     @IBAction func backPressed(_ sender: UIButton)
     {
-        UserDefaults.standard.set(0, forKey: "mapID")
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController
-        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
-        self.present(searchController, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     /*
@@ -497,7 +499,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         {
             boothsJSON["\(booth.id)"] = ["username": booth.user, "location_x": booth.origin.x, "location_y": booth.origin.y, "shape": booth.geometry, "color": booth.col, "width": booth.rectangle.width, "height": booth.rectangle.height]
         }
-        let post = ["mapID": "\(UserDefaults.standard.integer(forKey: "mapID"))", "user": "\(UserDefaults.standard.string(forKey: "username"))", "booths": boothsJSON] as [String : Any]
+        let post = ["mapID": "\(selectedLocation?.event_id!)", "user": "\(UserDefaults.standard.string(forKey: "username"))", "booths": boothsJSON] as [String : Any]
         request.httpBody = try! JSONSerialization.data(withJSONObject: post, options: [])
         URLSession.shared.dataTask(with: request, completionHandler:
             {
@@ -632,7 +634,9 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
         {
             (action:UIAlertAction) in
-            self.dismiss(animated: true, completion: nil)
+            let rootVC = UIApplication.shared.keyWindow?.rootViewController
+            let tabBarController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
+            self.present(tabBarController, animated: true, completion: nil)
         }
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
@@ -744,6 +748,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     
             //let strBoard = UIStoryboard(name: "Main", bundle: nil)
             let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "CreateMapViewController") as! CreateMapViewController
+            popoverController.selectedLocation = LocationModel()
+            popoverController.selectedLocation?.event_id = self.selectedLocation?.event_id
     
     
             //get a reference to the view controller for the popover

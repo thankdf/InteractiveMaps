@@ -10,7 +10,7 @@ import UIKit
 
 class CreateMapViewController: UIViewController
 {
-
+    var selectedLocation : LocationModel?
     let datePicker = UIDatePicker()
     let timePicker = UIDatePicker()
     
@@ -60,14 +60,14 @@ class CreateMapViewController: UIViewController
         }
         startDatePicker()
         endDatePicker()
-        if(UserDefaults.standard.integer(forKey: "mapID") != 0)
+        if(selectedLocation?.event_id != nil)
         {
             //HTML Request
             let ipAddress = "http://130.65.159.80/LoadMapData.php"
             let url = URL(string: ipAddress)
             var request = URLRequest(url: url!)
             request.httpMethod = "POST"
-            let postString = "mapID=\(UserDefaults.standard.integer(forKey: "mapID"))"
+            let postString = "mapID=\((selectedLocation?.event_id)!)"
             request.httpBody = postString.data(using: String.Encoding.utf8)
             URLSession.shared.dataTask(with: request, completionHandler:
                 {
@@ -190,17 +190,27 @@ class CreateMapViewController: UIViewController
         }
         else
         {
-            let startDate = StartDateText.text!.substring(to: StartDateText.text!.characters.index(StartDateText.text!.endIndex, offsetBy: -9))
-            let endDate = EndDateText.text!.substring(to: EndDateText.text!.characters.index(EndDateText.text!.endIndex, offsetBy: -9))
-            let startTime = StartDateText.text!.substring(from: StartDateText.text!.characters.index(StartDateText.text!.endIndex, offsetBy: -7))
-            let endTime = EndDateText.text!.substring(from: EndDateText.text!.characters.index(EndDateText.text!.endIndex, offsetBy: -7))
+            let startDate = StartDateText.text!.substring(to: (StartDateText.text!.range(of: ",", options: .backwards)?.lowerBound)!)
+            let endDate = EndDateText.text!.substring(to: (EndDateText.text!.range(of: ",", options: .backwards)?.lowerBound)!)
+            let startTime = StartDateText.text!.substring(from: StartDateText.text!.index(startDate.endIndex, offsetBy: 3))
+            let endTime = EndDateText.text!.substring(from: EndDateText.text!.index(endDate.endIndex, offsetBy: 3))
+            
+            var event_id: Int
+            if(selectedLocation?.event_id == nil)
+            {
+                event_id = 0
+            }
+            else
+            {
+                event_id = (selectedLocation?.event_id)!
+            }
             
             //HTML Request
             let ipAddress = "http://130.65.159.80/SaveMapInfo.php"
             let url = URL(string: ipAddress)
             var request = URLRequest(url: url!)
             request.httpMethod = "POST"
-            let postString = "event_name=\(eventName.text!)&street_address=\(streetAddress.text!)&city=\(city.text!)&state=\(state.text!)&zipcode=\(zipCode.text!)&start_date=\(startDate)&end_date=\(endDate)&start_time=\(startTime)&end_time=\(endTime)&event_id=\(UserDefaults.standard.integer(forKey: "mapID"))&address_id=\(address_id)&username=\(UserDefaults.standard.string(forKey: "username")!)"
+            let postString = "event_name=\(eventName.text!)&street_address=\(streetAddress.text!)&city=\(city.text!)&state=\(state.text!)&zipcode=\(zipCode.text!)&start_date=\(startDate)&end_date=\(endDate)&start_time=\(startTime)&end_time=\(endTime)&event_id=\(event_id)&address_id=\(address_id)&username=\(UserDefaults.standard.string(forKey: "username")!)"
             print(postString)
             request.httpBody = postString.data(using: String.Encoding.utf8)
             URLSession.shared.dataTask(with: request, completionHandler:
@@ -222,13 +232,13 @@ class CreateMapViewController: UIViewController
                             if(resultValue == "success")
                             {
                                 
-                                if(UserDefaults.standard.integer(forKey: "mapID") == 0)
+                                if(self.selectedLocation?.event_id == nil)
                                 {
+                                    event_id = (parseJSON["mapID"] as? Int)!
                                     DispatchQueue.main.async
                                     {
-                                        self.displayAlertNew(messageToDisplay!)
+                                        self.displayAlertNew(messageToDisplay!, event_id)
                                     }
-                                    UserDefaults.standard.set(parseJSON["mapID"] as! Int,forKey: "mapID")
                                 }
                                 else
                                 {
@@ -268,15 +278,17 @@ class CreateMapViewController: UIViewController
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func displayAlertNew(_ message: String)
+    private func displayAlertNew(_ message: String, _ id: Int)
     {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
         {
             (action:UIAlertAction) in
             let rootVC = UIApplication.shared.keyWindow?.rootViewController
-            let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
-            self.present(searchController, animated: true, completion: nil)
+            let mapViewController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+            mapViewController.selectedLocation = LocationModel()
+            mapViewController.selectedLocation?.event_id = id
+            self.present(mapViewController, animated: true, completion: nil)
         }
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
@@ -292,15 +304,6 @@ class CreateMapViewController: UIViewController
     
     func back(gesture: UITapGestureRecognizer)
     {
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController
-        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
-        self.present(searchController, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
-    
-    @IBAction func CreateEventTapped(_ sender: Any) {
-        
-        performSegue(withIdentifier: "EventCoodinatorListEvents", sender: self)
-        
-    }
-
 }

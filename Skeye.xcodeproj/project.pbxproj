@@ -24,6 +24,9 @@
 		6A401C631E8B186B00A3B8FB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A401C621E8B186B00A3B8FB /* SignUpViewController.swift */; };
 		6A5B508B1EBBC94F00BECA90 /* CreateMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5B508A1EBBC94F00BECA90 /* CreateMapViewController.swift */; };
 		6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */; };
+		6AA8021A1EC67E3900C82D86 /* calloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA802171EC67E3900C82D86 /* calloutView.swift */; };
+		6AA8021B1EC67E3900C82D86 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA802181EC67E3900C82D86 /* CustomAnnotationView.swift */; };
+		6AA8021C1EC67E3900C82D86 /* EventCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA802191EC67E3900C82D86 /* EventCalloutView.swift */; };
 		6AAAA5FC1EB9398E006132BD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAAA5FB1EB9398E006132BD /* TabBarController.swift */; };
 		6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */; };
 		6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */; };
@@ -69,6 +72,9 @@
 		6A401C621E8B186B00A3B8FB /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		6A5B508A1EBBC94F00BECA90 /* CreateMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMapViewController.swift; sourceTree = "<group>"; };
 		6A65EA291E860B9200AEFE68 /* EditBoothViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBoothViewController.swift; sourceTree = "<group>"; };
+		6AA802171EC67E3900C82D86 /* calloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calloutView.swift; sourceTree = "<group>"; };
+		6AA802181EC67E3900C82D86 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
+		6AA802191EC67E3900C82D86 /* EventCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCalloutView.swift; sourceTree = "<group>"; };
 		6AAAA5FB1EB9398E006132BD /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6AF8C5161E493BA7006F1B26 /* Skeye.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skeye.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +134,7 @@
 				6A310FEF1EB022AE006966C3 /* LocationModel.swift */,
 				6AAAA5FB1EB9398E006132BD /* TabBarController.swift */,
 				6A16FD991EC4DAC600E3C965 /* BoothOwnerController.swift */,
+				6A16FD951EC4CCA100E3C965 /* EventCoordinatorController.swift */,
 			);
 			name = "Search Page";
 			sourceTree = "<group>";
@@ -151,9 +158,18 @@
 				6A1497A51E52E26F0001478A /* BoothShape.swift */,
 				6A1300A61EB41A5E00F88AA1 /* AttendeeMapViewController.swift */,
 				6A5B508A1EBBC94F00BECA90 /* CreateMapViewController.swift */,
-				6A16FD951EC4CCA100E3C965 /* EventCoordinatorController.swift */,
 			);
 			name = "Create/View Maps";
+			sourceTree = "<group>";
+		};
+		6AA802161EC67E2800C82D86 /* Custom Pin */ = {
+			isa = PBXGroup;
+			children = (
+				6AA802171EC67E3900C82D86 /* calloutView.swift */,
+				6AA802181EC67E3900C82D86 /* CustomAnnotationView.swift */,
+				6AA802191EC67E3900C82D86 /* EventCalloutView.swift */,
+			);
+			name = "Custom Pin";
 			sourceTree = "<group>";
 		};
 		6AF8C50D1E493BA7006F1B26 = {
@@ -180,6 +196,7 @@
 			children = (
 				6A5B508C1EBBC97700BECA90 /* Login/Sign Up */,
 				6A5B508D1EBBC99500BECA90 /* Search Page */,
+				6AA802161EC67E2800C82D86 /* Custom Pin */,
 				6A5B508F1EBBCA2F00BECA90 /* Create/View Maps */,
 				6A5B508E1EBBCA2100BECA90 /* Edit Booths */,
 				6AF8C5191E493BA7006F1B26 /* AppDelegate.swift */,
@@ -343,10 +360,12 @@
 				6A3D0F2A1EB96F6300726B4C /* ReviewViewController.swift in Sources */,
 				6A16FD981EC4CE9300E3C965 /* SettingsViewController.swift in Sources */,
 				6A1300A71EB41A5E00F88AA1 /* AttendeeMapViewController.swift in Sources */,
+				6AA8021B1EC67E3900C82D86 /* CustomAnnotationView.swift in Sources */,
 				6A310FF31EB022CF006966C3 /* SearchViewController.swift in Sources */,
 				6A401C631E8B186B00A3B8FB /* SignUpViewController.swift in Sources */,
 				6A310FED1EB0228C006966C3 /* LocationSearchTable.swift in Sources */,
 				6A3D0F291EB96F6300726B4C /* AddReviewViewController.swift in Sources */,
+				6AA8021C1EC67E3900C82D86 /* EventCalloutView.swift in Sources */,
 				6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */,
 				6A310FF11EB022AE006966C3 /* LocationModel.swift in Sources */,
 				6A3D0F2B1EB96F6300726B4C /* ReviewTableCell.swift in Sources */,
@@ -359,6 +378,7 @@
 				6A310FF01EB022AE006966C3 /* HomeModel.swift in Sources */,
 				6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */,
 				6A16FD961EC4CCA100E3C965 /* EventCoordinatorController.swift in Sources */,
+				6AA8021A1EC67E3900C82D86 /* calloutView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

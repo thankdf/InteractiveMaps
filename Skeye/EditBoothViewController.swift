@@ -98,6 +98,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     var startTime = ""
     var endTime = ""
     var boothImages:[UIImage] = []
+    var selectedLocation : LocationModel = LocationModel()
     
     let datePicker = UIDatePicker()
     
@@ -115,7 +116,6 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
             subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
         }
         datePicker.datePickerMode = UIDatePickerMode.time
-        infoTextField.layer.cornerRadius = 5.0
         
         //HTTP Request to retrieve booth detail information
         let ipAddress = "http://130.65.159.80/RetrieveBooth.php"
@@ -123,7 +123,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(UserDefaults.standard.integer(forKey: "boothID"))"
+        let postString = "boothID=\(selectedLocation.booth_id)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -146,12 +146,14 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                         self.abbreviationTextField.text = booth["booth_abbrev"] as! String
                         self.startTimeTextField.text = booth["start_time"] as! String
                         self.endTimeTextField.text = booth["end_time"] as! String
-                        self.infoTextField.text = booth["booth_info"] as! String
-                        self.name = self.nameTextField.text!
-                        self.abbreviation = self.abbreviationTextField.text!
-                        self.startTime = self.startTimeTextField.text!
-                        self.endTime = self.endTimeTextField.text!
-                        self.info = self.infoTextField.text!
+                        let infoText = booth["booth_info"] as! String
+//                        self.infoTextField.text = infoText.trimmingCharacters(in: CharacterSet.init(charactersIn: ""))
+                        self.infoTextField.layer.cornerRadius = 5.0
+                        self.name = booth["booth_name"] as! String
+                        self.abbreviation = booth["booth_abbrev"] as! String
+                        self.startTime = booth["start_time"] as! String
+                        self.endTime = booth["end_time"] as! String
+                        self.info = booth["booth_info"] as! String
                     }
                 }
                 catch let error as Error?
@@ -305,10 +307,6 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     /* Date Picker */
     func startTimePicker(){
         
-        datePicker.minimumDate = Date()
-        
-        
-        
         //toolbar
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -325,9 +323,9 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     func startTimeDonePressed(){
         
-        // formate date
+        // format date
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
         
         
@@ -338,9 +336,6 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     
     func endTimePicker(){
-        
-        // datePicker.datePickerMode = .date
-        datePicker.minimumDate = Date()
         
         //toolbar
         let toolbar = UIToolbar()
@@ -360,7 +355,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         
         // format date
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
         
         

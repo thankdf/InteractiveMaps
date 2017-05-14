@@ -136,11 +136,23 @@ class BoothShape
         move = UIPanGestureRecognizer.init(target: self, action: #selector(pan))
         press = UILongPressGestureRecognizer.init(target: self, action: #selector((popOverBoothDetails)))
         
-        //check for class type later
-        button.addGestureRecognizer(press)
-        button.addGestureRecognizer(zoom)
-        button.addGestureRecognizer(select)
-        button.addGestureRecognizer(move)
+        //check for class type
+        let window = UIApplication.shared.keyWindow
+        var vc = window?.rootViewController
+        while (vc?.presentedViewController != nil)
+        {
+            vc = vc?.presentedViewController;
+        }
+        if vc is AttendeeMapViewController
+        {
+            button.addGestureRecognizer(press)
+        }
+        if vc is MapViewController
+        {
+            button.addGestureRecognizer(zoom)
+            button.addGestureRecognizer(select)
+            button.addGestureRecognizer(move)
+        }
         
         //disables gestures at the start
         zoom.isEnabled = false
@@ -305,6 +317,8 @@ class BoothShape
                 zoom.isEnabled = true
                 move.isEnabled = true
                 press.isEnabled = true
+                controller.lastBooth = controller.currentBooth
+                controller.currentBooth = self
             }
         }
 
@@ -317,7 +331,13 @@ class BoothShape
     {
         if let viewer = gesture.view
         {
-            if let controller = UIApplication.shared.keyWindow?.rootViewController as? MapViewController
+            let window = UIApplication.shared.keyWindow
+            var vc = window?.rootViewController
+            while (vc?.presentedViewController != nil)
+            {
+                vc = vc?.presentedViewController;
+            }
+            if let controller = vc as? MapViewController
             {
                 if(gesture.state == UIGestureRecognizerState.began)
                 {
@@ -346,7 +366,13 @@ class BoothShape
         let translation = gesture.translation(in: button.superview)
         if let viewer = gesture.view
         {
-            if let controller = UIApplication.shared.keyWindow?.rootViewController as? MapViewController
+            let window = UIApplication.shared.keyWindow
+            var vc = window?.rootViewController
+            while (vc?.presentedViewController != nil)
+            {
+                vc = vc?.presentedViewController;
+            }
+            if let controller = vc as? MapViewController
             {
                 if(gesture.state == UIGestureRecognizerState.began)
                 {
@@ -380,7 +406,7 @@ class BoothShape
         }
         if let rootVC = vc as? AttendeeMapViewController
         {
-            UserDefaults.standard.set(id, forKey: "mapID")
+            rootVC.selectedLocation?.booth_id = id
             rootVC.popOver(self)
         }
     }

@@ -96,7 +96,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "eventID=\(UserDefaults.standard.integer(forKey: "mapID"))"
+        let postString = "eventID=92"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -223,6 +223,8 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         //let strBoard = UIStoryboard(name: "Main", bundle: nil)
         let popoverController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "EditBoothViewController") as! EditBoothViewController
         
+        popoverController.selectedLocation = LocationModel()
+        popoverController.selectedLocation.booth_id = selectedLocation!.booth_id
         
         //get a reference to the view controller for the popover
         popoverController.boothRef = castedSender //as? BoothShape
@@ -254,11 +256,8 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     
     @IBAction func backPressed(_ sender: UIButton)
     {
-        let rootVC = UIApplication.shared.keyWindow?.rootViewController
-        let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
-        UserDefaults.standard.set(0, forKey: "mapID")
-        UserDefaults.standard.set(0, forKey: "boothID")
-        self.present(searchController, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
+//        self.present(searchController, animated: true, completion: nil)
     }
     
     private func displayAlert(_ message: String)

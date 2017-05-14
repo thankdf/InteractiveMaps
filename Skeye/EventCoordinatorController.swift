@@ -3,7 +3,7 @@
 //  Skeye
 //
 //  Created by Sandeep Kaur on 5/9/17.
-//  Copyright © 2017 Team_Parking. All rights reserved.
+//  Copyright © 2017 Skeye. All rights reserved.
 //
 
 
@@ -15,7 +15,9 @@ class EventCoordinatorController : UIViewController, UITableViewDataSource, UITa
     //Properties
     
     weak var delegate: HomeModelProtocal!
-    var boothList: NSArray = NSArray()
+    var EventsList: NSArray = NSArray()
+    var selectedLocation : LocationModel = LocationModel()
+    
     
     @IBOutlet weak var eventsListTable: UITableView!
     
@@ -32,38 +34,57 @@ class EventCoordinatorController : UIViewController, UITableViewDataSource, UITa
         self.eventsListTable.delegate = self
         self.eventsListTable.dataSource = self
         
-        retrieveBoothList()
+        retrieveEventsList()
         
     }
     
     func itemsDownloaded(items: NSArray) {
-        print("tableView is working")
-        boothList = items
+        EventsList = items
         self.eventsListTable.reloadData()
-        print(boothList)
         
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Return the number of feed items
-        return boothList.count
+        return EventsList.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Retrieve cell
         let cellIdentifier: String = "eventCell"
         let myCell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
         // Get the location to be shown
-        let item: LocationModel = boothList[indexPath.row] as! LocationModel
+        let item: LocationModel = EventsList[indexPath.row] as! LocationModel
         // Get references to labels of cell
         myCell.textLabel!.text = item.event_name
         
         return myCell
     }
     
-    func retrieveBoothList()
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Set selected location to var
+        selectedLocation = EventsList[indexPath.row] as! LocationModel
+        // Manually call segue to detail view controller
+        // self.performSegue(withIdentifier: "eventPinSegue", sender: self)
+        self.performSegue(withIdentifier: "EventListToCoordinatorView", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // if segue.identifier == "eventPinSegue"
+        if segue.identifier == "EventListToCoordinatorView"
+            
+        {
+            // Get reference to the destination view controller
+            let detailVC  = segue.destination as! MapViewController
+            // Set the property to the selected location so when the view for
+            // detail view controller loads, it can access that property to get the feeditem obj
+            detailVC.selectedLocation = selectedLocation
+        }
+    }
+    
+    
+    func retrieveEventsList()
     {
         
         let username = UserDefaults.standard.string(forKey: "username")
@@ -121,12 +142,14 @@ class EventCoordinatorController : UIViewController, UITableViewDataSource, UITa
         {
             //the following insures none of the JsonElement values are nil through optional binding
             if let event_name = json["event_name"] as? String,
-                let username = json["username"] as? String
+                let username = json["username"] as? String,
+                let event_id = json["event_id"] as? String
                 
             {
                 let location = LocationModel()
                 location.event_name = event_name
                 location.username = username
+                location.event_id = Int(event_id)
                 
                 locations.add(location)
             }
