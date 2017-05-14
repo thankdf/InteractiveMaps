@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ReviewViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var reviewTableView: UITableView!
@@ -17,7 +18,6 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadReviews()
         
         //remove extra cell
@@ -40,49 +40,59 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     
     //Configure Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
+        
         let review = reviews[indexPath.row]
         cell.userName.text = review.username
         cell.userReview.text = review.comment
         cell.reviewTimeStapm.text = review.date
         cell.configureCellWith(row: indexPath.row)
-        
-       
-        for index in 0..<review.photos.count
-        {
-            if(index == 0)
+
+        // update image for each cell
+        if(review.photos.count < 1){
+            cell.noPhotoLabel.isHidden = false
+        }
+        else{
+            cell.noPhotoLabel.isHidden = true
+            for index in 0..<review.photos.count
             {
-                if let img = review.photos[index]
+                
+                if(index == 0)
                 {
-                    cell.reviewImage1.isUserInteractionEnabled = true
-                    cell.reviewImage1.image = img
+                    if let img = review.photos[index]
+                    {
+                        cell.reviewImage1.isUserInteractionEnabled = true
+                        
+                        cell.reviewImage1.image = img
+                    }
                 }
-            }
-            else if(index == 1)
-            {
-                if let img = review.photos[index]
+                else if(index == 1)
                 {
-                    cell.reviewImage1.isUserInteractionEnabled = true
-                    cell.reviewImage2.image = img
+                    if let img = review.photos[index]
+                    {
+                        cell.reviewImage2.isUserInteractionEnabled = true
+                        cell.reviewImage2.image = img
+                        
+                    }
                 }
-            }
-            else{
-                if let img = review.photos[index]
-                {
-                    cell.reviewImage1.isUserInteractionEnabled = true
-                    cell.reviewImage3.image = img
+                else{
+                    if let img = review.photos[index]
+                    {
+                        cell.reviewImage3.isUserInteractionEnabled = true
+                        cell.reviewImage3.image = img
+                    }
                 }
+                
             }
-            
-            
             
         }
+        
         cell.reviewVC = self
         return cell
     }
     
-    //Allow user to delete their own comment
+    //Actually executing delete action
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
             if editingStyle == .delete{
                 
@@ -97,7 +107,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
             }
     }
     
-
+    //Allow user to delete their own comment
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         //if reviews[indexPath.row].username == UserDefaults.standard.string(forKey: "username") || (UserDefaults.standard.string(forKey: "change this to check if they are event coordinator!!!"))
         if (reviews[indexPath.row].username == "Yoho Chen")
@@ -119,7 +129,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     let zoomImageView = UIImageView()
 
     
-    //animation
+    //animation for zooming image
     func animateImageview(reviewImage: UIImageView, startingFrame: CGRect){
 
         self.reviewImageView = reviewImage
@@ -168,6 +178,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    //zoom out image
     func zoomOut(){
         if let startingFrame = (reviewImageView!.superview?.convert(reviewImageView!.frame, to: nil))
         {
@@ -187,17 +198,13 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addReview" {
             if let addReviewPopover = segue.destination as? AddReviewViewController {
-                //addReviewPopover.modalPresentationStyle = UIModalPresentationStyle.formSheet
-                // addReviewPopover.popoverPresentationController?.delegate = self
+
                 
             }
         }
     }
     
-//    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-//        return .none
-//    }
-    
+    //unwind method from add review page
     @IBAction func cancelToReviewViewController(segue:UIStoryboardSegue) {
     }
     
@@ -224,13 +231,13 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
             
-            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 187, date: timeStamp, username: "yoho@gmail.com")
+            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: "yoho@gmail.com")
             //let newReview = Review(comment: reviewText, photos: reviewPic, boothID: 187, date: timeStamp, username: UserDefaults.standard.string(forKey: "username"))
             
             //boothID and username need to be change above!!!
             
-            //save to DB
-            //saveToDB(for: newReview)
+
+            //saving to database
             saveToDB2(for: newReview)
             
             //update Table
@@ -252,7 +259,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         request.httpMethod = "POST"
         
         //use userdefault
-        let boothID = 187
+        let boothID = 201
         let postString = "booth_id=\(boothID)"
         
         request.httpBody = postString.data(using: String.Encoding.utf8)
@@ -275,6 +282,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         
                         if(resultStatus == "success")
                         {
+                            
                             let parseReviews = parseJSON["reviews"] as! [[String: Any]]
                             var arrayToBeSaved:[UIImage] = []
                             //load image from server
@@ -292,18 +300,8 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                                         
                                         if let data = NSData(contentsOf: url as URL){
                                             if let downloadedImg = UIImage(data: data as Data) {
-                                                
-                                                DispatchQueue.global(qos: .userInitiated).async {
-                                               
-                                                    // When from background thread, UI needs to be updated on main_queue
-                                                    DispatchQueue.main.async {
-                                                        
-                                                        arrayToBeSaved.append(downloadedImg)
-                                                        //self.reviewTableView.reloadData()
-
-                                                        
-                                                    }
-                                                }                                        }
+                                                    arrayToBeSaved.append(downloadedImg)
+                                            }
                                         }
                                     }
                                 }
@@ -319,6 +317,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                                                                     username: (review["first_name"] as! String)+" "+(review["last_name"] as! String))
                                 
                                 self.reviews.append(newReview)
+                                arrayToBeSaved = []
                             }
                             DispatchQueue.main.async(){
                                 self.reviewTableView.reloadData()
@@ -437,7 +436,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary
                 
-                print(json)
+ //               print(json)
                 
 //                dispatch_async(dispatch_get_main_queue(),{
 //                    self.myActivityIndicator.stopAnimating()
@@ -453,61 +452,6 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         
         task.resume()
     }
-    
-    
-//    func saveToDB(for review : Review)
-//    {
-//        let ipAddress = "http://130.65.159.80/SaveReview.php"
-//        let url = URL(string: ipAddress)
-//        var request = URLRequest(url: url!)
-//        request.httpMethod = "POST"
-//        
-//        let imgData = review.photos[0]!
-//        let representation = UIImagePNGRepresentation(imgData)
-//        
-//        
-//        
-//        let postString = "booth_id=\(review.boothID)&review=\(review.comment)&date=\(review.date)&username=\(review.username)&img1=\(representation)&img2=\(review.photos[1])&img3=\(review.photos[2])"
-//        
-//
-//        print(review.photos[0]!)
-//        print(review.photos[1])
-//        print(review.photos[2])
-//        
-//
-//        
-//        request.httpBody = postString.data(using: String.Encoding.utf8)
-//        URLSession.shared.dataTask(with: request, completionHandler:
-//            {
-//                (data, response, error) -> Void in
-//                if(error != nil)
-//                {
-//                    print("error=\(String(describing: error))\n")
-//                    return
-//                }
-//                do
-//                {
-//                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-//
-//                    if let parseJSON = json
-//                    {
-//                        let resultValue: String = parseJSON["status"] as! String
-//                        
-//                        if(resultValue == "success")
-//                        {
-//                           // print("result: \(resultValue)\n")
-//
-//                        }
-//                    }
-//                }
-//                catch let error as Error?
-//                {
-//                    print("Found an error - \(String(describing: error))")
-//                }
-//        }).resume()
-//
-//    }
-    
     
     func deleteFromDB(for reviewID : Int)
     {
@@ -535,9 +479,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                     {
                         if(parseJSON["status"] as! String == "success")
                         {
-                            print("Delete review successfully.")
-                            print("sql = \(parseJSON["sql"] as! String)")
-                            
+                            //print("Delete review successfully.")
                         }
                     }
                 }

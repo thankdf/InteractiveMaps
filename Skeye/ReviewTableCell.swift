@@ -4,11 +4,12 @@
 //
 //  Created by yoho chen on 4/21/17.
 //  Copyright © 2017 Team_Parking. All rights reserved.
-//
+
 
 import UIKit
 
 class ReviewTableViewCell: UITableViewCell {
+    
     
     var reviewVC : ReviewViewController?
     
@@ -18,6 +19,8 @@ class ReviewTableViewCell: UITableViewCell {
     
     @IBOutlet weak var userReview: UILabel!
     
+    @IBOutlet weak var noPhotoLabel: UILabel!
+    
     @IBOutlet weak var reviewTimeStapm: UILabel!
     
     @IBOutlet weak var reviewImage1: UIImageView!
@@ -26,6 +29,13 @@ class ReviewTableViewCell: UITableViewCell {
     
     @IBOutlet weak var reviewImage3: UIImageView!
     
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        self.reviewImage1.image = nil
+        self.reviewImage2.image = nil
+        self.reviewImage3.image = nil
+    }
     
     func configureCellWith(row: Int){
         userImage.image = #imageLiteral(resourceName: "userIcon")
@@ -39,16 +49,6 @@ class ReviewTableViewCell: UITableViewCell {
         reviewImage1.isUserInteractionEnabled = false;
         reviewImage1.isUserInteractionEnabled = false;
         
-        //        if(row % 2 == 0)
-        //        {
-        //            reviewTimeStapm?.removeFromSuperview()
-        //
-        //
-        //            NSLayoutConstraint(item: userImage, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 50.0).isActive = true
-        //
-        //            //NSLayoutConstraint(item: userReview, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.bottomMargin, multiplier: 1.0, constant: 50.0).isActive = true
-        //
-        //        }
     }
     
     func setTapGestureRecognizer() -> UITapGestureRecognizer {
