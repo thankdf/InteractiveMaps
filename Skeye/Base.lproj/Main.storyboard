@@ -455,7 +455,11 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <items>
                                             <navigationItem title="Title" id="WR5-uI-97G">
-                                                <barButtonItem key="leftBarButtonItem" title="Back" id="V6v-Xd-eI7"/>
+                                                <barButtonItem key="leftBarButtonItem" title="Back" id="V6v-Xd-eI7">
+                                                    <connections>
+                                                        <action selector="cancelPressed:" destination="5R8-8h-uDK" id="O7D-R6-DqL"/>
+                                                    </connections>
+                                                </barButtonItem>
                                                 <barButtonItem key="rightBarButtonItem" title="Done" id="Ecf-6f-kHh"/>
                                             </navigationItem>
                                         </items>

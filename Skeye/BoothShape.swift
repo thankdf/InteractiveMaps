@@ -406,6 +406,7 @@ class BoothShape
         }
         if let rootVC = vc as? AttendeeMapViewController
         {
+            rootVC.selectedLocation = LocationModel()
             rootVC.selectedLocation?.booth_id = id
             rootVC.popOver(self)
         }
