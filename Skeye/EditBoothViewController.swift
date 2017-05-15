@@ -122,21 +122,6 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        self.infoTextField.layer.cornerRadius = 5.0
-        if(UserDefaults.standard.integer(forKey: "usertype") != 2)
-        {
-            nameTextField.isEnabled = false
-            abbreviationTextField.isEnabled = false
-            startTimeTextField.isEnabled = false
-            endTimeTextField.isEnabled = false
-            infoTextField.isEditable = false
-            doneButton.accessibilityElementsHidden = true
-            doneButton.isEnabled = false
-        }
-        else
-        {
-            reviewButton.isHidden = true
-        }
         
         let postString = "boothID=\(selectedLocation.booth_id)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
@@ -161,7 +146,9 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                         self.abbreviationTextField.text = booth["booth_abbrev"] as! String
                         self.startTimeTextField.text = booth["start_time"] as! String
                         self.endTimeTextField.text = booth["end_time"] as! String
-                        self.infoTextField.text = booth["booth_info"] as! String
+                        let infoText = booth["booth_info"] as! String
+//                        self.infoTextField.text = infoText.trimmingCharacters(in: CharacterSet.init(charactersIn: ""))
+                        self.infoTextField.layer.cornerRadius = 5.0
                         self.name = booth["booth_name"] as! String
                         self.abbreviation = booth["booth_abbrev"] as! String
                         self.startTime = booth["start_time"] as! String
@@ -387,6 +374,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     // Done button clicked
     
+    
     @IBAction func save(_ sender: UIBarButtonItem)
     {
         UserDefaults.standard.set(0, forKey: "boothID")
@@ -510,9 +498,11 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         }
     }
     
+
     @IBAction func cancelPressed(_ sender: UIBarButtonItem)
     {
-        self.dismiss(animated: true, completion: nil) //To dismiss itself
+        UserDefaults.standard.set(0, forKey: "boothID")
+        self.presentingViewController!.dismiss(animated: true, completion: nil) //To dismiss itself
     }
     
     @IBAction func unwindFromReviewToInfo(segue: UIStoryboardSegue) {

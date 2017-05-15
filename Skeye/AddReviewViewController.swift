@@ -11,7 +11,7 @@ import UIKit
 class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var reviewTextView: UITextView!
-
+    
     @IBOutlet weak var image1: UIImageView!
     
     @IBOutlet weak var image2: UIImageView!
@@ -21,9 +21,9 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
     var newReview : Review?
     
     var reviewImage = [UIImage?](repeating:nil, count:3)
-    var imageSet = [Bool](repeating: false, count: 3)
-
-
+    //var imageSet = [Bool](repeating: false, count: 3)
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +35,9 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
         image2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addNewImage)))
         image3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addNewImage)))
         
-
+        
     }
-
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
@@ -51,13 +51,13 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
             textView.textColor = UIColor.lightGray
         }
     }
-
+    
     var imageSelected = 1
     
     func addNewImage(sender: UITapGestureRecognizer)
     {
         imageSelected = (sender.view?.tag)!
-
+        
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
@@ -102,44 +102,44 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
         //imageDisplay.contentMode = .scaleAspectFill
         // imageDisplay.image = chosenImage
-       // boothImages.append(chosenImage)
-       // loadImages()//for fun
-
+        // boothImages.append(chosenImage)
+        // loadImages()//for fun
+        
         if let imageSlot = self.view.viewWithTag(imageSelected) as? UIImageView
         {
             imageSlot.image = chosenImage
             switch imageSelected
             {
-                case 1:
-                    imageSet[0] = true
-                    reviewImage[0] = chosenImage
-                case 2:
-                    imageSet[1] = true
+            case 1:
+                //imageSet[0] = true
+                reviewImage[0] = chosenImage
+            case 2:
+                //imageSet[1] = true
                 reviewImage[1] = chosenImage
-                case 3:
-                    imageSet[2] = true
+            case 3:
+                //imageSet[2] = true
                 reviewImage[2] = chosenImage
-                default:
-                    print("error on picking review image")
+            default:
+                print("error on picking review image")
             }
         }
-
+        
         dismiss(animated:true, completion: nil)
     }
     
     
-
-
-
-
+    
+    
+    
+    
     
     
     // To dismiss keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
- 
+    
+    
     
     
 }
