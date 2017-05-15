@@ -231,10 +231,9 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
             
-            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: "yoho@gmail.com")
-            //let newReview = Review(comment: reviewText, photos: reviewPic, boothID: 187, date: timeStamp, username: UserDefaults.standard.string(forKey: "username"))
+            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: UserDefaults.standard.string(forKey: "username")!)
             
-            //boothID and username need to be change above!!!
+            //boothID need to be changed above!!!
             
             
             //saving to database

@@ -108,6 +108,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.infoTextField.layer.cornerRadius = 5.0
         let widthfactor = self.view.bounds.width/screen.bounds.width
         let heightfactor = self.view.bounds.height/screen.bounds.height
         screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
@@ -148,7 +149,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                         self.endTimeTextField.text = booth["end_time"] as! String
                         let infoText = booth["booth_info"] as! String
 //                        self.infoTextField.text = infoText.trimmingCharacters(in: CharacterSet.init(charactersIn: ""))
-                        self.infoTextField.layer.cornerRadius = 5.0
+                    
                         self.name = booth["booth_name"] as! String
                         self.abbreviation = booth["booth_abbrev"] as! String
                         self.startTime = booth["start_time"] as! String
