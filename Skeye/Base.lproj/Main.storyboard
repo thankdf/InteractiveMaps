@@ -356,9 +356,6 @@
                                     <color key="titleColor" red="0.69488517989999998" green="0.8772104154" blue="0.98632471639999997" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="backButton:" destination="Flb-lv-0bU" eventType="touchUpInside" id="qcy-vF-49j"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -375,6 +372,7 @@
                     <tabBarItem key="tabBarItem" systemItem="search" id="Kac-Mf-6ni"/>
                     <navigationItem key="navigationItem" id="NRf-vn-WRb"/>
                     <connections>
+                        <outlet property="backButton" destination="V1e-q2-qqR" id="ieV-S2-4Ur"/>
                         <outlet property="mapView" destination="dLO-Zm-iEC" id="IlH-kL-QAi"/>
                         <segue destination="juw-Bh-f2b" kind="show" identifier="pinToAttendeeView" id="VCk-RN-zLA"/>
                     </connections>

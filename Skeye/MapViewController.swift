@@ -356,7 +356,8 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        let postString = "event_id=\(selectedLocation?.event_id!))&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=square&color=white"
+        let postString = "event_id=\((selectedLocation?.event_id!)!)&username=\(UserDefaults.standard.string(forKey: "username")!)&location_x=\(location_x)&location_y=\(location_y)&width=50&height=50&shape=square&color=white"
+        print(postString)
         request.httpBody = postString.data(using: String.Encoding.utf8)
         URLSession.shared.dataTask(with: request, completionHandler:
         {
@@ -481,7 +482,9 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     
     @IBAction func backPressed(_ sender: UIButton)
     {
-        self.dismiss(animated: true, completion: nil)
+        let rootVC = UIApplication.shared.keyWindow?.rootViewController
+        let tabBarController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! TabBarController
+        self.present(tabBarController, animated: true, completion: nil)
     }
     
     /*

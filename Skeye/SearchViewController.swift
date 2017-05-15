@@ -25,16 +25,26 @@ class SearchViewController : UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    @IBAction func backButton(_ sender: UIButton)
+    @IBOutlet weak var backButton: UIButton!
+    {
+        didSet
+        {
+            backButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            backButton.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(backButtonPressed)))
+            backButton.isHidden = true
+        }
+    }
+    
+    @IBAction func backButtonPressed(_ gesture: UITapGestureRecognizer)
     {
         let rootVC = UIApplication.shared.keyWindow?.rootViewController
         let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "TabBarController")
-        
         self.present(searchController, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        backButton.isHidden = true
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -132,7 +142,7 @@ class SearchViewController : UIViewController {
                     //add title to the pin
                     pin.title = self.selectedLocation?.event_name
                     pin.subtitle = self.Address
-                    
+                    self.backButton.isHidden = false
                 }
                 
             }
