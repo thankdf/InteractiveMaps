@@ -627,14 +627,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="06W-oD-tdw">
-                                                    <rect key="frame" x="8" y="8" width="60" height="60"/>
+                                                    <rect key="frame" x="8" y="8" width="50" height="50"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="2b8-Yy-Vnz"/>
-                                                        <constraint firstAttribute="height" constant="60" id="o1e-1E-xio"/>
+                                                        <constraint firstAttribute="width" constant="50" id="2b8-Yy-Vnz"/>
+                                                        <constraint firstAttribute="height" constant="50" id="o1e-1E-xio"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U5J-wU-D3A">
-                                                    <rect key="frame" x="86" y="8" width="280" height="20"/>
+                                                    <rect key="frame" x="76" y="8" width="280" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="HBt-MF-RTe"/>
                                                     </constraints>
@@ -643,13 +643,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1aW-QT-SAP">
-                                                    <rect key="frame" x="86" y="42" width="310" height="242"/>
+                                                    <rect key="frame" x="76" y="42" width="320" height="242"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGT-ey-3b1">
-                                                    <rect key="frame" x="86" y="414" width="310" height="20"/>
+                                                    <rect key="frame" x="76" y="414" width="320" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="oXb-gg-hgz"/>
                                                     </constraints>
@@ -658,7 +658,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Tyr-Yc-U2s">
-                                                    <rect key="frame" x="86" y="309" width="280" height="80"/>
+                                                    <rect key="frame" x="76" y="309" width="280" height="80"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="viy-6s-FRr">
                                                             <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -680,7 +680,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bup-cM-2Kx">
-                                                    <rect key="frame" x="86" y="309" width="280" height="80"/>
+                                                    <rect key="frame" x="76" y="309" width="280" height="80"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.30554166666666671" green="0.30554166666666671" blue="0.30554166666666671" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -830,6 +830,10 @@
                                     </imageView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="zab-Tz-RcC" firstAttribute="width" secondItem="Pk5-xW-oQJ" secondAttribute="width" id="6Ph-Y3-tNj"/>
+                                    <constraint firstItem="zab-Tz-RcC" firstAttribute="height" secondItem="Pk5-xW-oQJ" secondAttribute="height" id="9Ij-1p-8z6"/>
+                                    <constraint firstItem="zab-Tz-RcC" firstAttribute="height" secondItem="g5W-lp-3j9" secondAttribute="height" id="WkR-ZY-O13"/>
+                                    <constraint firstItem="zab-Tz-RcC" firstAttribute="width" secondItem="g5W-lp-3j9" secondAttribute="width" id="XkA-ud-zpq"/>
                                     <constraint firstItem="Pk5-xW-oQJ" firstAttribute="width" secondItem="Pk5-xW-oQJ" secondAttribute="height" multiplier="1:1" id="r12-B1-GsO"/>
                                     <constraint firstItem="g5W-lp-3j9" firstAttribute="width" secondItem="g5W-lp-3j9" secondAttribute="height" multiplier="1:1" id="rAN-ez-dgY"/>
                                 </constraints>
