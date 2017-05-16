@@ -23,6 +23,7 @@ protocol DataSentDelegate {
 }
 
 class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
+    @IBOutlet weak var navBar: UINavigationItem!
     
     @IBOutlet weak var reviewButton: UIButton!
     {
@@ -123,7 +124,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         //if it is attendee, diable functionality
         if UserDefaults.standard.integer(forKey: "usertype") == 3
         {
-            photoUploadButton.isHidden = false
+            photoUploadButton.isHidden = true
             self.doneButton.title = ""
             self.doneButton.isEnabled = false
             self.backButton.title = "Done"
@@ -138,7 +139,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         }
         else
         {
-            photoUploadButton.isHidden = true
+            photoUploadButton.isHidden = false
             self.doneButton.title = "Done"
             self.doneButton.isEnabled = true
             self.backButton.title = "Back"
@@ -158,7 +159,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(selectedLocation.booth_id)"
+        let postString = "boothID=\(selectedLocation.booth_id!)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -174,21 +175,29 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                     let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                     if let parseJSON = json
                     {
-                        let resultValue: String = parseJSON["status"] as! String
-                        print("result: \(resultValue)\n")
-                        let booth = parseJSON["booth"] as! [String: Any]
-                        self.nameTextField.text = booth["booth_name"] as! String
-                        self.abbreviationTextField.text = booth["booth_abbrev"] as! String
-                        self.startTimeTextField.text = booth["start_time"] as! String
-                        self.endTimeTextField.text = booth["end_time"] as! String
-                        let infoText = booth["booth_info"] as! String
-//                        self.infoTextField.text = infoText.trimmingCharacters(in: CharacterSet.init(charactersIn: ""))
+                        DispatchQueue.main.async()
+                        {
+                            
+                            let resultValue: String = parseJSON["status"] as! String
+                            print("result: \(resultValue)\n")
+                            let booth = parseJSON["booth"] as! [String: Any]
+                            self.nameTextField.text = booth["booth_name"] as! String
+                            self.abbreviationTextField.text = booth["booth_abbrev"] as! String
+                            self.startTimeTextField.text = booth["start_time"] as! String
+                            self.endTimeTextField.text = booth["end_time"] as! String
+                            self.infoTextField.text = booth["booth_info"] as! String
+                            
+                            self.name = booth["booth_name"] as! String
+                            self.abbreviation = booth["booth_abbrev"] as! String
+                            self.startTime = booth["start_time"] as! String
+                            self.endTime = booth["end_time"] as! String
+                            self.info = booth["booth_info"] as! String
+                            
+                            self.navBar.title = booth["booth_name"] as! String
+                            
+                        }
+
                         
-                        self.name = booth["booth_name"] as! String
-                        self.abbreviation = booth["booth_abbrev"] as! String
-                        self.startTime = booth["start_time"] as! String
-                        self.endTime = booth["end_time"] as! String
-                        //self.info = booth["booth_info"] as! String
                     }
                 }
                 catch let error as Error?

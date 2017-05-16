@@ -286,7 +286,7 @@
 				TargetAttributes = {
 					6AF8C5151E493BA7006F1B26 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7BHCDJ55EZ;
+						DevelopmentTeam = L6LKX4V96N;
 						ProvisioningStyle = Automatic;
 					};
 					6AF8C52C1E493BA8006F1B26 = {
@@ -529,7 +529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				DEVELOPMENT_TEAM = L6LKX4V96N;
 				INFOPLIST_FILE = Skeye/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.Skeye;
@@ -542,7 +542,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7BHCDJ55EZ;
+				DEVELOPMENT_TEAM = L6LKX4V96N;
 				INFOPLIST_FILE = Skeye/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SeniorPro.Skeye;

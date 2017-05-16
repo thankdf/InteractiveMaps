@@ -146,7 +146,8 @@ class BoothOwnerController : UIViewController, UITableViewDataSource, UITableVie
             //the following insures none of the JsonElement values are nil through optional binding
             if let event_name = json["event_name"] as? String,
                 let username = json["username"] as? String,
-                let event_id = json["event_id"] as? Int
+                let booth_id = json["booth_id"] as? String
+                
                 
                 /*             let address = jsonElement["Address"] as? String,
                  let latitude = jsonElement["Latitude"] as? String,
@@ -157,7 +158,7 @@ class BoothOwnerController : UIViewController, UITableViewDataSource, UITableVie
                 let location = LocationModel()
                 location.event_name = event_name
                 location.username = username
-                location.event_id = event_id
+                location.booth_id = Int(booth_id)
                 
                 /*             location.address = address
                  location.latitude = latitude

@@ -79,7 +79,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
         
         //Sets up the map image
-        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate2"))
         
          //Sets up the scroll view
         scrollView.contentSize = mapImage.bounds.size
