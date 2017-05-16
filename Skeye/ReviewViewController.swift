@@ -111,7 +111,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     //Allow user to delete their own comment
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         //if reviews[indexPath.row].username == UserDefaults.standard.string(forKey: "username") || (UserDefaults.standard.string(forKey: "change this to check if they are event coordinator!!!"))
-        if (reviews[indexPath.row].username == "Yoho Chen")
+        if (reviews[indexPath.row].username == UserDefaults.standard.string(forKey: "name")!)
         {
             return .delete
         }

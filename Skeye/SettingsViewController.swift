@@ -79,7 +79,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate {
         }
         if((currPwd?.isEmpty)! || (newPwd?.isEmpty)! || (reEnterPwd?.isEmpty)!){
             // display msg to notice old and new password are the same
-            displayAlertMessage(userMessage:"All fields are not empty!!!");
+            displayAlertMessage(userMessage:"Please fill in all the fields.");
             return;
         }
         if((newPwd?.characters.count)! < 8){
@@ -89,7 +89,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate {
         }
         if(currPwd == newPwd){
             // display msg to notice the same password
-            displayAlertMessage(userMessage:"New Password is not the same current password!!!");
+            displayAlertMessage(userMessage:"New Password should not the same as current password!!!");
             return;
         }
         if(newPwd != reEnterPwd){
