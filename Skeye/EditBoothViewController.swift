@@ -87,6 +87,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
+    @IBOutlet weak var photoUploadButton: UIButton!
+    
     /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
      parentVC, set "this.delegate = parentVC.self" */
     
@@ -117,6 +119,38 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
             subview.frame = CGRect.init(origin: CGPoint.init(x: subview.frame.origin.x * widthfactor, y: subview.frame.origin.y * heightfactor), size: CGSize.init(width: subview.bounds.width * widthfactor, height: subview.bounds.height * heightfactor))
         }
         datePicker.datePickerMode = UIDatePickerMode.time
+        
+        //if it is attendee, diable functionality
+        if UserDefaults.standard.integer(forKey: "usertype") == 3
+        {
+            photoUploadButton.isHidden = false
+            self.doneButton.title = ""
+            self.doneButton.isEnabled = false
+            self.backButton.title = "Done"
+            
+            nameTextField.isUserInteractionEnabled = false
+            abbreviationTextField.isUserInteractionEnabled = false
+            startTimeTextField.isUserInteractionEnabled = false
+            endTimeTextField.isUserInteractionEnabled = false
+            infoTextField.isUserInteractionEnabled = false
+            
+
+        }
+        else
+        {
+            photoUploadButton.isHidden = true
+            self.doneButton.title = "Done"
+            self.doneButton.isEnabled = true
+            self.backButton.title = "Back"
+            
+            nameTextField.isUserInteractionEnabled = true
+            abbreviationTextField.isUserInteractionEnabled = true
+            startTimeTextField.isUserInteractionEnabled = true
+            endTimeTextField.isUserInteractionEnabled = true
+            infoTextField.isUserInteractionEnabled = true
+            
+        }
+        
         
         //HTTP Request to retrieve booth detail information
         let ipAddress = "http://130.65.159.80/RetrieveBooth.php"

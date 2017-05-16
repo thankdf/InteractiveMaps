@@ -584,6 +584,7 @@
                         <outlet property="infoTextField" destination="S34-Rt-Gpq" id="JkQ-PQ-oUZ"/>
                         <outlet property="nameLabel" destination="4lR-vv-O1f" id="aef-WP-kHR"/>
                         <outlet property="nameTextField" destination="j9e-M3-1D1" id="GLd-8X-723"/>
+                        <outlet property="photoUploadButton" destination="hk3-pE-mh8" id="0ER-Fg-oK7"/>
                         <outlet property="reviewButton" destination="rXu-nv-5z5" id="eqg-Rr-Q5P"/>
                         <outlet property="screen" destination="2GH-Zv-suC" id="UmH-gQ-shl"/>
                         <outlet property="startTimeLabel" destination="kYy-uZ-xCH" id="JNE-sd-sHA"/>
