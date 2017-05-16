@@ -15,6 +15,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     
     var reviews:[Review] = []
     
+    var thisBoothID = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -231,15 +232,17 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
             
-            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: UserDefaults.standard.string(forKey: "username")!)
+            //let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: "yoho@gmail.com")
+            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: thisBoothID, date: timeStamp, username: UserDefaults.standard.string(forKey: "username")!)
             
-            //boothID need to be changed above!!!
+            //boothID and username need to be change above!!!
             
             
             //saving to database
             saveToDB2(for: newReview)
             
             //update Table
+            newReview.setUserName(newName: UserDefaults.standard.string(forKey: "name")!)
             reviews.append(newReview)
             
             let indexPath = IndexPath(row: reviews.count-1, section: 0)
@@ -258,7 +261,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         request.httpMethod = "POST"
         
         //use userdefault
-        let boothID = 201
+        let boothID = thisBoothID
         let postString = "booth_id=\(boothID)"
         
         request.httpBody = postString.data(using: String.Encoding.utf8)

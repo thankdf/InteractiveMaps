@@ -8,15 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		6A09CF561E9367DC00D0C434 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A09CF551E9367DC00D0C434 /* LoginViewController.swift */; };
-		6A1300A71EB41A5E00F88AA1 /* AttendeeMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1300A61EB41A5E00F88AA1 /* AttendeeMapViewController.swift */; };
 		6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1497A51E52E26F0001478A /* BoothShape.swift */; };
 		6A16FD961EC4CCA100E3C965 /* EventCoordinatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A16FD951EC4CCA100E3C965 /* EventCoordinatorController.swift */; };
 		6A16FD981EC4CE9300E3C965 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A16FD971EC4CE9300E3C965 /* SettingsViewController.swift */; };
 		6A16FD9A1EC4DAC600E3C965 /* BoothOwnerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A16FD991EC4DAC600E3C965 /* BoothOwnerController.swift */; };
 		6A310FED1EB0228C006966C3 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A310FEC1EB0228C006966C3 /* LocationSearchTable.swift */; };
-		6A310FF01EB022AE006966C3 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A310FEE1EB022AE006966C3 /* HomeModel.swift */; };
-		6A310FF11EB022AE006966C3 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A310FEF1EB022AE006966C3 /* LocationModel.swift */; };
-		6A310FF31EB022CF006966C3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A310FF21EB022CF006966C3 /* SearchViewController.swift */; };
 		6A3D0F291EB96F6300726B4C /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D0F251EB96F6300726B4C /* AddReviewViewController.swift */; };
 		6A3D0F2A1EB96F6300726B4C /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D0F261EB96F6300726B4C /* ReviewViewController.swift */; };
 		6A3D0F2B1EB96F6300726B4C /* ReviewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D0F271EB96F6300726B4C /* ReviewTableCell.swift */; };
@@ -35,6 +31,10 @@
 		6AF8C5241E493BA8006F1B26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5231E493BA8006F1B26 /* Assets.xcassets */; };
 		6AF8C5271E493BA8006F1B26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF8C5251E493BA8006F1B26 /* LaunchScreen.storyboard */; };
 		6AF8C5321E493BA8006F1B26 /* SkeyeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */; };
+		85E114A91EC982E1008DC080 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E114A81EC982E1008DC080 /* SearchViewController.swift */; };
+		85E114AB1EC982F3008DC080 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E114AA1EC982F3008DC080 /* LocationModel.swift */; };
+		85E114AD1EC98300008DC080 /* AttendeeMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E114AC1EC98300008DC080 /* AttendeeMapViewController.swift */; };
+		85E114AF1EC98578008DC080 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E114AE1EC98578008DC080 /* HomeModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,15 +56,11 @@
 
 /* Begin PBXFileReference section */
 		6A09CF551E9367DC00D0C434 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		6A1300A61EB41A5E00F88AA1 /* AttendeeMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendeeMapViewController.swift; sourceTree = "<group>"; };
 		6A1497A51E52E26F0001478A /* BoothShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothShape.swift; sourceTree = "<group>"; };
 		6A16FD951EC4CCA100E3C965 /* EventCoordinatorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCoordinatorController.swift; sourceTree = "<group>"; };
 		6A16FD971EC4CE9300E3C965 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6A16FD991EC4DAC600E3C965 /* BoothOwnerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoothOwnerController.swift; sourceTree = "<group>"; };
 		6A310FEC1EB0228C006966C3 /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
-		6A310FEE1EB022AE006966C3 /* HomeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
-		6A310FEF1EB022AE006966C3 /* LocationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
-		6A310FF21EB022CF006966C3 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		6A3D0F251EB96F6300726B4C /* AddReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		6A3D0F261EB96F6300726B4C /* ReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		6A3D0F271EB96F6300726B4C /* ReviewTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableCell.swift; sourceTree = "<group>"; };
@@ -88,6 +84,10 @@
 		6AF8C5311E493BA8006F1B26 /* SkeyeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeyeTests.swift; sourceTree = "<group>"; };
 		6AF8C5331E493BA8006F1B26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AF8C5381E493BA8006F1B26 /* SkeyeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkeyeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		85E114A81EC982E1008DC080 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		85E114AA1EC982F3008DC080 /* LocationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		85E114AC1EC98300008DC080 /* AttendeeMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttendeeMapViewController.swift; sourceTree = "<group>"; };
+		85E114AE1EC98578008DC080 /* HomeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,10 +128,10 @@
 		6A5B508D1EBBC99500BECA90 /* Search Page */ = {
 			isa = PBXGroup;
 			children = (
-				6A310FF21EB022CF006966C3 /* SearchViewController.swift */,
+				85E114A81EC982E1008DC080 /* SearchViewController.swift */,
 				6A310FEC1EB0228C006966C3 /* LocationSearchTable.swift */,
-				6A310FEE1EB022AE006966C3 /* HomeModel.swift */,
-				6A310FEF1EB022AE006966C3 /* LocationModel.swift */,
+				85E114AA1EC982F3008DC080 /* LocationModel.swift */,
+				85E114AE1EC98578008DC080 /* HomeModel.swift */,
 				6AAAA5FB1EB9398E006132BD /* TabBarController.swift */,
 				6A16FD991EC4DAC600E3C965 /* BoothOwnerController.swift */,
 				6A16FD951EC4CCA100E3C965 /* EventCoordinatorController.swift */,
@@ -155,8 +155,8 @@
 			isa = PBXGroup;
 			children = (
 				6AF8C51B1E493BA8006F1B26 /* MapViewController.swift */,
+				85E114AC1EC98300008DC080 /* AttendeeMapViewController.swift */,
 				6A1497A51E52E26F0001478A /* BoothShape.swift */,
-				6A1300A61EB41A5E00F88AA1 /* AttendeeMapViewController.swift */,
 				6A5B508A1EBBC94F00BECA90 /* CreateMapViewController.swift */,
 			);
 			name = "Create/View Maps";
@@ -356,26 +356,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A09CF561E9367DC00D0C434 /* LoginViewController.swift in Sources */,
+				85E114AD1EC98300008DC080 /* AttendeeMapViewController.swift in Sources */,
 				6AAAA5FC1EB9398E006132BD /* TabBarController.swift in Sources */,
 				6A3D0F2A1EB96F6300726B4C /* ReviewViewController.swift in Sources */,
 				6A16FD981EC4CE9300E3C965 /* SettingsViewController.swift in Sources */,
-				6A1300A71EB41A5E00F88AA1 /* AttendeeMapViewController.swift in Sources */,
 				6AA8021B1EC67E3900C82D86 /* CustomAnnotationView.swift in Sources */,
-				6A310FF31EB022CF006966C3 /* SearchViewController.swift in Sources */,
 				6A401C631E8B186B00A3B8FB /* SignUpViewController.swift in Sources */,
 				6A310FED1EB0228C006966C3 /* LocationSearchTable.swift in Sources */,
 				6A3D0F291EB96F6300726B4C /* AddReviewViewController.swift in Sources */,
 				6AA8021C1EC67E3900C82D86 /* EventCalloutView.swift in Sources */,
 				6A1497A61E52E26F0001478A /* BoothShape.swift in Sources */,
-				6A310FF11EB022AE006966C3 /* LocationModel.swift in Sources */,
 				6A3D0F2B1EB96F6300726B4C /* ReviewTableCell.swift in Sources */,
 				6AF8C51C1E493BA8006F1B26 /* MapViewController.swift in Sources */,
 				6A16FD9A1EC4DAC600E3C965 /* BoothOwnerController.swift in Sources */,
 				6A65EA2A1E860B9200AEFE68 /* EditBoothViewController.swift in Sources */,
 				6A3D0F2C1EB96F6300726B4C /* Review.swift in Sources */,
+				85E114AB1EC982F3008DC080 /* LocationModel.swift in Sources */,
 				6AF8C51A1E493BA7006F1B26 /* AppDelegate.swift in Sources */,
+				85E114A91EC982E1008DC080 /* SearchViewController.swift in Sources */,
 				6A5B508B1EBBC94F00BECA90 /* CreateMapViewController.swift in Sources */,
-				6A310FF01EB022AE006966C3 /* HomeModel.swift in Sources */,
+				85E114AF1EC98578008DC080 /* HomeModel.swift in Sources */,
 				6AF8C5221E493BA8006F1B26 /* Skeye.xcdatamodeld in Sources */,
 				6A16FD961EC4CCA100E3C965 /* EventCoordinatorController.swift in Sources */,
 				6AA8021A1EC67E3900C82D86 /* calloutView.swift in Sources */,

@@ -95,8 +95,9 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        
-        let postString = "eventID=92"
+
+
+        let postString = "eventID=\((selectedLocation?.event_id!)!)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -113,6 +114,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
                     if let parseJSON = json
                     {
                         let resultValue: String = parseJSON["status"] as! String
+                        
                         print("result: \(resultValue)\n")
                         let map = parseJSON["map"] as! [String: Any]
                         let booths = parseJSON["booths"] as! [[String: Any]]

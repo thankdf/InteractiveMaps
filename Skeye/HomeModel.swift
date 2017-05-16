@@ -79,7 +79,8 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 let street_address = json["street_address"] as? String,
                 let city = json["city"] as? String,
                 let state = json["state"] as? String,
-                let zipcode = json["zipcode"] as? String
+                let zipcode = json["zipcode"] as? String,
+                let event_id = Int((json["event_id"] as? String)!)
                 
                 
             {
@@ -91,6 +92,7 @@ class HomeModel: NSObject, URLSessionDataDelegate {
                 location.city = city
                 location.state = state
                 location.zipcode = zipcode
+                location.event_id = event_id
                 
                 
                 

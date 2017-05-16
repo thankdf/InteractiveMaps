@@ -149,12 +149,12 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                         self.endTimeTextField.text = booth["end_time"] as! String
                         let infoText = booth["booth_info"] as! String
 //                        self.infoTextField.text = infoText.trimmingCharacters(in: CharacterSet.init(charactersIn: ""))
-                    
+                        
                         self.name = booth["booth_name"] as! String
                         self.abbreviation = booth["booth_abbrev"] as! String
                         self.startTime = booth["start_time"] as! String
                         self.endTime = booth["end_time"] as! String
-                        self.info = booth["booth_info"] as! String
+                        //self.info = booth["booth_info"] as! String
                     }
                 }
                 catch let error as Error?
@@ -375,6 +375,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     // Done button clicked
     
+    
     @IBAction func save(_ sender: UIBarButtonItem)
     {
         UserDefaults.standard.set(0, forKey: "boothID")
@@ -499,7 +500,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
 
-    @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
+    @IBAction func cancelPressed(_ sender: UIBarButtonItem)
+    {
         UserDefaults.standard.set(0, forKey: "boothID")
         self.presentingViewController!.dismiss(animated: true, completion: nil) //To dismiss itself
     }
@@ -525,6 +527,19 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToReview" {
+            if let reviewVC = segue.destination as? ReviewViewController {
+                //print("prepare for booth id = \(selectedLocation.booth_id!)")
+                reviewVC.thisBoothID = selectedLocation.booth_id!
+                
+                
+            }
+        }
+    }
+
+    
     
     
     

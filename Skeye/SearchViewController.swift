@@ -213,7 +213,6 @@ extension SearchViewController : CLLocationManagerDelegate, MKMapViewDelegate {
             //            let searchController = rootVC!.storyboard!.instantiateViewController(withIdentifier: "AttendeeMapViewController")
             //
             //            self.present(searchController, animated: true, completion: nil)
-            
         }
     }
     
