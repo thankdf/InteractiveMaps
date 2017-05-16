@@ -88,7 +88,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         
         //Repositions map to correct view
         enableZoom()
-        loadingView.startAnimating()
+        //loadingView.startAnimating()
         
         //HTTP Request to retrieve map and booth information
         let ipAddress = "http://130.65.159.80/RetrieveMap.php"
@@ -118,28 +118,33 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
                         print("result: \(resultValue)\n")
                         let map = parseJSON["map"] as! [String: Any]
                         let booths = parseJSON["booths"] as! [[String: Any]]
-                        for booth in booths
+                        DispatchQueue.main.async(){
+                                                   for booth in booths
                         {
                             let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
                             newButton.draw(self.mapImage.bounds)
+                            
+                            
                             self.mapImage.addSubview(newButton.button)
                             self.booths.append(newButton)
                         }
                         self.mapName.title = map["event_name"] as? String
                         self.view.isUserInteractionEnabled = true
-                        self.loadingView.stopAnimating()
+                        //self.loadingView.stopAnimating()
+                        }
                     }
                 }
                 catch let error as Error?
                 {
                     print("Found an error - \(String(describing: error))")
                     self.view.isUserInteractionEnabled = true
-                    self.loadingView.stopAnimating()
+                    //self.loadingView.stopAnimating()
                 }
                 
         }).resume()
+        
         view.addSubview(scrollView)
-        view.addSubview(loadingView)
+        //view.addSubview(loadingView)
     }
     @IBOutlet weak var mapName: UINavigationItem!
     {
