@@ -429,7 +429,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(UserDefaults.standard.integer(forKey: "boothID"))&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        let postString = "boothID=\(selectedLocation.booth_id!)&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        print(postString)
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -445,10 +446,12 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                     let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                     if let parseJSON = json
                     {
-                        let resultValue: String = parseJSON["status"] as! String
-                        print("result: \(resultValue)\n")
-                        self.updateDelegate()
-                        self.displayAlert(parseJSON["message"] as! String)
+                        DispatchQueue.main.async {
+                            let resultValue: String = parseJSON["status"] as! String
+                            print("result: \(resultValue)\n")
+                            self.updateDelegate()
+                            self.displayAlert(parseJSON["message"] as! String)
+                        }
                     }
                 }
                 catch let error as Error?

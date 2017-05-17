@@ -309,6 +309,17 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let widthScale = scrollViewSize.width / mapImageSize.width //scale where the width fits the screen
         let heightScale = scrollViewSize.height / mapImageSize.height //scale where the height fits the screen
         
+        print("factor")
+        print(widthScale)
+         print(heightScale)
+        print("scrhollview")
+         print(scrollViewSize.width)
+         print(scrollViewSize.height)
+        print("mapImgView")
+        print(mapImageSize.height)
+        print(mapImageSize.height)
+        
+        
         scrollView.minimumZoomScale = min(widthScale, heightScale) //finds the minimum scale between width and height
         scrollView.maximumZoomScale = 8 * min(widthScale, heightScale) //equivalent to 8x zoom
     }
@@ -783,6 +794,12 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             // present the popover
             self.present(popoverController, animated: true, completion: nil)
         }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        self.view.endEditing(true)
+        
+    }
 
 }
 

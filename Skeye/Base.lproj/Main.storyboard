@@ -990,7 +990,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Pf-iC-IhN">
-                                        <rect key="frame" x="116" y="532" width="141" height="30"/>
+                                        <rect key="frame" x="36" y="532" width="302" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="View Existing Events">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1022,7 +1022,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VlX-bG-GoU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="120" y="-1041"/>
+            <point key="canvasLocation" x="118.84057971014494" y="-1041.0326086956522"/>
         </scene>
         <!--Add Booth Details-->
         <scene sceneID="eA8-Vg-Xus">
@@ -1280,7 +1280,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="456"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WoN-n8-tAU" id="eox-Sd-Oq7">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="455"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="455.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ihx-UM-zta">
