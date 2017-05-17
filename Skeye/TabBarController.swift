@@ -14,12 +14,6 @@ class TabBarController : UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
         let user_type = UserDefaults.standard.integer(forKey: "usertype")
         
         if(user_type == 1)
@@ -40,8 +34,8 @@ class TabBarController : UITabBarController {
         }
         //testing commit
         
+
+        
+        
     }
-    
-    
-    
 }

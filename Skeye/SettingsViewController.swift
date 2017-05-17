@@ -12,9 +12,33 @@ class SettingsViewController: UIViewController,UITableViewDelegate {
     
     @IBOutlet weak var screen: UIView!
     @IBOutlet weak var lblReenterPwd: UILabel!
+    {
+        didSet
+        {
+            lblReenterPwd.adjustsFontSizeToFitWidth = true
+        }
+    }
     @IBOutlet weak var lblTitle: UILabel!
+    {
+        didSet
+        {
+            lblTitle.adjustsFontSizeToFitWidth = true
+        }
+    }
     @IBOutlet weak var lblNewPassword: UILabel!
+    {
+        didSet
+        {
+            lblNewPassword.adjustsFontSizeToFitWidth = true
+        }
+    }
     @IBOutlet weak var lblCurrentPassword: UILabel!
+    {
+        didSet
+        {
+            lblCurrentPassword.adjustsFontSizeToFitWidth = true
+        }
+    }
     @IBOutlet weak var lblUsername: UILabel!
     @IBOutlet weak var txtUserName: UITextField!
     @IBOutlet weak var txtReEnterPassword: UITextField!
@@ -55,7 +79,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate {
         }
         if((currPwd?.isEmpty)! || (newPwd?.isEmpty)! || (reEnterPwd?.isEmpty)!){
             // display msg to notice old and new password are the same
-            displayAlertMessage(userMessage:"All fields are not empty!!!");
+            displayAlertMessage(userMessage:"Please fill in all the fields.");
             return;
         }
         if((newPwd?.characters.count)! < 8){
@@ -65,7 +89,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate {
         }
         if(currPwd == newPwd){
             // display msg to notice the same password
-            displayAlertMessage(userMessage:"New Password is not the same current password!!!");
+            displayAlertMessage(userMessage:"New Password should not the same as current password!!!");
             return;
         }
         if(newPwd != reEnterPwd){
@@ -134,10 +158,18 @@ class SettingsViewController: UIViewController,UITableViewDelegate {
                 
         }).resume()
     }
-
     
-    /*@IBAction func cancelChangePassword(_ sender: UIButton) {
-    }*/
+    @IBAction func logOut(_ sender: UIButton)
+    {
+        UserDefaults.standard.removeObject(forKey: "username")
+        UserDefaults.standard.removeObject(forKey: "usertype")
+        UserDefaults.standard.synchronize()
+        self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+        //PFUser.
+        self.displayAlertMessage(userMessage: "Logout is successful!!!")
+        // Nagivate to the homepage
+    }
+    
     func displayAlertMessage(userMessage:String){
         let myAlert = UIAlertController(title:"Alert", message:userMessage, preferredStyle:UIAlertControllerStyle.alert);
         let okAction = UIAlertAction(title:"OK", style: UIAlertActionStyle.default, handler: nil);

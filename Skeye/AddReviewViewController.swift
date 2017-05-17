@@ -60,6 +60,9 @@ class AddReviewViewController: UIViewController, UIImagePickerControllerDelegate
         
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        actionSheet.popoverPresentationController?.sourceView = self.view
+        actionSheet.popoverPresentationController?.sourceRect = CGRect(x: sender.location(in: self.view).x , y:sender.location(in: self.view).y, width: 1.0, height: 1.0)
+        
         
         actionSheet.view.tintColor = UIColor.black
         let camButton = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default) { (libSelected) in

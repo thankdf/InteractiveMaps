@@ -15,6 +15,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     
     var reviews:[Review] = []
     
+    var thisBoothID = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +111,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
     //Allow user to delete their own comment
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         //if reviews[indexPath.row].username == UserDefaults.standard.string(forKey: "username") || (UserDefaults.standard.string(forKey: "change this to check if they are event coordinator!!!"))
-        if (reviews[indexPath.row].username == "Yoho Chen")
+        if (reviews[indexPath.row].username == UserDefaults.standard.string(forKey: "name")!)
         {
             return .delete
         }
@@ -231,8 +232,8 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
             
-            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: "yoho@gmail.com")
-            //let newReview = Review(comment: reviewText, photos: reviewPic, boothID: 187, date: timeStamp, username: UserDefaults.standard.string(forKey: "username"))
+            //let newReview = Review(comment: reviewText, photos: reviewImages, boothID: 201, date: timeStamp, username: "yoho@gmail.com")
+            let newReview = Review(comment: reviewText, photos: reviewImages, boothID: thisBoothID, date: timeStamp, username: UserDefaults.standard.string(forKey: "username")!)
             
             //boothID and username need to be change above!!!
             
@@ -241,6 +242,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
             saveToDB2(for: newReview)
             
             //update Table
+            newReview.setUserName(newName: UserDefaults.standard.string(forKey: "name")!)
             reviews.append(newReview)
             
             let indexPath = IndexPath(row: reviews.count-1, section: 0)
@@ -259,7 +261,7 @@ class ReviewViewController: UIViewController, UITableViewDataSource, UITableView
         request.httpMethod = "POST"
         
         //use userdefault
-        let boothID = 201
+        let boothID = thisBoothID
         let postString = "booth_id=\(boothID)"
         
         request.httpBody = postString.data(using: String.Encoding.utf8)

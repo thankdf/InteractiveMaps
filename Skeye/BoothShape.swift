@@ -44,7 +44,7 @@ class BoothShape
         press = UILongPressGestureRecognizer.init()
         name = ""
         abbrev = ""
-        button.setTitle(name, for: UIControlState.normal)
+        button.setTitle(abbrev, for: UIControlState.normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         info = ""
         startTime = ""
@@ -67,7 +67,7 @@ class BoothShape
         press = pressGesture
         name = boothName
         abbrev = boothAbbrev
-        button.setTitle(name, for: UIControlState.normal)
+        button.setTitle(abbrev, for: UIControlState.normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         info = information
         startTime = start

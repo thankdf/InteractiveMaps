@@ -23,6 +23,7 @@ protocol DataSentDelegate {
 }
 
 class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
+    @IBOutlet weak var navBar: UINavigationItem!
     
     @IBOutlet weak var reviewButton: UIButton!
     {
@@ -87,6 +88,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
+    @IBOutlet weak var photoUploadButton: UIButton!
+    
     /* Delegate Comment: instantiate an protocal object in this class, when u segue way in from the
      parentVC, set "this.delegate = parentVC.self" */
     
@@ -108,6 +111,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.infoTextField.layer.cornerRadius = 5.0
         let widthfactor = self.view.bounds.width/screen.bounds.width
         let heightfactor = self.view.bounds.height/screen.bounds.height
         screen.frame.size = CGSize.init(width: screen.bounds.width * widthfactor, height: screen.bounds.height * heightfactor)
@@ -117,13 +121,45 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         }
         datePicker.datePickerMode = UIDatePickerMode.time
         
+        //if it is attendee, diable functionality
+        if UserDefaults.standard.integer(forKey: "usertype") == 3
+        {
+            photoUploadButton.isHidden = true
+            self.doneButton.title = ""
+            self.doneButton.isEnabled = false
+            self.backButton.title = "Done"
+            
+            nameTextField.isUserInteractionEnabled = false
+            abbreviationTextField.isUserInteractionEnabled = false
+            startTimeTextField.isUserInteractionEnabled = false
+            endTimeTextField.isUserInteractionEnabled = false
+            infoTextField.isUserInteractionEnabled = false
+            
+
+        }
+        else
+        {
+            photoUploadButton.isHidden = false
+            self.doneButton.title = "Done"
+            self.doneButton.isEnabled = true
+            self.backButton.title = "Back"
+            
+            nameTextField.isUserInteractionEnabled = true
+            abbreviationTextField.isUserInteractionEnabled = true
+            startTimeTextField.isUserInteractionEnabled = true
+            endTimeTextField.isUserInteractionEnabled = true
+            infoTextField.isUserInteractionEnabled = true
+            
+        }
+        
+        
         //HTTP Request to retrieve booth detail information
         let ipAddress = "http://130.65.159.80/RetrieveBooth.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(selectedLocation.booth_id)"
+        let postString = "boothID=\(selectedLocation.booth_id!)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -139,21 +175,29 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                     let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                     if let parseJSON = json
                     {
-                        let resultValue: String = parseJSON["status"] as! String
-                        print("result: \(resultValue)\n")
-                        let booth = parseJSON["booth"] as! [String: Any]
-                        self.nameTextField.text = booth["booth_name"] as! String
-                        self.abbreviationTextField.text = booth["booth_abbrev"] as! String
-                        self.startTimeTextField.text = booth["start_time"] as! String
-                        self.endTimeTextField.text = booth["end_time"] as! String
-                        let infoText = booth["booth_info"] as! String
-//                        self.infoTextField.text = infoText.trimmingCharacters(in: CharacterSet.init(charactersIn: ""))
-                        self.infoTextField.layer.cornerRadius = 5.0
-                        self.name = booth["booth_name"] as! String
-                        self.abbreviation = booth["booth_abbrev"] as! String
-                        self.startTime = booth["start_time"] as! String
-                        self.endTime = booth["end_time"] as! String
-                        self.info = booth["booth_info"] as! String
+                        DispatchQueue.main.async()
+                        {
+                            
+                            let resultValue: String = parseJSON["status"] as! String
+                            print("result: \(resultValue)\n")
+                            let booth = parseJSON["booth"] as! [String: Any]
+                            self.nameTextField.text = booth["booth_name"] as! String
+                            self.abbreviationTextField.text = booth["booth_abbrev"] as! String
+                            self.startTimeTextField.text = booth["start_time"] as! String
+                            self.endTimeTextField.text = booth["end_time"] as! String
+                            self.infoTextField.text = booth["booth_info"] as! String
+                            
+                            self.name = booth["booth_name"] as! String
+                            self.abbreviation = booth["booth_abbrev"] as! String
+                            self.startTime = booth["start_time"] as! String
+                            self.endTime = booth["end_time"] as! String
+                            self.info = booth["booth_info"] as! String
+                            
+                            self.navBar.title = booth["booth_name"] as! String
+                            
+                        }
+
+                        
                     }
                 }
                 catch let error as Error?
@@ -374,6 +418,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     // Done button clicked
     
+    
     @IBAction func save(_ sender: UIBarButtonItem)
     {
         UserDefaults.standard.set(0, forKey: "boothID")
@@ -384,7 +429,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(UserDefaults.standard.integer(forKey: "boothID"))&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        let postString = "boothID=\(selectedLocation.booth_id!)&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        print(postString)
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -400,10 +446,12 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                     let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
                     if let parseJSON = json
                     {
-                        let resultValue: String = parseJSON["status"] as! String
-                        print("result: \(resultValue)\n")
-                        self.updateDelegate()
-                        self.displayAlert(parseJSON["message"] as! String)
+                        DispatchQueue.main.async {
+                            let resultValue: String = parseJSON["status"] as! String
+                            print("result: \(resultValue)\n")
+                            self.updateDelegate()
+                            self.displayAlert(parseJSON["message"] as! String)
+                        }
                     }
                 }
                 catch let error as Error?
@@ -498,7 +546,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
 
-    @IBAction func cancelPressed(_ sender: UIBarButtonItem) {
+    @IBAction func cancelPressed(_ sender: UIBarButtonItem)
+    {
         UserDefaults.standard.set(0, forKey: "boothID")
         self.presentingViewController!.dismiss(animated: true, completion: nil) //To dismiss itself
     }
@@ -524,6 +573,19 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         alert.addAction(ok)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToReview" {
+            if let reviewVC = segue.destination as? ReviewViewController {
+                //print("prepare for booth id = \(selectedLocation.booth_id!)")
+                reviewVC.thisBoothID = selectedLocation.booth_id!
+                
+                
+            }
+        }
+    }
+
+    
     
     
     

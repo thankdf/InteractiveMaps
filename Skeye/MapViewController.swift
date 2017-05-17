@@ -202,7 +202,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         //Adds gesture recognizer and repositions map to correct view
         mapImage.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tap)))
         enableZoom()
-        loadingView.startAnimating()
+        //loadingView.startAnimating()
         
         //HTTP Request to retrieve map and booth information
         let ipAddress = "http://130.65.159.80/RetrieveMap.php"
@@ -233,16 +233,19 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                             let map = parseJSON["map"] as! [String: Any]
                             let booths = parseJSON["booths"] as! [[String: Any]]
                             
-                            for booth in booths
-                            {
-                                let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
-                                newButton.draw(self.mapImage.bounds)
-                                self.mapImage.addSubview(newButton.button)
-                                self.booths.append(newButton)
+                            DispatchQueue.main.async(){
+                                
+                                for booth in booths
+                                {
+                                    let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
+                                    newButton.draw(self.mapImage.bounds)
+                                    self.mapImage.addSubview(newButton.button)
+                                    self.booths.append(newButton)
+                                }
+                                self.mapName.title = map["event_name"] as? String
+                                self.view.isUserInteractionEnabled = true
+                                // self.loadingView.stopAnimating()
                             }
-                            self.mapName.title = map["event_name"] as? String
-                            self.view.isUserInteractionEnabled = true
-                            self.loadingView.stopAnimating()
                         }
                     }
                 }
@@ -250,12 +253,12 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                 {
                     print("Found an error - \(String(describing: error))")
                     self.view.isUserInteractionEnabled = true
-                    self.loadingView.stopAnimating()
+                    //self.loadingView.stopAnimating()
                 }
                 
         }).resume()
         view.addSubview(scrollView)
-        view.addSubview(loadingView)
+        //view.addSubview(loadingView)
     }
     
     override func viewWillLayoutSubviews()
@@ -306,6 +309,17 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let widthScale = scrollViewSize.width / mapImageSize.width //scale where the width fits the screen
         let heightScale = scrollViewSize.height / mapImageSize.height //scale where the height fits the screen
         
+        print("factor")
+        print(widthScale)
+         print(heightScale)
+        print("scrhollview")
+         print(scrollViewSize.width)
+         print(scrollViewSize.height)
+        print("mapImgView")
+        print(mapImageSize.height)
+        print(mapImageSize.height)
+        
+        
         scrollView.minimumZoomScale = min(widthScale, heightScale) //finds the minimum scale between width and height
         scrollView.maximumZoomScale = 8 * min(widthScale, heightScale) //equivalent to 8x zoom
     }
@@ -349,7 +363,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         self.view.isUserInteractionEnabled = false
         let location_x = point.x/scrollView.zoomScale
         let location_y = point.y/scrollView.zoomScale
-        loadingView.startAnimating()
+        //loadingView.startAnimating()
         
         //Retrieves ID Number
         let ipAddress = "http://130.65.159.80/RetrieveBoothID.php"
@@ -374,27 +388,29 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                 {
                     let resultValue = parseJSON["status"] as! String
                     print("result: \(resultValue)\n")
-                    
-                    if(resultValue == "success")
-                    {
-                        let idNumberString = parseJSON["message"] as! Int
-                        let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", idNumberString, UserDefaults.standard.string(forKey: "username")!)
-                        newButton.draw(self.mapImage.bounds)
-                        self.mapImage.addSubview(newButton.button)
-                        self.booths.append(newButton)
-                        self.currentBooth = newButton
-                        self.lastBooth = self.currentBooth
-                        self.undoButton.isEnabled = true
-                        self.view.isUserInteractionEnabled = true
+                    DispatchQueue.main.async(){
+                        if(resultValue == "success")
+                        {
+                            let idNumberString = parseJSON["message"] as! Int
+                            let newButton: BoothShape = BoothShape.init(CGPoint.init(x: point.x/self.scrollView.zoomScale, y: point.y/self.scrollView.zoomScale), CGSize.init(width: 50, height: 50), shape, "white", idNumberString, UserDefaults.standard.string(forKey: "username")!)
+                            newButton.draw(self.mapImage.bounds)
+                            self.mapImage.addSubview(newButton.button)
+                            self.booths.append(newButton)
+                            self.currentBooth = newButton
+                            self.lastBooth = self.currentBooth
+                            self.undoButton.isEnabled = true
+                            self.view.isUserInteractionEnabled = true
+                        }
                     }
-                    self.loadingView.stopAnimating()
+                    
+                    //self.loadingView.stopAnimating()
                 }
             }
             catch let error as Error?
             {
                 print("Found an error - \(String(describing: error))")
                 self.view.isUserInteractionEnabled = true
-                self.loadingView.stopAnimating()
+               // self.loadingView.stopAnimating()
             }
         }).resume()
     }
@@ -496,7 +512,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        loadingView.startAnimating()
+       // loadingView.startAnimating()
         var boothsJSON: [String:[String: Any]] = [:]
         for booth in booths
         {
@@ -520,7 +536,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         let resultValue: String = parseJSON["status"] as! String
                         print("result: \(resultValue)\n")
                         let messageToDisplay = parseJSON["message"] as! String!
-                        self.loadingView.stopAnimating()
+                       // self.loadingView.stopAnimating()
                         
                         DispatchQueue.main.async
                         {
@@ -531,7 +547,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                 catch let error as Error?
                 {
                     print("Found an error - \(String(describing: error))")
-                    self.loadingView.stopAnimating()
+                    //self.loadingView.stopAnimating()
                 }
                 
         }).resume()
@@ -674,7 +690,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
     private func deleteFromMap()
     {
         view.isUserInteractionEnabled = false
-        loadingView.startAnimating()
+        //loadingView.startAnimating()
         let ipAddress = "http://130.65.159.80/DeleteBooth.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
@@ -702,15 +718,16 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                         DispatchQueue.main.async
                         {
                             self.displayChangeAlert(messageToDisplay!)
-                        }
+                        
                         self.lastBooth = nil
                         //remove from superview
                         self.currentBooth!.button.removeFromSuperview()
                         //remove from booth array list
                         self.booths = self.booths.filter {!$0.equals(self.currentBooth!)}
                         self.currentBooth = nil
-                        self.loadingView.stopAnimating()
+                       // self.loadingView.stopAnimating()
                         self.view.isUserInteractionEnabled = true
+                        }
                     }
                 }
                 catch let error as Error?
@@ -720,7 +737,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                     {
                         self.displayChangeAlert("Was not able to delete booth.")
                     }
-                    self.loadingView.stopAnimating()
+                   // self.loadingView.stopAnimating()
                     self.view.isUserInteractionEnabled = true
                 }
                 
@@ -777,6 +794,12 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
             // present the popover
             self.present(popoverController, animated: true, completion: nil)
         }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        self.view.endEditing(true)
+        
+    }
 
 }
 

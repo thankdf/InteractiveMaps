@@ -35,4 +35,10 @@ class Review
         self.date = date
         self.username = username
     }
+    
+    func setUserName(newName: String)
+    {
+        username = newName
+
+    }
 }

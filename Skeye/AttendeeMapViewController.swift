@@ -80,6 +80,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         
         //Sets up the map image
         mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+       
         
          //Sets up the scroll view
         scrollView.contentSize = mapImage.bounds.size
@@ -88,15 +89,16 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         
         //Repositions map to correct view
         enableZoom()
-        loadingView.startAnimating()
+        //loadingView.startAnimating()
         
         //HTTP Request to retrieve map and booth information
         let ipAddress = "http://130.65.159.80/RetrieveMap.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
-        
-        let postString = "eventID=92"
+
+
+        let postString = "eventID=\((selectedLocation?.event_id!)!)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -113,31 +115,37 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
                     if let parseJSON = json
                     {
                         let resultValue: String = parseJSON["status"] as! String
+                        
                         print("result: \(resultValue)\n")
                         let map = parseJSON["map"] as! [String: Any]
                         let booths = parseJSON["booths"] as! [[String: Any]]
-                        for booth in booths
+                        DispatchQueue.main.async(){
+                                                   for booth in booths
                         {
                             let newButton: BoothShape = BoothShape.init(CGPoint.init(x: CGFloat(Float(booth["location_x"] as! String)!), y: CGFloat(Float(booth["location_y"] as! String)!)), CGSize.init(width: CGFloat(Float(booth["width"] as! String)!), height: CGFloat(Float(booth["height"] as! String)!)), booth["shape"] as! String, booth["color"] as! String, Int(booth["booth_id"] as! String)!, booth["username"] as! String)
                             newButton.draw(self.mapImage.bounds)
+                            
+                            
                             self.mapImage.addSubview(newButton.button)
                             self.booths.append(newButton)
                         }
                         self.mapName.title = map["event_name"] as? String
                         self.view.isUserInteractionEnabled = true
-                        self.loadingView.stopAnimating()
+                        //self.loadingView.stopAnimating()
+                        }
                     }
                 }
                 catch let error as Error?
                 {
                     print("Found an error - \(String(describing: error))")
                     self.view.isUserInteractionEnabled = true
-                    self.loadingView.stopAnimating()
+                    //self.loadingView.stopAnimating()
                 }
                 
         }).resume()
+        
         view.addSubview(scrollView)
-        view.addSubview(loadingView)
+        //view.addSubview(loadingView)
     }
     @IBOutlet weak var mapName: UINavigationItem!
     {
@@ -237,7 +245,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         popoverController.delegate = self
         
         // set the presentation style
-        popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
+        //popoverController.modalPresentationStyle = UIModalPresentationStyle.popover
         
         // set up the popover presentation controller
         popoverController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
