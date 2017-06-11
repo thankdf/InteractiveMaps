@@ -71,6 +71,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     
     override func viewDidLoad()
     {
+
         super.viewDidLoad()
         view.isUserInteractionEnabled = false
         scrollView.frame = view.bounds
@@ -79,7 +80,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         navBar.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height/10)
         
         //Sets up the map image
-        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate5"))
        
         
          //Sets up the scroll view
@@ -128,10 +129,13 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
                             
                             self.mapImage.addSubview(newButton.button)
                             self.booths.append(newButton)
+                            
+                            
                         }
                         self.mapName.title = map["event_name"] as? String
                         self.view.isUserInteractionEnabled = true
                         //self.loadingView.stopAnimating()
+                            
                         }
                     }
                 }
@@ -145,6 +149,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         }).resume()
         
         view.addSubview(scrollView)
+        //scrollViewDidZoom(scrollView)
         //view.addSubview(loadingView)
     }
     @IBOutlet weak var mapName: UINavigationItem!
@@ -171,6 +176,7 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
         let widthScale = scrollViewSize.width / mapImageSize.width //scale where the width fits the screen
         let heightScale = scrollViewSize.height / mapImageSize.height //scale where the height fits the screen
         
+        
         scrollView.minimumZoomScale = min(widthScale, heightScale) //finds the minimum scale between width and height
         scrollView.maximumZoomScale = 8 * min(widthScale, heightScale) //equivalent to 8x zoom
     }
@@ -178,8 +184,10 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
     /*
      Function that controls the zooming of the scroll view
      */
+    
     func scrollViewDidZoom(_ scrollView: UIScrollView)
     {
+        
         let mapImageSize = mapImage.frame.size
         let scrollViewSize = scrollView.bounds.size
         
@@ -204,6 +212,11 @@ class AttendeeMapViewController: UIViewController, UIScrollViewDelegate, UIPopov
                 scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) //equal padding ratio
             }
         }
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView?
+    {
+        return mapImage
     }
     
     /*

@@ -192,7 +192,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         deleteAndInfoBar.frame = CGRect.init(x: 0, y: 0, width: 9 * self.view.bounds.width, height: self.view.bounds.height/10)
         
         //Sets up the map image
-        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate"))
+        mapImage = UIImageView(image: UIImage.init(named: "MapTemplate5"))
         
         //Sets up the scroll view
         scrollView.contentSize = mapImage.bounds.size
@@ -258,6 +258,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
                 
         }).resume()
         view.addSubview(scrollView)
+        scrollViewDidZoom(scrollView)
         //view.addSubview(loadingView)
     }
     
@@ -315,6 +316,7 @@ class MapViewController: UIViewController, UIScrollViewDelegate, UIPopoverPresen
         print("scrhollview")
          print(scrollViewSize.width)
          print(scrollViewSize.height)
+        
         print("mapImgView")
         print(mapImageSize.height)
         print(mapImageSize.height)

@@ -8,6 +8,12 @@
 //  DatePicker Tutorial: www.youtube.com/watch?v=_ADJxJ7pjRk
 //
 //  Thanks Icons8.com for camera icon. link: icons8.com/web-app/11772/Screenshot-Filled
+
+//ken@gmail.com 12345678 boothOwner
+//yoho@gmail.com qqqqqqqq Attendee
+//hk.at.dang@gmail.com 123123123 eventowner
+
+
 import UIKit
 
 /* Delegate Comment: Declare Protocal and method signature in the children/sender/delegating/ class */

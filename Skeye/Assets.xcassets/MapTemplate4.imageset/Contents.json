@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "filename" : "yellow-graph-paper-grid-7680x4320-c2-fafad2-ffd700-l2-11-360-a-0-f-20.jpg",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "yellow-graph-paper-grid-7680x4320-c2-fafad2-ffd700-l2-11-360-a-0-f-21.jpg",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "yellow-graph-paper-grid-7680x4320-c2-fafad2-ffd700-l2-11-360-a-0-f-22.jpg",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}
