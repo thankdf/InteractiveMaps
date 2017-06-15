@@ -32,16 +32,16 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     @IBOutlet weak var navBar: UINavigationItem!
     
     @IBOutlet weak var reviewButton: UIButton!
-    {
+        {
         didSet
         {
-            reviewButton.titleLabel?.adjustsFontSizeToFitWidth = true 
+            reviewButton.titleLabel?.adjustsFontSizeToFitWidth = true
         }
-    
+        
     }
     
     @IBOutlet weak var nameLabel: UILabel!
-    {
+        {
         didSet
         {
             nameLabel.adjustsFontSizeToFitWidth = true
@@ -49,7 +49,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBOutlet weak var abbreviationLabel: UILabel!
-    {
+        {
         didSet
         {
             abbreviationLabel.adjustsFontSizeToFitWidth = true
@@ -57,7 +57,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBOutlet weak var startTimeLabel: UILabel!
-    {
+        {
         didSet
         {
             startTimeLabel.adjustsFontSizeToFitWidth = true
@@ -65,7 +65,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBOutlet weak var endTimeLabel: UILabel!
-    {
+        {
         didSet
         {
             endTimeLabel.adjustsFontSizeToFitWidth = true
@@ -73,7 +73,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @IBOutlet weak var infoLabel: UILabel!
-    {
+        {
         didSet
         {
             infoLabel.adjustsFontSizeToFitWidth = true
@@ -141,7 +141,7 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
             endTimeTextField.isUserInteractionEnabled = false
             infoTextField.isUserInteractionEnabled = false
             
-
+            
         }
         else
         {
@@ -182,27 +182,27 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                     if let parseJSON = json
                     {
                         DispatchQueue.main.async()
-                        {
-                            
-                            let resultValue: String = parseJSON["status"] as! String
-                            print("result: \(resultValue)\n")
-                            let booth = parseJSON["booth"] as! [String: Any]
-                            self.nameTextField.text = booth["booth_name"] as! String
-                            self.abbreviationTextField.text = booth["booth_abbrev"] as! String
-                            self.startTimeTextField.text = booth["start_time"] as! String
-                            self.endTimeTextField.text = booth["end_time"] as! String
-                            self.infoTextField.text = booth["booth_info"] as! String
-                            
-                            self.name = booth["booth_name"] as! String
-                            self.abbreviation = booth["booth_abbrev"] as! String
-                            self.startTime = booth["start_time"] as! String
-                            self.endTime = booth["end_time"] as! String
-                            self.info = booth["booth_info"] as! String
-                            
-                            self.navBar.title = booth["booth_name"] as! String
-                            
+                            {
+                                
+                                let resultValue: String = parseJSON["status"] as! String
+                                print("result: \(resultValue)\n")
+                                let booth = parseJSON["booth"] as! [String: Any]
+                                self.nameTextField.text = booth["booth_name"] as! String
+                                self.abbreviationTextField.text = booth["booth_abbrev"] as! String
+                                self.startTimeTextField.text = booth["start_time"] as! String
+                                self.endTimeTextField.text = booth["end_time"] as! String
+                                self.infoTextField.text = booth["booth_info"] as! String
+                                
+                                self.name = booth["booth_name"] as! String
+                                self.abbreviation = booth["booth_abbrev"] as! String
+                                self.startTime = booth["start_time"] as! String
+                                self.endTime = booth["end_time"] as! String
+                                self.info = booth["booth_info"] as! String
+                                
+                                self.navBar.title = booth["booth_name"] as! String
+                                
                         }
-
+                        
                         
                     }
                 }
@@ -427,17 +427,37 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
     
     @IBAction func save(_ sender: UIBarButtonItem)
     {
+        
+        print("is there image in the array? \(boothImages.count)" )
         UserDefaults.standard.set(0, forKey: "boothID")
         
         //HTTP Request to save booth detail information
-        let ipAddress = "http://130.65.159.80/SaveBooth.php"
+        let ipAddress = "http://130.65.159.80/SaveBooth2.php"
         let url = URL(string: ipAddress)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(selectedLocation.booth_id!)&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
-        print(postString)
-        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let param = [
+            "boothID"    : "\(selectedLocation.booth_id!)",
+            "booth_info" : "\(infoTextField.text!)",
+            "booth_name" : "\(nameTextField.text!)",
+            "start_time" : "\(startTimeTextField.text!)",
+            "end_time" : "\(endTimeTextField.text!)",
+            "booth_abbrev" : "\(abbreviationTextField.text!)",
+            "images"     : boothImages
+            
+            ] as NSMutableDictionary
+        
+        //        let postString = "boothID=\(selectedLocation.booth_id!)&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        //        print(postString)
+        //        request.httpBody = postString.data(using: String.Encoding.utf8)
+        
+        let boundary = generateBoundaryString()
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = createBodyWithParameters(parameters: param, boundary: boundary) as Data
+        
         
         URLSession.shared.dataTask(with: request, completionHandler:
             {
@@ -453,8 +473,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                     if let parseJSON = json
                     {
                         DispatchQueue.main.async {
-                            let resultValue: String = parseJSON["status"] as! String
-                            print("result: \(resultValue)\n")
+                            print("result: \(parseJSON)\n")
+                            
                             self.updateDelegate()
                             self.displayAlert(parseJSON["message"] as! String)
                         }
@@ -467,8 +487,42 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                 }
                 
         }).resume()
+        
+        
+        //        let postString = "boothID=\(selectedLocation.booth_id!)&booth_info=\(infoTextField.text!)&booth_name=\(nameTextField.text!)&start_time=\(startTimeTextField.text!)&end_time=\(endTimeTextField.text!)&booth_abbrev=\(abbreviationTextField.text!)"
+        //        print(postString)
+        //        request.httpBody = postString.data(using: String.Encoding.utf8)
+        //
+        //        URLSession.shared.dataTask(with: request, completionHandler:
+        //            {
+        //                (data, response, error) -> Void in
+        //                if(error != nil)
+        //                {
+        //                    print("error=\(String(describing: error))\n")
+        //                    return
+        //                }
+        //                do
+        //                {
+        //                    let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+        //                    if let parseJSON = json
+        //                    {
+        //                        DispatchQueue.main.async {
+        //                            let resultValue: String = parseJSON["status"] as! String
+        //                            print("result: \(resultValue)\n")
+        //                            self.updateDelegate()
+        //                            self.displayAlert(parseJSON["message"] as! String)
+        //                        }
+        //                    }
+        //                }
+        //                catch let error as Error?
+        //                {
+        //                    print("Found an error - \(String(describing: error))")
+        //                    self.displayAlert("Was not able to successfully save booth.")
+        //                }
+        //
+        //        }).resume()
     }
-
+    
     func updateDelegate()
     {
         if delegate != nil
@@ -547,11 +601,11 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                 delegate?.userDidUploadPic(data: boothImages, whichBooth:boothRef!)
                 
             }
-
+            
         }
     }
     
-
+    
     @IBAction func cancelPressed(_ sender: UIBarButtonItem)
     {
         UserDefaults.standard.set(0, forKey: "boothID")
@@ -590,8 +644,56 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
             }
         }
     }
-
     
+    // method for constructing request body
+    func createBodyWithParameters(parameters: NSMutableDictionary?,  boundary: String) -> NSData {
+        let body = NSMutableData();
+        
+        if parameters != nil {
+            for (key, value) in parameters!
+            {
+                
+                if(value is String || value is NSString)
+                {
+                    body.appendString("--\(boundary)\r\n")
+                    body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                    body.appendString("\(value)\r\n")
+                }
+                else if(value is [UIImage]){
+                    var i = 0;
+                    
+                    for image in value as! [UIImage]{
+                        
+                        let filename = "image\(i).jpg"
+                        let data = UIImageJPEGRepresentation(image,0.5);
+                        let mimetype = "image/jpg"
+                        let filePathKey = "file" + String(i)
+                        
+                        
+                        body.appendString("--\(boundary)\r\n")
+                        // body.appendString("Content-Disposition: form-data; name=\"\(key)\"; filename=\"\(filename)\"\r\n")
+                        body.appendString("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n")
+                        body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+                        body.append(data! as Data)
+                        body.appendString("\r\n")
+                        i = i+1;
+                    }
+                    
+                    
+                }
+            }
+        }
+        
+        body.appendString("--\(boundary)--\r\n")
+        
+        print("Uploading \(body as Data) byte")
+        
+        return body
+    }
+    
+    func generateBoundaryString() -> String {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
     
     
     
