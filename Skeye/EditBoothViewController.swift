@@ -165,7 +165,8 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         
-        let postString = "boothID=\(selectedLocation.booth_id!)"
+        let boothID = selectedLocation.booth_id!
+        let postString = "boothID=\(boothID)"
         request.httpBody = postString.data(using: String.Encoding.utf8)
         
         URLSession.shared.dataTask(with: request, completionHandler:
@@ -200,6 +201,27 @@ class EditBoothViewController: UIViewController, UIImagePickerControllerDelegate
                                 self.info = booth["booth_info"] as! String
                                 
                                 self.navBar.title = booth["booth_name"] as! String
+                                
+                                
+                                let imgURL0 = "http://130.65.159.80/images/booth\(boothID)img0.jpg"
+                                let imgURL1 = "http://130.65.159.80/images/booth\(boothID)img1.jpg"
+                                let imgURL2 = "http://130.65.159.80/images/booth\(boothID)img2.jpg"
+                                let urlArray = [imgURL0,imgURL1,imgURL2]
+                                
+                                for eachURL in urlArray
+                                {
+                                    if let url = URL(string: eachURL) {
+                                        
+                                        if let data = NSData(contentsOf: url as URL){
+                                            if let downloadedImg = UIImage(data: data as Data) {
+                                                self.boothImages.append(downloadedImg)
+                                            }
+                                        }
+                                    }
+                                }
+                             
+                                self.loadImages()
+
                                 
                         }
                         
